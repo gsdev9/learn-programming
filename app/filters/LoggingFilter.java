@@ -1,7 +1,9 @@
 package filters;
 
 import akka.util.ByteString;
+import com.fasterxml.jackson.databind.JsonNode;
 import play.Logger;
+import play.libs.Json;
 import play.libs.streams.Accumulator;
 import play.mvc.*;
 
@@ -25,10 +27,11 @@ public class LoggingFilter extends EssentialFilter {
             return accumulator.map(result -> {
                 long endTime = System.currentTimeMillis();
                 long requestTime = endTime - startTime;
+                JsonNode headers = Json.toJson(request.getHeaders().toMap());
                 Logger.info("{} {} {} took {}ms and returned {}",
                     request.method(),
                     request.uri(),
-                    request.getHeaders(),
+                    headers,
                     requestTime,
                     result.status());
                 return result.withHeader("Request-Time", "" + requestTime);

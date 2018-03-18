@@ -1,0 +1,6 @@
+client.errors.400=不正なリクエストが行われました：{0}
+client.errors.401=不正なトークンです：{0}
+client.errors.403=リソースへのアクセスが拒否されました：{0}
+client.errors.404=指定されたリソースが見つかりませんでした：{0}
+client.errors.405=許可されていないメソッドです：{0}
+client.errors.default=クライアントエラーが発生しました：{0}

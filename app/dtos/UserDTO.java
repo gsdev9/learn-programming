@@ -3,6 +3,11 @@ package dtos;
 import models.User;
 import play.data.validation.Constraints;
 
+/**
+ * ユーザー情報をサービスに渡す
+ *
+ * @author arapiku
+ */
 public class UserDTO {
 
     @Constraints.Required

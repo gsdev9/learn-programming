@@ -18,6 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long userId;
 
+    /** アクセストークン */
+    public String UUID;
+
     /** ユーザー名 */
     public String name;
 
@@ -28,7 +31,7 @@ public class User {
     public String password;
 
     /** サムネイルパス */
-    public String thumbnailPass;
+    public String thumbnailPath;
 
     /** クレジット番号 */
     public String cardNo;

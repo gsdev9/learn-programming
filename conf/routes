@@ -1,6 +1,8 @@
 GET        /                    controllers.TicketController.index
 ## OAuth
-GET        /top                 controllers.LoginController.login
+GET        /signup              controllers.SignUpController.index
+GET        /signup/login        controllers.SignUpController.signUp
+GET        /top                 controllers.SignUpController.top
 GET        /callback            org.pac4j.play.CallbackController.callback()
 GET        /logout              org.pac4j.play.LogoutController.logout()
 

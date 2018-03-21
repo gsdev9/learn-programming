@@ -1,4 +1,4 @@
-@(profiles: List[org.pac4j.core.profile.CommonProfile], accessToken: String)
+@(profiles: List[org.pac4j.core.profile.CommonProfile])
 
 @import views.html.common.header
 
@@ -8,6 +8,4 @@
     <p>ログインしたやで</p>
     <p>プロフィールやで</p>
     @profiles
-    <p>アクセストークンやで</p>
-    @accessToken
 }

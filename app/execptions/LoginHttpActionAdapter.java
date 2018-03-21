@@ -28,4 +28,5 @@ public class LoginHttpActionAdapter extends DefaultHttpActionAdapter {
             return super.adapt(status, ctx);
         }
     }
+
 }

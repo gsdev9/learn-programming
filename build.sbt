@@ -12,6 +12,7 @@ libraryDependencies += guice
 libraryDependencies ++= Seq(
   javaJdbc,
   javaWs,
+  ehcache,
   javaJpa,
   javaJpa.exclude("org.hibernate.javax.persistence", "hibernate-jpa-2.0-api"),
   "org.hibernate" % "hibernate-entitymanager" % "4.3.8.Final", // replace by your jpa implementation

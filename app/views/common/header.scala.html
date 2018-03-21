@@ -1,3 +1,6 @@
+@import org.pac4j.core.util.CommonHelper
+@import org.pac4j.core.context.Pac4jConstants
+
 <header class="header">
     <div class="header__inner">
         <h1><a href="/">LEARN PROGRAMMING</a></h1>
@@ -11,9 +14,15 @@
             <div class="global-menu__ticket-create">
                 <a href="" class="global-menu__ticket-create-btn">チケットの作成</a>
             </div>
+            @if(CommonHelper.isBlank(session().get(Pac4jConstants.SESSION_ID))) {
             <div class="global-menu__login">
-                <a href="" class="global-menu__login-btn">ログイン</a>
+                <a href="@routes.LoginController.login()" class="global-menu__login-btn">ログイン</a>
             </div>
+            } else {
+            <div class="global-menu__logout">
+                <a href="@org.pac4j.play.routes.LogoutController.logout()" class="global-menu__login-btn">ログアウト</a>
+            </div>
+            }
         </nav>
     </div>
 </header>

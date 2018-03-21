@@ -3,5 +3,8 @@
 @header()
 
 @main("Top Page") {
+    @if(flash.containsKey("failed")) {
+        <p style="color: #ff0000;">@flash.get("failed")</p>
+    }
     <p>topページやで</p>
 }

@@ -5,7 +5,7 @@ import execptions.LoginHttpActionAdapter;
 import org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
-import org.pac4j.oauth.client.TwitterClient;
+import org.pac4j.oauth.client.*;
 import org.pac4j.play.*;
 import org.pac4j.play.store.*;
 
@@ -25,6 +25,13 @@ public class Pac4jModule extends AbstractModule {
             "d7ZRfaHu4aD5A1vRo0sVzINnN",
             "GDEjkITvPTm29ymnkaqwRpiji5dgZZjrJUk9d7adeZvjLZwX7r"
         );
+
+        // Facebook API
+//        FacebookClient facebookClient = new FacebookClient(
+//              "143847239778871",
+//              "99fd2f94f37a128ea2cc232c2b5f220e"
+//        );
+
 
         // コールバックURL、クライアント
         Clients clients = new Clients("http://localhost:9000/callback", twitterClient);

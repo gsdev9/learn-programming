@@ -1,6 +1,6 @@
 package repositories;
 
-import com.google.inject.Inject;
+import com.google.inject.*;
 import models.User;
 import play.Logger;
 import play.db.jpa.JPAApi;
@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author arapiku
  */
+@Singleton
 public class UserRepository {
 
     private final JPAApi jpa;

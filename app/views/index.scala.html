@@ -1,0 +1,10 @@
+@import views.html.common.header
+
+@header()
+
+@main("Top Page") {
+    @if(flash.containsKey("failed")) {
+        <p style="color: #ff0000;">@flash.get("failed")</p>
+    }
+    <p>ログイン前のtopページやで</p>
+}

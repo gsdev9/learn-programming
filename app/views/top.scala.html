@@ -1,0 +1,11 @@
+@(profiles: List[org.pac4j.core.profile.CommonProfile])
+
+@import views.html.common.header
+
+@header()
+
+@main("Top Page with Login") {
+    <p>ログインしたやで</p>
+    <p>プロフィールやで</p>
+    @profiles
+}

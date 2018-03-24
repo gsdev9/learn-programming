@@ -1,2 +1,10 @@
+GET        /                    controllers.TicketController.index
+## OAuth
+GET        /signup              controllers.SignUpController.index
+GET        /signup/login        controllers.SignUpController.signUp
+GET        /top                 controllers.SignUpController.top
+GET        /callback            org.pac4j.play.CallbackController.callback()
+GET        /logout              org.pac4j.play.LogoutController.logout()
+
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)

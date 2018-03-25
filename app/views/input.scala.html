@@ -1,0 +1,22 @@
+@import views.html.common.header
+
+@(form: Form[models.User])
+
+@header()
+
+@main("Sign Up Page") {
+    @if(flash.containsKey("unique_error")) {
+        <p style="color: #ff0000;">@flash.get("unique_error")</p>
+    }
+
+    @helper.form(action = routes.SignUpController.input()) {
+        @helper.CSRF.formField
+        @helper.inputText(form("userName"))
+        @helper.inputText(form("nickName"))
+        @helper.inputText(form("email"))
+        @helper.inputText(form("password"))
+        @helper.inputText(form("thumbnailPath"))
+        <input type="submit" value="送信">
+    }
+
+}

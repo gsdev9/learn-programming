@@ -11,10 +11,10 @@ import play.data.validation.Constraints;
 public class UserDTO {
 
     @Constraints.Required
-    public String UUID;
+    public String userName;
 
     @Constraints.Required
-    public String name;
+    public String nickName;
 
     @Constraints.Required
     public String email;
@@ -22,11 +22,12 @@ public class UserDTO {
     @Constraints.Required
     public String thumbnailPath;
 
-    public User duplicateUserInfo(String UUID, String name, String email, String thumbnailPath) {
+    public User duplicateUserInfo(String userName, String nickName, String email, String password, String thumbnailPath) {
         User user = new User();
-        user.UUID = UUID;
-        user.name = name;
+        user.userName = userName;
+        user.nickName = nickName;
         user.email = email;
+        user.password = password;
         user.thumbnailPath = thumbnailPath;
         return user;
     }

@@ -6,6 +6,7 @@ import play.Logger;
 import play.db.jpa.JPAApi;
 import play.libs.Json;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -32,8 +33,32 @@ public class UserRepository {
         return jpa.em().createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
+    /**
+     * ログインのためのユーザー名とパスワード照合
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
+    public User findByUserNameAndPassword(String userName, String password) {
+        try {
+            return jpa.em().createQuery("SELECT u FROM User u WHERE u.userName = :username AND u.password = :password", User.class)
+                .setParameter("username", userName)
+                .setParameter("password", password)
+                .getSingleResult();
+        } catch (NoResultException n) {
+            return null;
+        }
+    }
+
+    /**
+     * ユーザーの新規登録
+     *
+     * @param user
+     */
     public void registUser(User user) {
         jpa.em().persist(user);
         Logger.debug("ユーザーが登録されました： {}", Json.toJson(user));
     }
+
 }

@@ -9,14 +9,6 @@ import play.mvc.*;
  */
 public class TicketController extends Controller {
 
-    /**
-     * トップページの表示
-     * （今は表示しか機能させてないのでのちのち修正必要）
-     *
-     * @return
-     */
-    public Result index() {
-        return Results.ok(views.html.index.render());
-    }
+
     
 }

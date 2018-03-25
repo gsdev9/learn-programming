@@ -25,6 +25,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * UserRepositoryのfindByUserNameAndPassword()を呼び出す
+     * その際にuserNameとpasswordを引数として渡す
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
+    public User findByUserNameAndPassword(String userName, String password) { return userRepository.findByUserNameAndPassword(userName, password); }
+
+    /**
+     * userRepositoryのregistUser()を呼び出す
+     *
+     * @param user
+     */
     public void registUser(User user) {
         userRepository.registUser(user);
     }

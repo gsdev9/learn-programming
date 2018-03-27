@@ -1,6 +1,7 @@
 package repositories;
 
-import com.google.inject.*;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import models.User;
 import play.Logger;
 import play.db.jpa.JPAApi;
@@ -59,6 +60,42 @@ public class UserRepository {
     public void registUser(User user) {
         jpa.em().persist(user);
         Logger.debug("ユーザーが登録されました： {}", Json.toJson(user));
+    }
+
+    /**
+     * ユーザー情報の変更後
+     *
+     * @param user
+     */
+    public void updateUser(User user) {
+        jpa.em().merge(user);
+        Logger.debug("ユーザー情報が変更されました： {}", Json.toJson(user));
+    }
+
+    /**
+     * usernameでのユーザー検索
+     *
+     * @param userName
+     */
+    public User findByUserName(String userName) {
+        try {
+            return jpa.em().createQuery("SELECT u FROM User As u WHERE u.userName=:username", User.class).setParameter("username", userName).getSingleResult();
+        } catch (NoResultException n) {
+            return null;
+        }
+    }
+
+    /**
+     * useridでのユーザー検索
+     *
+     * @param userId
+     */
+    public User findByUserId(Long userId) {
+        try {
+            return jpa.em().find(User.class, userId);
+        } catch (NoResultException n) {
+            return null;
+        }
     }
 
 }

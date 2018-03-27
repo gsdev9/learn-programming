@@ -1,26 +1,29 @@
-
 @import helper._
 @import views.html.common.header
 
 @(user: Form[models.User])
-@header()
+    @header()
 
-@main("user detail") {
+    @main("user detail") {
+        @if(flash().containsKey("result")) {
+            <p>@flash.get("result")</p>
+        }
 
-    @form(action = routes.AccountController.formresult()) {
+        @form(action = routes.AccountController.formresult()) {
 
-        @inputText(user("name"), 'label -> "名前", 'id -> "name", 'size -> 20)
-        @inputText(user("password"))
-        @inputText(user("email"))
-        @inputText(user("cardNo"))
-        @inputText(user("cardMaxAgeMonth"))
-        @inputText(user("cardMaxAgeYear"))
-        @inputText(user("cardName"))
-        @inputText(user("cardCVC"))
-        @inputFile(field = user("thumbnailPath"), args = 'size -> 10)
-        @CSRF.formField
-        <input type="hidden" value='@user("userId").value' id="userId" name="userId">
-        <input type="submit"/>
+            @inputText(user("userName"), 'label -> "名前", 'id -> "name", 'size -> 20)
+            @inputText(user("nickName"))
+            @inputText(user("password"))
+            @inputText(user("email"))
+            @inputText(user("cardNo"))
+            @inputText(user("cardMaxAgeMonth"))
+            @inputText(user("cardMaxAgeYear"))
+            @inputText(user("cardName"))
+            @inputText(user("cardCVC"))
+            @inputFile(field = user("thumbnailPath"), args = 'size -> 10)
+            @CSRF.formField
+            <input type="hidden" value='@user("userId").value' id="userId" name="userId">
+            <input type="submit"/>
 
+        }
     }
-}

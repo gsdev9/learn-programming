@@ -1,5 +1,4 @@
 @import org.pac4j.core.util.CommonHelper
-@import org.pac4j.core.context.Pac4jConstants
 
 <header class="header">
     <div class="header__inner">
@@ -22,6 +21,9 @@
                     <a href="@routes.LoginController.loginForm()" class="global-menu__login-btn">ログイン</a>
                 </div>
             } else {
+                <div class="global-menu__userdetail">
+                    <a href="@routes.AccountController.AccountDetail()" class="global-menu__userdetail-btn">会員情報</a>
+                </div>
                 <div class="global-menu__logout">
                     <a href="@routes.LogoutController.logout()" class="global-menu__login-btn">ログアウト</a>
                 </div>

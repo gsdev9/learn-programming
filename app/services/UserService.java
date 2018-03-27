@@ -1,5 +1,6 @@
 package services;
 
+import dtos.UserDetailDTO;
 import models.User;
 import repositories.UserRepository;
 
@@ -15,6 +16,9 @@ public class UserService {
 
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private UserDetailDTO userDetailDTO;
 
     /**
      * UserRepositoryのfindAll()を呼び出す
@@ -33,7 +37,9 @@ public class UserService {
      * @param password
      * @return
      */
-    public User findByUserNameAndPassword(String userName, String password) { return userRepository.findByUserNameAndPassword(userName, password); }
+    public User findByUserNameAndPassword(String userName, String password) {
+        return userRepository.findByUserNameAndPassword(userName, password);
+    }
 
     /**
      * userRepositoryのregistUser()を呼び出す
@@ -43,4 +49,25 @@ public class UserService {
     public void registUser(User user) {
         userRepository.registUser(user);
     }
+
+    /**
+     * ユーザー情報編集の情報をDBへ反映する
+     *
+     * @param newuser
+     */
+    public void updateUserDetail(User newuser) {
+        User olduser = userRepository.findByUserId(newuser.getUserId());
+        newuser = userDetailDTO.oldToNew(olduser, newuser);
+        userRepository.updateUser(newuser);
+    }
+
+    /**
+     * UserRepositoryのfindByUserName()を呼び出す
+     *
+     * @param userName
+     */
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
 }

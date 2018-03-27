@@ -52,6 +52,16 @@ public class UserRepository {
     }
 
     /**
+     * UserデータのID検索
+     *
+     * @param id
+     * @return
+     */
+    public User findById(Long id) {
+        return jpa.em().find(User.class, id);
+    }
+
+    /**
      * ユーザーの新規登録
      *
      * @param user
@@ -61,4 +71,13 @@ public class UserRepository {
         Logger.debug("ユーザーが登録されました： {}", Json.toJson(user));
     }
 
+    /**
+     * ユーザーの論理削除
+     *
+     * @param user
+     */
+    public void deleteUser(User user) {
+        jpa.em().merge(user);
+        Logger.debug("ユーザーが削除されました： {}", Json.toJson(user));
+    }
 }

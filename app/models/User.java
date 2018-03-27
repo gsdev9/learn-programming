@@ -37,6 +37,9 @@ public class User {
     /** サムネイルパス */
     public String thumbnailPath;
 
+    /** ユーザー削除スーテタス */
+    public Boolean deletedStatus;
+
     /** クレジット番号 */
     public String cardNo;
 

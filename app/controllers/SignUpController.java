@@ -61,7 +61,7 @@ public class SignUpController extends Controller {
      * @return
      */
     public Result index() {
-        return Results.ok(views.html.signup.render());
+        return Results.ok(views.html.signup.index.render());
     }
 
     /**
@@ -125,7 +125,7 @@ public class SignUpController extends Controller {
             return badRequest(views.html.input.render(f));
         }
 
-        return Results.ok(views.html.top.render());
+        return Results.ok(views.html.signup.top.render());
     }
 
     /**
@@ -134,7 +134,7 @@ public class SignUpController extends Controller {
      * @return
      */
     public Result top() {
-        return Results.ok(views.html.top.render());
+        return Results.ok(views.html.signup.top.render());
     }
 
 }

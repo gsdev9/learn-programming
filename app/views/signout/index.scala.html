@@ -1,0 +1,11 @@
+@import views.html.common.header
+
+@header()
+
+@main("Sign Out Page") {
+    <h2>会員退会</h2>
+    <p>本当に会員退会しますか？</p>
+
+    <div><a href="@routes.SignUpController.index()">TOPへ戻る</a></div>
+    <div><a href="@routes.SignOutController.deleteUser()">退会する</a></div>
+}

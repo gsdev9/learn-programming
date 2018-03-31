@@ -1,0 +1,11 @@
+@(map: java.util.Map[String, String])
+
+@main("Ticket Create") {
+
+    <p>授業開始時間：　@map.get("startTime")</p>
+    <p>授業終了時間：　@map.get("endTime")</p>
+    <p>料金：　@map.get("price")</p>
+    <p>タイトル：　@map.get("title")</p>
+    <p>内容：　@map.get("body")</p>
+
+}

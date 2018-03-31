@@ -77,7 +77,7 @@ public class UserRepository {
      * @param user
      */
     public void deleteUser(User user) {
-        jpa.em().merge(user);
+        jpa.em().remove(user);
         Logger.debug("ユーザーが削除されました： {}", Json.toJson(user));
     }
 }

@@ -31,7 +31,7 @@ public class LoginController extends Controller {
     }
 
     public Result index() {
-        return Results.ok(views.html.index.render());
+        return Results.ok(views.html.login.index.render());
     }
 
     /**
@@ -42,7 +42,7 @@ public class LoginController extends Controller {
     public Result loginForm() {
         Form<User> f = formFactory.form(User.class);
 
-        return Results.ok(views.html.login.render(f));
+        return Results.ok(views.html.login.login.render(f));
     }
 
     /**
@@ -57,7 +57,7 @@ public class LoginController extends Controller {
         // ここに null or empty チェック必要ぽい
         if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
             flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nullorempty"));
-            return Results.badRequest(views.html.login.render(f));
+            return Results.badRequest(views.html.login.login.render(f));
         }
 
         User user = userService.findByUserNameAndPassword(userName, password);
@@ -65,7 +65,7 @@ public class LoginController extends Controller {
 
         if (user == null) {
             flash("error", messagesApi.get(Lang.forCode("ja"),"login.errors.400.nouser"));
-            return Results.badRequest(views.html.login.render(f));
+            return Results.badRequest(views.html.login.login.render(f));
         }
 
         session("userID", String.valueOf(user.userId));

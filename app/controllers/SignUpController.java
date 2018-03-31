@@ -99,7 +99,7 @@ public class SignUpController extends Controller {
         user.setEmail(email);
         user.setThumbnailPath(thumbnailPath);
         f = f.fill(user);
-        return Results.ok(views.html.input.render(f));
+        return Results.ok(views.html.signup.input.render(f));
     }
 
     /**
@@ -122,7 +122,7 @@ public class SignUpController extends Controller {
             userService.registUser(user);
         } catch (PersistenceException pe) {
             flash("unique_error", Messages.getString("signup.errors.400.unique"));
-            return badRequest(views.html.input.render(f));
+            return badRequest(views.html.signup.input.render(f));
         }
 
         return Results.ok(views.html.signup.top.render());

@@ -1,5 +1,6 @@
 package services;
 
+import dtos.UserDetailDTO;
 import models.User;
 import repositories.UserRepository;
 
@@ -15,6 +16,9 @@ public class UserService {
 
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private UserDetailDTO userDetailDTO;
 
     /**
      * UserRepositoryのfindAll()を呼び出す
@@ -57,6 +61,18 @@ public class UserService {
      *
      * @param user
      */
-    public void deleteUser(User user) { userRepository.deleteUser(user); }
+    public void deleteUser(User user) {
+        userRepository.deleteUser(user);
+    }
 
+    /**
+     * ユーザー情報編集の情報をDBへ反映する
+     *
+     * @param newuser
+     */
+    public void updateUserDetail(User newuser) {
+        User olduser = userRepository.findById(newuser.getUserId());
+        newuser = userDetailDTO.oldToNew(olduser, newuser);
+        userRepository.updateUser(newuser);
+    }
 }

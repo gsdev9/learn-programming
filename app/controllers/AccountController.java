@@ -36,7 +36,7 @@ public class AccountController extends Controller {
     public Result UserDetail() {
         //TODO sessionの中にcookie(userID)が存在するかの判定がいる
         String userID = Controller.session().get("userID");
-        User user = userService.findByUserId(Long.parseLong(userID));
+        User user = userService.findById(Long.parseLong(userID));
         form = form.fill(user);
         return Results.ok(views.html.user.userUpdate.render(form));
     }

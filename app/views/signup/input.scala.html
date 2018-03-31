@@ -1,8 +1,4 @@
-@import views.html.common.header
-
 @(form: Form[models.User])
-
-@header()
 
 @main("Sign Up Page") {
     @if(flash.containsKey("unique_error")) {

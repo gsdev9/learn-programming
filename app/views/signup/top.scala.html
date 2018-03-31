@@ -7,4 +7,8 @@
         <p>@flash.get("success")</p>
     }
     <p>ログインしたやで</p>
+
+    @if(flash.containsKey("result")) {
+        <p>@flash.get("result")</p>
+    }
 }

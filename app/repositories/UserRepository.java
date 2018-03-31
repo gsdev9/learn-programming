@@ -1,6 +1,7 @@
 package repositories;
 
-import com.google.inject.*;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import models.User;
 import play.Logger;
 import play.db.jpa.JPAApi;
@@ -79,5 +80,15 @@ public class UserRepository {
     public void deleteUser(User user) {
         jpa.em().remove(user);
         Logger.debug("ユーザーが削除されました： {}", Json.toJson(user));
+    }
+
+    /**
+     * ユーザー情報の変更後
+     *
+     * @param user
+     */
+    public void updateUser(User user) {
+        jpa.em().merge(user);
+        Logger.debug("ユーザー情報が変更されました： {}", Json.toJson(user));
     }
 }

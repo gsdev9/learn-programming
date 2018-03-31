@@ -1,10 +1,14 @@
 package controllers;
 
 import models.User;
-import play.data.*;
+import play.data.Form;
+import play.data.FormFactory;
 import play.db.jpa.Transactional;
-import play.i18n.*;
-import play.mvc.*;
+import play.i18n.Lang;
+import play.i18n.MessagesApi;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
 import services.UserService;
 
 import javax.inject.Inject;

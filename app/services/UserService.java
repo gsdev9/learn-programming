@@ -70,4 +70,15 @@ public class UserService {
         return userRepository.findByUserName(userName);
     }
 
+    /**
+     * UserRepositoryのfindByUserId()を呼び出す
+     *
+     * @param userId
+     */
+    public User findByUserId(Long userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+
+
 }

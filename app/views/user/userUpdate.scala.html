@@ -1,7 +1,7 @@
 @import helper._
 @import views.html.common.header
 
-@(user: Form[models.User])
+@(user: play.data.Form[models.User])
     @header()
 
     @main("user detail") {
@@ -9,9 +9,9 @@
             <p>@flash.get("result")</p>
         }
 
-        @form(action = routes.AccountController.formresult()) {
+        @form(action = routes.AccountController.UserUpdate()) {
 
-            @inputText(user("userName"), 'label -> "名前", 'id -> "name", 'size -> 20)
+            @inputText(user("userName"), 'label -> "", 'id -> "name", 'size -> 20)
             @inputText(user("nickName"))
             @inputText(user("password"))
             @inputText(user("email"))
@@ -22,7 +22,6 @@
             @inputText(user("cardCVC"))
             @inputFile(field = user("thumbnailPath"), args = 'size -> 10)
             @CSRF.formField
-            <input type="hidden" value='@user("userId").value' id="userId" name="userId">
             <input type="submit"/>
 
         }

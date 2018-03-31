@@ -1,10 +1,14 @@
 package controllers;
 
 import models.User;
-import play.data.*;
+import play.data.Form;
+import play.data.FormFactory;
 import play.db.jpa.Transactional;
-import play.i18n.*;
-import play.mvc.*;
+import play.i18n.Lang;
+import play.i18n.MessagesApi;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
 import services.UserService;
 
 import javax.inject.Inject;
@@ -56,7 +60,7 @@ public class LoginController extends Controller {
         String password = f.get().password;
         // ここに null or empty チェック必要ぽい
         if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
-            flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nullorempty"));
+            Controller.flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nullorempty"));
             return Results.badRequest(views.html.login.render(f));
         }
 
@@ -64,12 +68,12 @@ public class LoginController extends Controller {
         System.out.println(user);
 
         if (user == null) {
-            flash("error", messagesApi.get(Lang.forCode("ja"),"login.errors.400.nouser"));
+            Controller.flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nouser"));
             return Results.badRequest(views.html.login.render(f));
         }
 
-        session("userID", String.valueOf(user.userId));
-        return redirect("/top");
+        Controller.session("userID", String.valueOf(user.userId));
+        return Results.redirect("/top");
     }
 
 }

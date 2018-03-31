@@ -1,8 +1,7 @@
 package controllers;
 
-import constants.AccountConstans;
+import controllers.constants.AccountConstants;
 import models.User;
-import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.Transactional;
@@ -21,7 +20,7 @@ public class AccountController extends Controller {
     private UserService userService;
 
     @Inject
-    private AccountConstans accountConstans;
+    private AccountConstants accountConstants;
 
     @Inject
     public AccountController(FormFactory formFactory) {
@@ -34,12 +33,11 @@ public class AccountController extends Controller {
      * @return
      */
     @Transactional
-    public Result AccountDetail() {
-        //usernameをどこから引っ張ってくるの決めないといけない
-        User user = userService.findByUserName("__poyo_poyo__");
+    public Result UserDetail() {
+        //TODO sessionの中にcookie(userID)が存在するかの判定がいる
+        String userID = Controller.session().get("userID");
+        User user = userService.findByUserId(Long.parseLong(userID));
         form = form.fill(user);
-        Logger.info("ここ:" + form.value().get().userName);
-
         return Results.ok(views.html.user.userUpdate.render(form));
     }
 
@@ -49,12 +47,14 @@ public class AccountController extends Controller {
      * @return
      */
     @Transactional
-    public Result formresult() {
+    public Result UserUpdate() {
+        //TODO sessionの中にcookie(userID)が存在するかの判定がいる
         Form<User> result = form.bindFromRequest();
-        Logger.info("name:" + result.get().userName);
-        Logger.info("userId:" + result.get().userId);
-        userService.updateUserDetail(result.get());
-        Controller.flash("result", accountConstans.UPDATE_SUCCESS);
+        User newUser = result.get();
+        String userID = Controller.session().get("userID");
+        newUser.setUserId(Long.parseLong(userID));
+        userService.updateUserDetail(newUser);
+        Controller.flash("result", accountConstants.UPDATE_SUCCESS);
         return Results.redirect("/userdetail");
     }
 

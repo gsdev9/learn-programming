@@ -31,6 +31,7 @@ public class LoginController extends Controller {
     }
 
     public Result index() {
+        session().remove("userID");
         return Results.ok(views.html.login.index.render());
     }
 
@@ -54,7 +55,7 @@ public class LoginController extends Controller {
         Form<User> f = formFactory.form(User.class).bindFromRequest();
         String userName = f.get().userName;
         String password = f.get().password;
-        // ここに null or empty チェック必要ぽい
+
         if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
             flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nullorempty"));
             return Results.badRequest(views.html.login.login.render(f));

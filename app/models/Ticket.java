@@ -18,6 +18,9 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long ticketId;
 
+    /** チケットタイトル */
+    public String title;
+
     /** チケット内容 */
     public String body;
 

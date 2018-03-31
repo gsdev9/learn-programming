@@ -10,4 +10,7 @@ login.errors.403=リソースへのアクセスが許可されていません
 login.errors.400.nullorempty=ユーザー名かパスワードが空です。値を入力してください。
 login.errors.400.nouser=ユーザー名かパスワードが間違っています。再度入力してください。
 
+signup.status.200=会員登録しました。
 signup.errors.400.unique=その名前はすでに使われております。別の名前を入力してください。
+
+signout.status.204=会員退会しました。

@@ -3,6 +3,9 @@
 @header()
 
 @main("Sign Up Page") {
+    @if(flash.containsKey("userDeleted")) {
+        <p>@flash().get("userDeleted")</p>
+    }
     <p><a href="@routes.SignUpController.accessTwitter()">TWITTER</a></p>
     @*<p><a href="@routes.SignUpController.signUp()">FACEBOOK</a></p>*@
 }

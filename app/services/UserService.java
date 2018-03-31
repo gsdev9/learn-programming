@@ -36,11 +36,27 @@ public class UserService {
     public User findByUserNameAndPassword(String userName, String password) { return userRepository.findByUserNameAndPassword(userName, password); }
 
     /**
-     * userRepositoryのregistUser()を呼び出す
+     * UserRepositoryのfindById()を呼び出す
+     *
+     * @param id
+     * @return
+     */
+    public User findById(Long id) { return userRepository.findById(id); }
+
+    /**
+     * UserRepositoryのregistUser()を呼び出す
      *
      * @param user
      */
     public void registUser(User user) {
         userRepository.registUser(user);
     }
+
+    /**
+     * UserRepositoryのdeleteUser()を呼び出す
+     *
+     * @param user
+     */
+    public void deleteUser(User user) { userRepository.deleteUser(user); }
+
 }

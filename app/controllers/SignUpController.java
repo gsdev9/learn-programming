@@ -1,15 +1,15 @@
 package controllers;
 
-import com.mysql.jdbc.Messages;
 import dtos.UserDTO;
 import models.User;
 import org.pac4j.core.profile.*;
 import org.pac4j.play.PlayWebContext;
 import org.pac4j.play.java.Secure;
 import org.pac4j.play.store.PlaySessionStore;
-import play.cache.AsyncCacheApi;
+import play.api.i18n.Lang;
 import play.data.*;
 import play.db.jpa.Transactional;
+import play.i18n.MessagesApi;
 import play.mvc.*;
 import services.UserService;
 
@@ -31,17 +31,17 @@ public class SignUpController extends Controller {
     @Inject
     private UserDTO userDTO;
 
-    private final AsyncCacheApi asyncCacheApi;
-
     private final FormFactory formFactory;
+
+    private final MessagesApi messagesApi;
 
     @Inject
     protected PlaySessionStore playSessionStore;
 
     @Inject
-    public SignUpController(AsyncCacheApi asyncCacheApi, FormFactory formFactory) {
-        this.asyncCacheApi = asyncCacheApi;
+    public SignUpController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
+        this.messagesApi = messagesApi;
     }
 
     /**
@@ -61,7 +61,7 @@ public class SignUpController extends Controller {
      * @return
      */
     public Result index() {
-        return Results.ok(views.html.signup.render());
+        return Results.ok(views.html.signup.index.render());
     }
 
     /**
@@ -99,7 +99,7 @@ public class SignUpController extends Controller {
         user.setEmail(email);
         user.setThumbnailPath(thumbnailPath);
         f = f.fill(user);
-        return Results.ok(views.html.input.render(f));
+        return Results.ok(views.html.signup.input.render(f));
     }
 
     /**
@@ -121,11 +121,13 @@ public class SignUpController extends Controller {
         try {
             userService.registUser(user);
         } catch (PersistenceException pe) {
-            flash("unique_error", Messages.getString("signup.errors.400.unique"));
-            return badRequest(views.html.input.render(f));
+            flash("unique_error", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.errors.400.unique"));
+            return badRequest(views.html.signup.input.render(f));
         }
 
-        return Results.ok(views.html.top.render());
+        flash("success", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.status.200"));
+        session("userID", String.valueOf(user.userId));
+        return redirect("/top");
     }
 
     /**
@@ -134,7 +136,7 @@ public class SignUpController extends Controller {
      * @return
      */
     public Result top() {
-        return Results.ok(views.html.top.render());
+        return Results.ok(views.html.signup.top.render());
     }
 
 }

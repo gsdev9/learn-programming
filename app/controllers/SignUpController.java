@@ -7,7 +7,6 @@ import org.pac4j.play.PlayWebContext;
 import org.pac4j.play.java.Secure;
 import org.pac4j.play.store.PlaySessionStore;
 import play.api.i18n.Lang;
-import play.cache.AsyncCacheApi;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
@@ -32,8 +31,6 @@ public class SignUpController extends Controller {
     @Inject
     private UserDTO userDTO;
 
-    private final AsyncCacheApi asyncCacheApi;
-
     private final FormFactory formFactory;
 
     private final MessagesApi messagesApi;
@@ -42,8 +39,7 @@ public class SignUpController extends Controller {
     protected PlaySessionStore playSessionStore;
 
     @Inject
-    public SignUpController(AsyncCacheApi asyncCacheApi, FormFactory formFactory, MessagesApi messagesApi) {
-        this.asyncCacheApi = asyncCacheApi;
+    public SignUpController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
     }

@@ -3,7 +3,6 @@ package controllers;
 import models.User;
 import play.Logger;
 import play.api.i18n.Lang;
-import play.cache.AsyncCacheApi;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
@@ -21,17 +20,14 @@ public class SignOutController extends Controller {
 
     private final DynamicForm dynamicForm;
 
-    private final AsyncCacheApi asyncCacheApi;
-
     private final MessagesApi messagesApi;
 
     @Inject
     private UserService userService;
 
     @Inject
-    public SignOutController(FormFactory formFactory, AsyncCacheApi asyncCacheApi, MessagesApi messagesApi) {
+    public SignOutController(FormFactory formFactory, MessagesApi messagesApi) {
         this.dynamicForm = formFactory.form();
-        this.asyncCacheApi = asyncCacheApi;
         this.messagesApi = messagesApi;
     }
 

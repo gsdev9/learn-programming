@@ -1,8 +1,4 @@
-@import views.html.common.header
-
 @(form: play.data.Form[models.User])
-
-@header()
 
 @main("Login Page") {
     @if(flash.containsKey("error")) {

@@ -12,6 +12,11 @@ import services.UserService;
 
 import javax.inject.Inject;
 
+/**
+ * 会員退会機能
+ *
+ * @author arapiku
+ */
 public class SignOutController extends Controller {
 
     private final DynamicForm dynamicForm;
@@ -30,10 +35,20 @@ public class SignOutController extends Controller {
         this.messagesApi = messagesApi;
     }
 
+    /**
+     * 退会するかTOPに戻るかを提示する画面
+     *
+     * @return
+     */
     public Result index() {
         return Results.ok(views.html.signout.index.render());
     }
 
+    /**
+     * ユーザーの削除
+     *
+     * @return
+     */
     @Transactional
     public Result deleteUser() {
         DynamicForm requestData = dynamicForm.bindFromRequest();

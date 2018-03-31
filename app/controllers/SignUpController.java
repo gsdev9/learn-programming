@@ -1,15 +1,16 @@
 package controllers;
 
-import com.mysql.jdbc.Messages;
 import dtos.UserDTO;
 import models.User;
 import org.pac4j.core.profile.*;
 import org.pac4j.play.PlayWebContext;
 import org.pac4j.play.java.Secure;
 import org.pac4j.play.store.PlaySessionStore;
+import play.api.i18n.Lang;
 import play.cache.AsyncCacheApi;
 import play.data.*;
 import play.db.jpa.Transactional;
+import play.i18n.MessagesApi;
 import play.mvc.*;
 import services.UserService;
 
@@ -35,13 +36,16 @@ public class SignUpController extends Controller {
 
     private final FormFactory formFactory;
 
+    private final MessagesApi messagesApi;
+
     @Inject
     protected PlaySessionStore playSessionStore;
 
     @Inject
-    public SignUpController(AsyncCacheApi asyncCacheApi, FormFactory formFactory) {
+    public SignUpController(AsyncCacheApi asyncCacheApi, FormFactory formFactory, MessagesApi messagesApi) {
         this.asyncCacheApi = asyncCacheApi;
         this.formFactory = formFactory;
+        this.messagesApi = messagesApi;
     }
 
     /**
@@ -121,11 +125,13 @@ public class SignUpController extends Controller {
         try {
             userService.registUser(user);
         } catch (PersistenceException pe) {
-            flash("unique_error", Messages.getString("signup.errors.400.unique"));
+            flash("unique_error", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.errors.400.unique"));
             return badRequest(views.html.signup.input.render(f));
         }
 
-        return Results.ok(views.html.signup.top.render());
+        flash("success", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.status.200"));
+        session("userID", String.valueOf(user.userId));
+        return redirect("/top");
     }
 
     /**

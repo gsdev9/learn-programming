@@ -6,5 +6,8 @@
     @if(flash.containsKey("failed")) {
         <p style="color: #ff0000;">@flash.get("failed")</p>
     }
+    @if(flash.containsKey("userDeleted")) {
+        <p>@flash.get("userDeleted")</p>
+    }
     <p>ログイン前のtopページやで</p>
 }

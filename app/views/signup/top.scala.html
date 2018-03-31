@@ -3,5 +3,8 @@
 @header()
 
 @main("Top Page with Login") {
+    @if(flash.containsKey("success")) {
+        <p>@flash.get("success")</p>
+    }
     <p>ログインしたやで</p>
 }

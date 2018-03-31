@@ -38,7 +38,7 @@ public class SignOutController extends Controller {
     public Result deleteUser() {
         DynamicForm requestData = dynamicForm.bindFromRequest();
 
-        // null check の必要あるかも
+        // TODO nullチェック必要 しかしのちにアノテーションでページアクセス制御して対応
         Long id = Long.valueOf(session().get("userID"));
         User user = userService.findById(id);
 

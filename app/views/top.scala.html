@@ -4,4 +4,8 @@
 
 @main("Top Page with Login") {
     <p>ログインしたやで</p>
+
+    @if(flash().containsKey("result")) {
+        <p>@flash.get("result")</p>
+    }
 }

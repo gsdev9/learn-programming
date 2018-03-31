@@ -55,7 +55,7 @@ public class AccountController extends Controller {
         newUser.setUserId(Long.parseLong(userID));
         userService.updateUserDetail(newUser);
         Controller.flash("result", accountConstants.UPDATE_SUCCESS);
-        return Results.redirect("/userdetail");
+        return Results.redirect("/top");
     }
 
 }

@@ -12,6 +12,9 @@ GET         /logout                controllers.LogoutController.logout
 ## SignOut
 GET         /signout               controllers.SignOutController.index
 GET         /signout/delete        controllers.SignOutController.deleteUser()
+## Ticket
+GET         /ticket                controllers.TicketController.index
+POST        /ticket/confirm        controllers.TicketController.confirm
 
 GET         /userdetail            controllers.AccountController.UserDetail
 POST        /userupdate            controllers.AccountController.UserUpdate

@@ -1,0 +1,25 @@
+@(form: Form[Ticket])
+
+@main("Ticket Create") {
+
+    @helper.form(action = routes.TicketController.confirm()) {
+
+        @helper.CSRF.formField
+        <dl class="" id="startTime_field">
+            <dt><label for="startTime">startTime</label></dt>
+            <dd><input type="datetime-local" id="startTime" name="startTime"></dd>
+        </dl>
+        <dl class="" id="endTime_field">
+            <dt><label for="endTime">endTime</label></dt>
+            <dd><input type="datetime-local" id="endTime" name="endTime"></dd>
+        </dl>
+        <dl class="" id="price">
+            <dt><label for="price">price</label></dt>
+            <dd><input type="number" id="price" name="price"></dd>
+        </dl>
+        @helper.inputText(form("title"))
+        @helper.textarea(form("body"))
+        <input type="submit" value="チケット内容を確認">
+
+    }
+}

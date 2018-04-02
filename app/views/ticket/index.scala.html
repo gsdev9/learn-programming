@@ -1,17 +1,22 @@
-@(form: Form[Ticket])
+@import forms.TicketForm
+@(form: Form[TicketForm])
 
 @main("Ticket Create") {
 
     @helper.form(action = routes.TicketController.confirm()) {
 
         @helper.CSRF.formField
-        <dl class="" id="startTime_field">
-            <dt><label for="startTime">startTime</label></dt>
-            <dd><input type="datetime-local" id="startTime" name="startTime"></dd>
+        <dl class="" id="date_field">
+            <dt><label for="date">date</label></dt>
+            <dd><input type="text" id="date" name="date" class="form-control date"></dd>
         </dl>
-        <dl class="" id="endTime_field">
-            <dt><label for="endTime">endTime</label></dt>
-            <dd><input type="datetime-local" id="endTime" name="endTime"></dd>
+        <dl class="" id="startAt_field">
+            <dt><label for="startAt">startTime</label></dt>
+            <dd><input type="text" id="startAt" name="startAt" class="form-control time"></dd>
+        </dl>
+        <dl class="" id="endAt_field">
+            <dt><label for="endAt">endTime</label></dt>
+            <dd><input type="text" id="endAt" name="endAt" class="form-control time"></dd>
         </dl>
         <dl class="" id="price">
             <dt><label for="price">price</label></dt>
@@ -23,3 +28,5 @@
 
     }
 }
+
+<script src='@routes.Assets.at("js/date.js")'></script>

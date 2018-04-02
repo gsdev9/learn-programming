@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.*;
 import java.util.*;
 
 /**
@@ -16,22 +17,25 @@ public class Ticket {
     /** チケットID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long ticketId;
+    private Long ticketId;
 
     /** チケットタイトル */
-    public String title;
+    private String title;
 
     /** チケット内容 */
-    public String body;
+    private String body;
+
+    /** 授業日 */
+    private LocalDateTime date;
 
     /** 授業開始時間 */
-    public Date startTime;
+    private LocalDateTime startAt;
 
     /** 授業終了時間 */
-    public Date endTime;
+    private LocalDateTime endAt;
 
     /** 価格 */
-    public Integer price;
+    private Integer price;
 
     /** ユーザー情報 */
     @ManyToOne(optional = false)
@@ -71,20 +75,28 @@ public class Ticket {
         this.body = body;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public LocalDateTime getStartAt() {
+        return startAt;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setStartAt(LocalDateTime startAt) {
+        this.startAt = startAt;
+    }
+
+    public LocalDateTime getEndAt() {
+        return endAt;
+    }
+
+    public void setEndAt(LocalDateTime endAt) {
+        this.endAt = endAt;
     }
 
     public Integer getPrice() {

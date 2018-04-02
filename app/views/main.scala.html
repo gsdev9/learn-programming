@@ -4,14 +4,14 @@
 <html lang="ja">
     <head>
         <title>@title</title>
-        <link rel="stylesheet" href='@routes.Assets.at("bootstrap.css")'>
+        <link rel="stylesheet" href='@routes.Assets.at("bootstrap.css")'> @*ここにbootstrap-css*@
         <link rel="stylesheet" href='@routes.Assets.at("Eonasdan-bootstrap-datetimepicker/css/boostrap-datetimepicker.css")'>
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     </head>
     <body>
         @common.header()
         @content
-        <script src="@routes.Assets.at("jquery.js")"></script>
+        <script src="@routes.Assets.at("jquery.js")"></script> @*ここにjquery.js*@
         <script src='@routes.Assets.at("bootstrap/js/bootstrap.min.js")'></script>
         <script src='@routes.Assets.at("bootstrap/js/moment-with-locales.js")'></script>
         <script src='@routes.Assets.at("bootstrap/js/bootstrap-datetimepicker.min.js")'></script>

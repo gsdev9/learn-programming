@@ -1,8 +1,6 @@
 @import helper._
-@import views.html.common.header
 
 @(user: play.data.Form[models.User])
-    @header()
 
     @main("user detail") {
         @if(flash().containsKey("result")) {

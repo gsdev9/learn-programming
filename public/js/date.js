@@ -1,3 +1,5 @@
+// dateTimePickerが機能しないため使っていない
+
 (function($) {
 
     'use strict';

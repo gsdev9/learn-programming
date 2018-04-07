@@ -1,0 +1,15 @@
+@(
+        form: Form[_],
+        name: String,
+        label: String,
+        required: Boolean = false,
+        htmlArgs: scala.collection.immutable.Map[Symbol, Any] = scala.collection.immutable.Map.empty
+)
+
+<div class="form-group @if(form(name).hasErrors) {has-error}">
+    <label class="control-label">@label @if(required == true) {<strong>*</strong>}</label>
+    <input type="number" name="@name" class="form-control num" value="@form(name).getValue.orElse(null)" @if(required == true) {required} @toHtmlArgs(htmlArgs)>
+    @for(error <- form(name).errors) {
+        <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
+    }
+</div>

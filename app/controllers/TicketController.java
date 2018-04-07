@@ -2,7 +2,9 @@ package controllers;
 
 import forms.TicketForm;
 import play.Logger;
+import play.api.i18n.Lang;
 import play.data.*;
+import play.i18n.*;
 import play.mvc.*;
 
 import javax.inject.Inject;
@@ -17,9 +19,12 @@ public class TicketController extends Controller {
 
     private final FormFactory formFactory;
 
+    private final MessagesApi messagesApi;
+
     @Inject
-    public TicketController(FormFactory formFactory) {
+    public TicketController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
+        this.messagesApi = messagesApi;
     }
 
     /**
@@ -46,14 +51,11 @@ public class TicketController extends Controller {
         Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
 
         if(f.hasErrors()) {
-            Logger.warn("client.errors.400", f.errorsAsJson());
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
+            return Results.badRequest(views.html.ticket.index.render(f));
         }
-        System.out.println(f.get().startAt);
-        System.out.println(f.get().endAt);
-        System.out.println(f.get().price);
-        System.out.println(f.get().title);
-        System.out.println(f.get().body);
 
+        String date = String.valueOf(f.get().date);
         String startAt = String.valueOf(f.get().startAt);
         String endAt = String.valueOf(f.get().endAt);
         String price = String.valueOf(f.get().price);
@@ -61,6 +63,7 @@ public class TicketController extends Controller {
         String body = f.get().body;
 
         Map<String, String> map = new HashMap<>();
+        map.put("date", date);
         map.put("startTime", startAt);
         map.put("endTime", endAt);
         map.put("price", price);

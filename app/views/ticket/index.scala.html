@@ -6,27 +6,15 @@
     @helper.form(action = routes.TicketController.confirm()) {
 
         @helper.CSRF.formField
-        <dl class="" id="date_field">
-            <dt><label for="date">date</label></dt>
-            <dd><input type="text" id="date" name="date" class="form-control date"></dd>
-        </dl>
-        <dl class="" id="startAt_field">
-            <dt><label for="startAt">startTime</label></dt>
-            <dd><input type="text" id="startAt" name="startAt" class="form-control time"></dd>
-        </dl>
-        <dl class="" id="endAt_field">
-            <dt><label for="endAt">endTime</label></dt>
-            <dd><input type="text" id="endAt" name="endAt" class="form-control time"></dd>
-        </dl>
-        <dl class="" id="price">
-            <dt><label for="price">price</label></dt>
-            <dd><input type="number" id="price" name="price"></dd>
-        </dl>
-        @helper.inputText(form("title"))
-        @helper.textarea(form("body"))
+        @views.html.formgroup.date(form, "date", "日付", true)
+        @views.html.formgroup.time(form, "startAt", "授業開始時間", true)
+        @views.html.formgroup.time(form, "endAt", "授業終了時間", true)
+        @views.html.formgroup.num(form, "price", "料金", true)
+        @views.html.formgroup.text(form, "title", "チケットタイトル", true)
+        @views.html.formgroup.textarea(form, "body", "内容", true)
         <input type="submit" value="チケット内容を確認">
 
     }
 }
 
-<script src='@routes.Assets.at("js/date.js")'></script>
+@*<script src='@routes.Assets.at("js/date.js")'></script>*@

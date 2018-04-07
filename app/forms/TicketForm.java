@@ -2,32 +2,40 @@ package forms;
 
 import play.data.validation.Constraints;
 
+import javax.validation.constraints.NotNull;
+
 public class TicketForm {
 
     /** チケットタイトル */
+    @NotNull
     @Constraints.Required(message = "タイトルが入力されていません。")
     public String title;
 
     /** チケット内容 */
+    @NotNull
     @Constraints.Required(message = "内容が入力されていません。")
     public String body;
 
     /** 授業日 */
+    @NotNull
     @Constraints.Required(message = "授業日が入力されていません。")
-    @Constraints.Pattern(value = "\\d{4}/\\d{2}/\\d{2}")
+    @Constraints.Pattern(value = "\\d{4}-\\d{2}-\\d{2}", message = "日付を入力してください")
     public String date;
 
     /** 授業開始時間 */
+    @NotNull
     @Constraints.Required(message = "授業開始時間が入力されていません。")
-    @Constraints.Pattern(value = "\\d{2}:\\d{2}:\\d{2}")
+    @Constraints.Pattern(value = "\\d{2}:\\d{2}", message = "時間を入力してください")
     public String startAt;
 
     /** 授業終了時間 */
+    @NotNull
     @Constraints.Required(message = "授業終了時間が入力されていません。")
-    @Constraints.Pattern(value = "\\d{4}/\\d{2}/\\d{2} \\d{2}:\\d{2}:\\d{2}")
+    @Constraints.Pattern(value = "\\d{2}:\\d{2}", message = "時間を入力してください")
     public String endAt;
 
     /** 価格 */
+    @NotNull
     @Constraints.Required(message = "金額が入力されていません。")
     public Integer price;
 

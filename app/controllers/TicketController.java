@@ -34,16 +34,24 @@ public class TicketController extends Controller {
     }
 
     /**
+     * トップページ
+     *
+     * @return
+     */
+    public Result index() {
+        return Results.ok(views.html.ticket.index.render());
+    }
+
+    /**
      * チケット作成のフォーム表示
      *
      * @return フォーム
      */
-    @Transactional
-    public Result index() {
+    public Result create() {
 
         Form<TicketForm> f = formFactory.form(TicketForm.class);
 
-        return Results.ok(views.html.ticket.index.render(f));
+        return Results.ok(views.html.ticket.create.render(f));
 
     }
 
@@ -58,7 +66,7 @@ public class TicketController extends Controller {
 
         if(f.hasErrors()) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
-            return Results.badRequest(views.html.ticket.index.render(f));
+            return Results.badRequest(views.html.ticket.create.render(f));
         }
 
         return Results.ok(views.html.ticket.confirm.render(f));
@@ -71,7 +79,7 @@ public class TicketController extends Controller {
      * @return
      */
     @Transactional
-    public Result create() {
+    public Result regist() {
 
         Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
 

@@ -1,7 +1,7 @@
 @import forms.TicketForm
 @(form: play.data.Form[TicketForm])
 
-@action = {@routes.TicketController.create()}
+@action = {@routes.TicketController.regist()}
 
 @main("Ticket Confirm") {
 
@@ -14,7 +14,7 @@
         <p>料金：@form("price").getValue.get() <input type="hidden" name="price" value="@form("price").getValue.get()"></p>
         <p>タイトル：@form("title").getValue.get() <input type="hidden" name="title" value="@form("title").getValue.get()"></p>
         <p>チケット内容：@form("body").getValue.get() <input type="hidden" name="body" value="@form("body").getValue.get()"></p>
-        <p><a href="@routes.TicketController.index()">入力画面に戻る</a></p>
+        <p><a href="@routes.TicketController.create()">入力画面に戻る</a></p>
         <input type="submit" value="チケットを作成する">
 
     </form>

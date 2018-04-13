@@ -57,7 +57,7 @@ public class SignOutController extends Controller {
 
         if (user == null) {
             Logger.warn(messagesApi.get(Lang.apply(Lang.defaultLang().code()), "client.errors.400"));
-            return Results.badRequest(views.html.signup.top.render());
+            return Results.badRequest(views.html.ticket.index.render());
         }
 
         userService.deleteUser(user);

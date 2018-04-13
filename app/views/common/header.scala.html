@@ -11,7 +11,7 @@
                 AVATAR
             </div>
             <div class="global-menu__ticket-create">
-                <a href="@routes.TicketController.index()" class="global-menu__ticket-create-btn">チケットの作成</a>
+                <a href="@routes.TicketController.create()" class="global-menu__ticket-create-btn">チケットの作成</a>
             </div>
             @if(CommonHelper.isBlank(session().get("userID"))) {
                 <div class="global-menu__signup">

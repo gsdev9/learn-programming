@@ -1,14 +1,17 @@
 package controllers;
 
+import dtos.TicketDTO;
 import forms.TicketForm;
+import models.Ticket;
 import play.Logger;
 import play.api.i18n.Lang;
 import play.data.*;
-import play.i18n.*;
+import play.db.jpa.Transactional;
+import play.i18n.MessagesApi;
 import play.mvc.*;
+import services.TicketService;
 
 import javax.inject.Inject;
-import java.util.*;
 
 /**
  * チケット情報に関するコントローラ
@@ -22,6 +25,9 @@ public class TicketController extends Controller {
     private final MessagesApi messagesApi;
 
     @Inject
+    private TicketService ticketService;
+
+    @Inject
     public TicketController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
@@ -30,8 +36,9 @@ public class TicketController extends Controller {
     /**
      * チケット作成のフォーム表示
      *
-     * @return
+     * @return フォーム
      */
+    @Transactional
     public Result index() {
 
         Form<TicketForm> f = formFactory.form(TicketForm.class);
@@ -40,11 +47,10 @@ public class TicketController extends Controller {
 
     }
 
-
     /**
      * チケット入力内容の確認画面
      *
-     * @return
+     * @return バリデーション済みのフォームデータ
      */
     public Result confirm() {
 
@@ -55,23 +61,34 @@ public class TicketController extends Controller {
             return Results.badRequest(views.html.ticket.index.render(f));
         }
 
-        String date = String.valueOf(f.get().date);
-        String startAt = String.valueOf(f.get().startAt);
-        String endAt = String.valueOf(f.get().endAt);
-        String price = String.valueOf(f.get().price);
-        String title = f.get().title;
-        String body = f.get().body;
+        return Results.ok(views.html.ticket.confirm.render(f));
 
-        Map<String, String> map = new HashMap<>();
-        map.put("date", date);
-        map.put("startTime", startAt);
-        map.put("endTime", endAt);
-        map.put("price", price);
-        map.put("title", title);
-        map.put("body", body);
+    }
 
-        return Results.ok(views.html.ticket.confirm.render(map));
+    /**
+     * チケットの作成
+     *
+     * @return
+     */
+    @Transactional
+    public Result create() {
 
+        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        if(f.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", f.errorsAsJson()));
+
+            return Results.badRequest(views.html.ticket.confirm.render(f));
+        }
+
+        TicketForm ticketForm = f.get();
+        Ticket newTicket = TicketDTO.convertToEntity(ticketForm);
+        Long userId = Long.valueOf(session("userID"));
+
+        ticketService.createTicket(newTicket, userId);
+
+        flash("created", "チケットを作成しました");
+        return redirect("/top");
     }
     
 }

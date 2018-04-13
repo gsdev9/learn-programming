@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.*;
-import java.util.*;
+import java.util.List;
 
 /**
  * チケット情報
@@ -26,13 +26,13 @@ public class Ticket {
     private String body;
 
     /** 授業日 */
-    private LocalDateTime date;
+    private LocalDate date;
 
     /** 授業開始時間 */
-    private LocalDateTime startAt;
+    private LocalTime startAt;
 
     /** 授業終了時間 */
-    private LocalDateTime endAt;
+    private LocalTime endAt;
 
     /** 価格 */
     private Integer price;
@@ -75,27 +75,27 @@ public class Ticket {
         this.body = body;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public LocalDateTime getStartAt() {
+    public LocalTime getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(LocalDateTime startAt) {
+    public void setStartAt(LocalTime startAt) {
         this.startAt = startAt;
     }
 
-    public LocalDateTime getEndAt() {
+    public LocalTime getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(LocalDateTime endAt) {
+    public void setEndAt(LocalTime endAt) {
         this.endAt = endAt;
     }
 

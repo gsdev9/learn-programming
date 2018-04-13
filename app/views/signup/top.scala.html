@@ -2,6 +2,9 @@
     @if(flash.containsKey("success")) {
         <p>@flash.get("success")</p>
     }
+    @if(flash.containsKey("created")) {
+        <p>@flash.get("created")</p>
+    }
     <p>ログインしたやで</p>
 
     @if(flash.containsKey("result")) {

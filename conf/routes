@@ -15,6 +15,7 @@ GET         /signout/delete        controllers.SignOutController.deleteUser()
 ## Ticket
 GET         /ticket                controllers.TicketController.index
 POST        /ticket/confirm        controllers.TicketController.confirm
+POST        /ticket/create         controllers.TicketController.create
 
 GET         /userdetail            controllers.AccountController.UserDetail
 POST        /userupdate            controllers.AccountController.UserUpdate

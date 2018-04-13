@@ -1,9 +1,11 @@
 @import forms.TicketForm
-@(form: Form[TicketForm])
+@(form: play.data.Form[TicketForm])
+
+@action = {@routes.TicketController.confirm()}
 
 @main("Ticket Create") {
 
-    @helper.form(action = routes.TicketController.confirm()) {
+    <form action="@action" method="post">
 
         @helper.CSRF.formField
         @views.html.formgroup.date(form, "date", "日付", true)
@@ -14,7 +16,9 @@
         @views.html.formgroup.textarea(form, "body", "内容", true)
         <input type="submit" value="チケット内容を確認">
 
-    }
+    </form>
+
 }
 
+@*動いてないのでコメントアウトしてます*@
 @*<script src='@routes.Assets.at("js/date.js")'></script>*@

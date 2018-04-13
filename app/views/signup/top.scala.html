@@ -5,7 +5,9 @@
     @if(flash.containsKey("created")) {
         <p>@flash.get("created")</p>
     }
-    <p>ログインしたやで</p>
+    @if(flash.containsKey("signin")) {
+        <p>@flash.get("signin")</p>
+    }
 
     @if(flash.containsKey("result")) {
         <p>@flash.get("result")</p>

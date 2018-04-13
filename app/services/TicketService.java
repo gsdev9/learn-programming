@@ -22,9 +22,17 @@ public class TicketService {
     /**
      * TicketRepositoryのfindAllを呼び出す
      *
-     * @return
+     * @return チケット全件
      */
     public List<Ticket> findAll() { return ticketRepository.findAll(); }
+
+    /**
+     * TicketRepositoryのfindByIdを呼び出す
+     *
+     * @param id
+     * @return チケット{id}
+     */
+    public Ticket findById(Long id) { return ticketRepository.findById(id); }
 
     /**
      * TicketRepositoryのcreateTicketを呼び出す

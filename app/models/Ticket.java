@@ -17,25 +17,25 @@ public class Ticket {
     /** チケットID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticketId;
+    public Long ticketId;
 
     /** チケットタイトル */
-    private String title;
+    public String title;
 
     /** チケット内容 */
-    private String body;
+    public String body;
 
     /** 授業日 */
-    private LocalDate date;
+    public LocalDate date;
 
     /** 授業開始時間 */
-    private LocalTime startAt;
+    public LocalTime startAt;
 
     /** 授業終了時間 */
-    private LocalTime endAt;
+    public LocalTime endAt;
 
     /** 価格 */
-    private Integer price;
+    public Integer price;
 
     /** ユーザー情報 */
     @ManyToOne(optional = false)

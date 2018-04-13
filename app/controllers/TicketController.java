@@ -12,6 +12,7 @@ import play.mvc.*;
 import services.TicketService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * チケット情報に関するコントローラ
@@ -35,11 +36,31 @@ public class TicketController extends Controller {
 
     /**
      * トップページ
+     * 全てのチケットを新着順に表示する
+     * Todo 表示順を考慮する
      *
      * @return
      */
+    @Transactional(readOnly = true)
     public Result index() {
-        return Results.ok(views.html.ticket.index.render());
+        List<Ticket> tickets = ticketService.findAll();
+        if(tickets.isEmpty()) {
+            flash("notFound", "チケットが見つかりませんでした。");
+            Logger.warn("Nothing Tickets.");
+            Results.notFound(views.html.ticket.index.render(tickets));
+        }
+        return Results.ok(views.html.ticket.index.render(tickets));
+    }
+
+    @Transactional(readOnly = true)
+    public Result single(Long id) {
+        Ticket ticket = ticketService.findById(id);
+        if(ticket == null) {
+            Logger.warn("id={}'s ticket is not founded.", id);
+            List<Ticket> tickets = ticketService.findAll();
+            Results.notFound(views.html.ticket.index.render(tickets));
+        }
+        return Results.ok(views.html.ticket.single.render(ticket));
     }
 
     /**

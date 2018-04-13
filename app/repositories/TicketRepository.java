@@ -31,6 +31,10 @@ public class TicketRepository {
         return jpa.em().createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();
     }
 
+    public Ticket findById(Long id) {
+        return jpa.em().find(Ticket.class, id);
+    }
+
     /**
      * チケットの登録
      *

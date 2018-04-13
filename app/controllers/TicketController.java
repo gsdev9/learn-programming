@@ -52,6 +52,12 @@ public class TicketController extends Controller {
         return Results.ok(views.html.ticket.index.render(tickets));
     }
 
+    /**
+     * チケットの単一ページ
+     *
+     * @param id
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result single(Long id) {
         Ticket ticket = ticketService.findById(id);

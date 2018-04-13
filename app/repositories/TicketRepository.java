@@ -1,6 +1,6 @@
 package repositories;
 
-import models.Ticket;
+import models.*;
 import play.Logger;
 import play.db.jpa.JPAApi;
 import play.libs.Json;
@@ -31,8 +31,26 @@ public class TicketRepository {
         return jpa.em().createQuery("SELECT t FROM Ticket t", Ticket.class).getResultList();
     }
 
+    /**
+     * IDによる単体チケットの取得
+     *
+     * @param id
+     * @return
+     */
     public Ticket findById(Long id) {
         return jpa.em().find(Ticket.class, id);
+    }
+
+    /**
+     * ユーザーに紐づくチケットの取得
+     *
+     * @param user
+     * @return
+     */
+    public List<Ticket> findByUser(User user) {
+        return jpa.em().createQuery("SELECT t FROM Ticket t WHERE user = :user", Ticket.class)
+            .setParameter("user", user)
+            .getResultList();
     }
 
     /**

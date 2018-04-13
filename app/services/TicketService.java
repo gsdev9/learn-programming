@@ -35,6 +35,12 @@ public class TicketService {
     public Ticket findById(Long id) { return ticketRepository.findById(id); }
 
     /**
+     * TickerRepositoryのfinByUserを呼び出す
+     *
+     */
+    public List<Ticket> findByUser(User user) { return ticketRepository.findByUser(user); }
+
+    /**
      * TicketRepositoryのcreateTicketを呼び出す
      *
      * @param ticket

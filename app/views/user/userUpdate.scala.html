@@ -1,8 +1,6 @@
 @import helper._
-@import views.html.common.header
 
-@(user: play.data.Form[models.User])
-    @header()
+@(user: play.data.Form[models.User], myTickets: java.util.List[Ticket])
 
     @main("user detail") {
         @if(flash().containsKey("result")) {
@@ -25,4 +23,20 @@
             <input type="submit"/>
 
         }
+
+        <h2>自分がオーナーのチケット一覧</h2>
+        <ul>
+            @for(t <- myTickets) {
+            <li id="@t.getTicketId">
+                <a href="@routes.TicketController.single(t.getTicketId.toLong)">
+                    <img src="@t.getUser.getThumbnailPath">
+                    <h3>@t.getTitle</h3>
+                    <p>@t.getBody</p>
+                    <p>@t.getDate</p>
+                    <p>@t.getPrice 円</p>
+                </a>
+            </li>
+            }
+        </ul>
+
     }

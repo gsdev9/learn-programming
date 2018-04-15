@@ -43,6 +43,15 @@ public class TicketController extends Controller {
         this.messagesApi = messagesApi;
     }
 
+    private boolean checkUser(Ticket ticket, Long userId) {
+        if(!ticket.getUser().userId.equals(userId)) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+            flash("badRequest", "不正なアクセスです");
+            return true;
+        }
+        return false;
+    }
+
     /**
      * トップページ
      * 全てのチケットを新着順に表示する
@@ -195,6 +204,13 @@ public class TicketController extends Controller {
         }
 
         Ticket ticket = ticketService.findById(id);
+        Long userId = Long.valueOf(session("userID"));
+
+        if(checkUser(ticket, userId)) {
+            List<Ticket> tickets = ticketService.findAll();
+            return Results.badRequest(views.html.ticket.index.render(tickets));
+        }
+
         Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
@@ -240,10 +256,8 @@ public class TicketController extends Controller {
         Ticket ticket = ticketService.findById(id);
         Long userId = Long.valueOf(session("userID"));
 
-        if(!ticket.getUser().userId.equals(userId)) {
-            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+        if(checkUser(ticket, userId)) {
             List<Ticket> tickets = ticketService.findAll();
-            flash("badRequest", "不正なアクセスです");
             return Results.badRequest(views.html.ticket.index.render(tickets));
         }
 

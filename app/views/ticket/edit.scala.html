@@ -1,0 +1,21 @@
+@import forms.TicketForm
+@(form: play.data.Form[TicketForm], id: Long)
+
+@action = {@routes.TicketController.editConfirm(id)}
+
+@main("Ticket Edit") {
+
+    <form action="@action" method="post">
+
+        @helper.CSRF.formField
+        @views.html.formgroup.date(form, "date", "日付", true)
+        @views.html.formgroup.time(form, "startAt", "授業開始時間", true)
+        @views.html.formgroup.time(form, "endAt", "授業終了時間", true)
+        @views.html.formgroup.num(form, "price", "料金", true)
+        @views.html.formgroup.text(form, "title", "チケットタイトル", true)
+        @views.html.formgroup.textarea(form, "body", "内容", true)
+        <input type="submit" value="チケット内容を確認">
+
+    </form>
+
+}

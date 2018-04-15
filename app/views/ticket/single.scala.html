@@ -1,0 +1,14 @@
+@(ticket: Ticket)
+
+@main("Ticket's Single Page") {
+
+    <p>@ticket.title</p>
+    <p>@ticket.body</p>
+    <p>@ticket.date</p>
+    <p>@ticket.startAt</p>
+    <p>@ticket.endAt</p>
+    <p>@ticket.price</p>
+    <p>@ticket.user.thumbnailPath</p>
+    <p>@ticket.user.nickName</p>
+
+}

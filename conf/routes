@@ -22,6 +22,8 @@ POST        /ticket/:id/edit/confirm            controllers.TicketController.edi
 POST        /ticket/:id/edit/update             controllers.TicketController.update(id: Long)
 GET         /ticket/:id/purchase                controllers.TicketController.purchase(id: Long)
 POST        /ticket/:id/purchase/appoint        controllers.TicketController.appoint(id: Long)
+GET         /ticket/:id/delete                  controllers.TicketController.delete(id: Long)
+POST        /ticket/:id/delete/destroy          controllers.TicketController.destroy(id: Long)
 ## PurchasedTicket
 GET         /purchasedTicket/:ticketId          controllers.PurchasedTicketController.index(ticketId: Long)
 GET         /userdetail                         controllers.AccountController.UserDetail

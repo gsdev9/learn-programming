@@ -11,6 +11,7 @@ import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.mvc.*;
+import scala.annotation.meta.param;
 import services.*;
 
 import javax.inject.Inject;
@@ -203,6 +204,57 @@ public class TicketController extends Controller {
     }
 
     /**
+     * チケットの削除確認
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result delete(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        TicketForm formData = new TicketForm();
+
+        BeanUtils.copyProperties(ticket, formData);
+
+        formData.date = DateUtils.toStringFromLocalDate(ticket.date, "uuuu-MM-dd");
+        formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
+        formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
+        formData.price = String.valueOf(ticket.price);
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
+
+        return Results.ok(views.html.ticket.delete.render(f, id));
+
+    }
+    
+    /**
+     * チケットの削除
+     *
+     * @param id
+     * @return
+     */
+    @Transactional
+    public Result destroy(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        Long userId = Long.valueOf(session("userID"));
+
+        if(!ticket.getUser().userId.equals(userId)) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+            List<Ticket> tickets = ticketService.findAll();
+            flash("badRequest", "不正なアクセスです");
+            return Results.badRequest(views.html.ticket.index.render(tickets));
+        }
+
+        ticketService.deleteTicket(ticket);
+
+        flash("deleted", "チケットを削除しました");
+        return redirect("/top");
+
+    }
+
+    /**
      * チケット購入画面
      *
      * @param id
@@ -214,7 +266,6 @@ public class TicketController extends Controller {
         Ticket ticket = ticketService.findById(id);
         Form<MessageForm> f = formFactory.form(MessageForm.class);
         return Results.ok(views.html.ticket.purchase.render(ticket, f));
-
     }
 
     /**
@@ -240,5 +291,5 @@ public class TicketController extends Controller {
         return redirect("/top");
 
     }
-    
+
 }

@@ -17,7 +17,7 @@ public class Ticket {
     /** チケットID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long ticketId;
+    private Long ticketId;
 
     /** チケットタイトル */
     public String title;

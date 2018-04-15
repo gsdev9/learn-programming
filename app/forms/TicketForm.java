@@ -32,9 +32,8 @@ public class TicketForm {
     public String endAt;
 
     /** 価格 */
-
     @Constraints.Required(message = "金額が入力されていません。")
-    public Integer price;
+    public String price;
 
     public String getTitle() {
         return title;
@@ -76,12 +75,11 @@ public class TicketForm {
         this.endAt = endAt;
     }
 
-    Integer getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(String price) {
         this.price = price;
     }
-
 }

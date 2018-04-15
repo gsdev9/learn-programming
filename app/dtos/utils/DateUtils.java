@@ -79,4 +79,34 @@ public class DateUtils {
         dtf = dtf.withResolverStyle(ResolverStyle.STRICT).withZone(ZoneId.systemDefault());
         return ZonedDateTime.parse(dateTimeStr, dtf);
     }
+
+    /**
+     * LocalDateから文字列に変換
+     *
+     * @param ld
+     * @param format
+     * @return
+     */
+    public static String toStringFromLocalDate(LocalDate ld, String format) {
+        if (ld == null || StringUtils.isEmpty(format)) {
+            return null;
+        }
+
+        return ld.format(DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
+     * LocalTimeから文字列に変換
+     *
+     * @param lt
+     * @param format
+     * @return
+     */
+    public static String toStringFromLocalTime(LocalTime lt, String format) {
+        if (lt == null || StringUtils.isEmpty(format)) {
+            return null;
+        }
+
+        return lt.format(DateTimeFormatter.ofPattern(format));
+    }
 }

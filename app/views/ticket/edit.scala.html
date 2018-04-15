@@ -1,9 +1,9 @@
 @import forms.TicketForm
-@(form: play.data.Form[TicketForm])
+@(form: play.data.Form[TicketForm], id: Long)
 
-@action = {@routes.TicketController.createConfirm()}
+@action = {@routes.TicketController.editConfirm(id)}
 
-@main("Ticket Create") {
+@main("Ticket Edit") {
 
     <form action="@action" method="post">
 
@@ -19,6 +19,3 @@
     </form>
 
 }
-
-@*動いてないのでコメントアウトしてます*@
-@*<script src='@routes.Assets.at("js/date.js")'></script>*@

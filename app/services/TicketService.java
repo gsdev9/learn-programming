@@ -51,4 +51,13 @@ public class TicketService {
         ticketRepository.createTicket(ticket);
     }
 
+    /**
+     * TicketRepositoryのupdateTicketを呼び出す
+     *
+     * @param ticket
+     */
+    public void updateTicket(Ticket ticket) {
+        ticketRepository.updateTicket(ticket);
+    }
+
 }

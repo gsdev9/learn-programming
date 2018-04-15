@@ -28,6 +28,7 @@
         <ul>
             @for(t <- myTickets) {
             <li id="@t.getTicketId">
+                <p><a href="@routes.TicketController.edit(t.getTicketId.toLong)">編集する</a></p>
                 <a href="@routes.TicketController.single(t.getTicketId.toLong)">
                     <img src="@t.getUser.getThumbnailPath">
                     <h3>@t.getTitle</h3>

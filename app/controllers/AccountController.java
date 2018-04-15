@@ -41,7 +41,7 @@ public class AccountController extends Controller {
         form = form.fill(user);
 
         List<Ticket> myTickets = ticketService.findByUser(user);
-        
+
         return Results.ok(views.html.user.userUpdate.render(form, myTickets));
     }
 

@@ -1,8 +1,10 @@
 package controllers;
 
 import dtos.TicketDTO;
+import dtos.utils.DateUtils;
 import forms.TicketForm;
 import models.Ticket;
+import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
 import play.data.*;
@@ -83,11 +85,11 @@ public class TicketController extends Controller {
     }
 
     /**
-     * チケット入力内容の確認画面
+     * チケット作成内容の確認画面
      *
      * @return バリデーション済みのフォームデータ
      */
-    public Result confirm() {
+    public Result createConfirm() {
 
         Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
 
@@ -96,7 +98,7 @@ public class TicketController extends Controller {
             return Results.badRequest(views.html.ticket.create.render(f));
         }
 
-        return Results.ok(views.html.ticket.confirm.render(f));
+        return Results.ok(views.html.ticket.create_confirm.render(f));
 
     }
 
@@ -113,17 +115,85 @@ public class TicketController extends Controller {
         if(f.hasErrors()) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", f.errorsAsJson()));
 
-            return Results.badRequest(views.html.ticket.confirm.render(f));
+            return Results.badRequest(views.html.ticket.create_confirm.render(f));
         }
 
         TicketForm ticketForm = f.get();
-        Ticket newTicket = TicketDTO.convertToEntity(ticketForm);
+        Ticket ticket = new Ticket();
+        Ticket newTicket = TicketDTO.convertToEntity(ticket, ticketForm);
         Long userId = Long.valueOf(session("userID"));
 
         ticketService.createTicket(newTicket, userId);
 
         flash("created", "チケットを作成しました");
         return redirect("/top");
+    }
+
+    /**
+     * チケットの編集画面
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result edit(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        TicketForm formData = new TicketForm();
+
+        BeanUtils.copyProperties(ticket, formData);
+
+        formData.date = DateUtils.toStringFromLocalDate(ticket.date, "uuuu-MM-dd");
+        formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
+        formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
+        formData.price = String.valueOf(ticket.price);
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
+
+        return Results.ok(views.html.ticket.edit.render(f, id));
+
+    }
+
+    /**
+     * チケット編集内容の確認画面
+     *
+     * @return バリデーション済みのフォームデータ
+     */
+    public Result editConfirm(Long id) {
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        if(f.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
+            return Results.badRequest(views.html.ticket.edit.render(f, id));
+        }
+
+        return Results.ok(views.html.ticket.edit_confirm.render(f, id));
+
+    }
+
+    /**
+     * チケットの更新
+     *
+     * @param id
+     * @return
+     */
+    @Transactional
+    public Result update(Long id) {
+        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        if (f.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", f.errorsAsJson()));
+            return Results.badRequest(views.html.ticket.edit_confirm.render(f, id));
+        }
+
+        Ticket ticket = ticketService.findById(id);
+        Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
+        ticketService.updateTicket(updateTicket);
+
+        flash("updated", "チケットを更新しました");
+        return redirect("/top");
+
     }
     
 }

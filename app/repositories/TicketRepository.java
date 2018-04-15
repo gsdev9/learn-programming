@@ -63,4 +63,13 @@ public class TicketRepository {
         Logger.debug("チケットが作成されました： {}", Json.toJson(ticket));
     }
 
+    /**
+     * チケットの更新
+     *
+     * @param ticket
+     */
+    public void updateTicket(Ticket ticket) {
+        jpa.em().merge(ticket);
+        Logger.debug("チケットが更新されました： {}", Json.toJson(ticket));
+    }
 }

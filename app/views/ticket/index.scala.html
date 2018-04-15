@@ -7,6 +7,9 @@
     @if(flash.containsKey("created")) {
         <p>@flash.get("created")</p>
     }
+    @if(flash.containsKey("updated")) {
+        <p>@flash.get("updated")</p>
+    }
     @if(flash.containsKey("signin")) {
         <p>@flash.get("signin")</p>
     }

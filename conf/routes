@@ -1,28 +1,30 @@
-GET         /                               controllers.LoginController.index
-GET         /login                          controllers.LoginController.loginForm
-POST        /login/login                    controllers.LoginController.login
+GET         /                                   controllers.LoginController.index
+GET         /login                              controllers.LoginController.loginForm
+POST        /login/login                        controllers.LoginController.login
 ## OAuth
-GET         /signup                         controllers.SignUpController.index
-GET         /signup/twitter                 controllers.SignUpController.accessTwitter
-POST        /signup/input                   controllers.SignUpController.input
-GET         /callback                       org.pac4j.play.CallbackController.callback()
+GET         /signup                             controllers.SignUpController.index
+GET         /signup/twitter                     controllers.SignUpController.accessTwitter
+POST        /signup/input                       controllers.SignUpController.input
+GET         /callback                           org.pac4j.play.CallbackController.callback()
 #GET         /logout                org.pac4j.play.LogoutController.logout()
-GET         /logout                         controllers.LogoutController.logout
+GET         /logout                             controllers.LogoutController.logout
 ## SignOut
-GET         /signout                        controllers.SignOutController.index
-GET         /signout/delete                 controllers.SignOutController.deleteUser()
+GET         /signout                            controllers.SignOutController.index
+GET         /signout/delete                     controllers.SignOutController.deleteUser()
 ## Ticket
-GET         /top                            controllers.TicketController.index
-GET         /ticket/create                  controllers.TicketController.create
-POST        /ticket/create/confirm          controllers.TicketController.createConfirm
-POST        /ticket/create/regist           controllers.TicketController.regist
-GET         /ticket/:id                     controllers.TicketController.single(id: Long)
-GET         /ticket/:id/edit                controllers.TicketController.edit(id: Long)
-POST        /ticket/:id/edit/confirm        controllers.TicketController.editConfirm(id: Long)
-POST        /ticket/:id/edit/update         controllers.TicketController.update(id: Long)
+GET         /top                                controllers.TicketController.index
+GET         /ticket/create                      controllers.TicketController.create
+POST        /ticket/create/confirm              controllers.TicketController.createConfirm
+POST        /ticket/create/regist               controllers.TicketController.regist
+GET         /ticket/:id                         controllers.TicketController.single(id: Long)
+GET         /ticket/:id/edit                    controllers.TicketController.edit(id: Long)
+POST        /ticket/:id/edit/confirm            controllers.TicketController.editConfirm(id: Long)
+POST        /ticket/:id/edit/update             controllers.TicketController.update(id: Long)
+GET         /ticket/:id/purchase                controllers.TicketController.purchase(id: Long)
+POST        /ticket/:id/purchase/appoint        controllers.TicketController.appoint(id: Long)
 
-GET         /userdetail                     controllers.AccountController.UserDetail
-POST        /userupdate                     controllers.AccountController.UserUpdate
+GET         /userdetail                         controllers.AccountController.UserDetail
+POST        /userupdate                         controllers.AccountController.UserUpdate
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.Assets.at(path="/public", file)
+GET         /assets/*file                       controllers.Assets.at(path="/public", file)

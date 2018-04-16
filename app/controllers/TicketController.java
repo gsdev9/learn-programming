@@ -2,16 +2,17 @@ package controllers;
 
 import dtos.TicketDTO;
 import dtos.utils.DateUtils;
-import forms.TicketForm;
-import models.Ticket;
+import forms.*;
+import models.*;
 import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
+import play.libs.Json;
 import play.mvc.*;
-import services.TicketService;
+import services.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -29,6 +30,12 @@ public class TicketController extends Controller {
 
     @Inject
     private TicketService ticketService;
+
+    @Inject
+    private PurchasedTicketService purchasedTicketService;
+
+    @Inject
+    private MessageService messageService;
 
     @Inject
     public TicketController(FormFactory formFactory, MessagesApi messagesApi) {
@@ -192,6 +199,46 @@ public class TicketController extends Controller {
         ticketService.updateTicket(updateTicket);
 
         flash("updated", "チケットを更新しました");
+        return redirect("/top");
+
+    }
+
+    /**
+     * チケット購入画面
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result purchase(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        Form<MessageForm> f = formFactory.form(MessageForm.class);
+        return Results.ok(views.html.ticket.purchase.render(ticket, f));
+
+    }
+
+    /**
+     * チケットの購入成立
+     *
+     * @param ticketId
+     * @return
+     */
+    @Transactional
+    public Result appoint(Long ticketId) {
+
+        Form<MessageForm> f = formFactory.form(MessageForm.class).bindFromRequest();
+        System.out.println(Json.toJson(f.get()));
+
+        Long userId = Long.valueOf(session("userID"));
+
+        // 購入済みチケットの登録
+        PurchasedTicket purchasedTicket = purchasedTicketService.create(ticketId, userId);
+
+        // メッセージの登録
+        messageService.create(f.get().getMessage(), userId, purchasedTicket);
+
+        flash("appointed", "授業が成立しました！");
         return redirect("/top");
 
     }

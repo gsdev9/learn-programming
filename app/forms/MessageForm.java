@@ -2,6 +2,11 @@ package forms;
 
 import models.PurchasedTicket;
 
+/**
+ * メッセージのフォーム
+ *
+ * @author arapiku
+ */
 public class MessageForm {
 
     public String message;

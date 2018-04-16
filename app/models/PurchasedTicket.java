@@ -34,4 +34,51 @@ public class PurchasedTicket {
     @OneToOne(cascade = CascadeType.ALL)
     public ChatRoom chatRoom;
 
+    public Long getPurchasedTicketId() {
+        return purchasedTicketId;
+    }
+
+    public void setPurchasedTicketId(Long purchasedTicketId) {
+        this.purchasedTicketId = purchasedTicketId;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public List<Message> getMessage() {
+        return message;
+    }
+
+    public void setMessage(List<Message> message) {
+        this.message = message;
+    }
+
+    public ChatRoom getChatRoom() {
+        return chatRoom;
+    }
+
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
+    }
 }

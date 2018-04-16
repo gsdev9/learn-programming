@@ -4,6 +4,7 @@ import models.*;
 import repositories.PurchasedTicketRepository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * 購入済みチケット
@@ -20,6 +21,27 @@ public class PurchasedTicketService {
 
     @Inject
     private PurchasedTicketRepository purchasedTicketRepository;
+
+    /**
+     * PurchasedTicketRepositoryのfindByUserIdを呼び出す
+     *
+     * @param userId
+     * @return
+     */
+    public List<PurchasedTicket> findByUserId(Long userId) {
+        return purchasedTicketRepository.findByUserId(userId);
+    }
+
+    /**
+     * PurchasedTicketRepositoryのfindByTicketIdAndUserIdを呼び出す
+     *
+     * @param purchasedTicketId
+     * @param userId
+     * @return
+     */
+    public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
+        return purchasedTicketRepository.findByTicketIdAndUserId(purchasedTicketId, userId);
+    }
 
     /**
      * PurchasedTicketRepositoryのcreateを呼び出す

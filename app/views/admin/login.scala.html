@@ -1,0 +1,21 @@
+@(form: play.data.Form[forms.AdminForm])
+
+@main("Admin Login") {
+
+    @if(flash().containsKey("notFound")) {
+        <p>@flash().get("notFound")</p>
+    }
+    @if(flash().containsKey("unauthorized")) {
+        <p>@flash().get("unauthorized")</p>
+    }
+
+    <form action="@routes.AdminController.login" method="post">
+
+        @helper.CSRF.formField
+        @formgroup.text(form, "userName", "ユーザー名", true)
+        @formgroup.text(form, "password", "パスワード", true)
+        <input type="submit" value="ログイン">
+
+    </form>
+
+}

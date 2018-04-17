@@ -26,8 +26,12 @@ GET         /ticket/:id/delete                  controllers.TicketController.del
 POST        /ticket/:id/delete/destroy          controllers.TicketController.destroy(id: Long)
 ## PurchasedTicket
 GET         /purchasedTicket/:ticketId          controllers.PurchasedTicketController.index(ticketId: Long)
+## Account
 GET         /userdetail                         controllers.AccountController.UserDetail
 POST        /userupdate                         controllers.AccountController.UserUpdate
+## Admin
+GET         /admin                          controllers.AdminController.index
+POST        /admin/login                    controllers.AdminController.login
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

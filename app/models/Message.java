@@ -13,6 +13,9 @@ public class Message {
     /** メッセージ */
     public String message;
 
+    /** ユーザーID */
+    public Long userId;
+
     /** 購入済みチケット情報 */
     /** ユーザー情報はこちら */
     @ManyToOne(optional = false)

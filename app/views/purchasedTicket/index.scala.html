@@ -1,0 +1,10 @@
+@(ticket: Ticket, purchasedTicket: PurchasedTicket)
+
+@main("PurchasedTicket Page") {
+    <p>@ticket.date</p>
+    <p>@ticket.startAt</p>
+    <p>@ticket.endAt</p>
+    @for(m <- purchasedTicket.message) {
+        <p>@m.message</p>
+    }
+}

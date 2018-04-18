@@ -1,6 +1,6 @@
 @import helper._
 
-@(user: play.data.Form[models.User], myTickets: java.util.List[Ticket])
+@(user: play.data.Form[models.User], myTickets: java.util.List[Ticket], purchasedTickets: java.util.List[PurchasedTicket])
 
     @main("user detail") {
         @if(flash().containsKey("result")) {
@@ -35,6 +35,17 @@
                     <p>@t.getBody</p>
                     <p>@t.getDate</p>
                     <p>@t.getPrice 円</p>
+                </a>
+            </li>
+            }
+        </ul>
+
+        <h2>成立したチケット一覧</h2>
+        <ul>
+            @for(p <- purchasedTickets) {
+            <li id="@p.getPurchasedTicketId">
+                <a href="@routes.PurchasedTicketController.index(p.getPurchasedTicketId.toLong)">
+                    <p>@p.ticket.title</p>
                 </a>
             </li>
             }

@@ -19,6 +19,9 @@
     @if(flash.containsKey("notFound")) {
         <p>@flash.get("notFound")</p>
     }
+    @if(flash.containsKey("appointed")) {
+        <p>@flash.get("appointed")</p>
+    }
 
     <ul>
         @for(l <- lists) {

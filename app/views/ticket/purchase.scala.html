@@ -1,0 +1,16 @@
+@import forms.MessageForm
+@(ticket: Ticket, form: play.data.Form[MessageForm])
+
+@action = {@routes.TicketController.appoint(ticket.getTicketId)}
+
+@main("Purchase Ticket") {
+    <h1>@ticket.title</h1>
+    <p>日付：@ticket.date</p>
+    <p>開始時間：@ticket.startAt</p>
+    <p>終了時間：@ticket.endAt</p>
+    <form action="@action" method="post">
+        @helper.CSRF.formField
+        @formgroup.textarea(form, "message", "メッセージ", true)
+        <input type="submit" value="支払い方法の選択へ進む">
+    </form>
+}

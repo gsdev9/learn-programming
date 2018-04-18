@@ -69,12 +69,12 @@ public class AdminController extends Controller {
             Logger.warn("ユーザーが存在しません", f.get().userName);
             return Results.forbidden(views.html.admin.login.render(f));
         }
-        System.out.println(user.admin);
+        
         // 管理ユーザーチェック
         if (user.admin == null) {
             user.admin = false;
         }
-        System.out.println(user.admin);
+
         if(!user.admin) {
             Logger.warn("不正なアクセスです。{}は管理ユーザーではありません。", f.get().userName);
             return Results.badRequest(views.html.admin.login.render(f));

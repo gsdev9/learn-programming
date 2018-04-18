@@ -30,8 +30,13 @@ GET         /purchasedTicket/:ticketId          controllers.PurchasedTicketContr
 GET         /userdetail                         controllers.AccountController.UserDetail
 POST        /userupdate                         controllers.AccountController.UserUpdate
 ## Admin
-GET         /admin                          controllers.AdminController.index
-POST        /admin/login                    controllers.AdminController.login
+GET         /admin                              controllers.AdminController.index
+POST        /admin/login                        controllers.AdminController.login
+GET         /admin/users                        controllers.AdminController.showUsers
+GET         /admin/users/:id/edit               controllers.AdminController.editUser(id: Long)
+POST        /admin/users/:id/update             controllers.AdminController.updateUser(id: Long)
+GET         /admin/users/:id/delete             controllers.AdminController.deleteUser(id: Long)
+POST        /admin/users/:id/destroy            controllers.AdminController.destroyUser(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

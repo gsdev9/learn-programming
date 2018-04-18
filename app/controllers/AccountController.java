@@ -62,7 +62,7 @@ public class AccountController extends Controller {
         User newUser = result.get();
         String userID = Controller.session().get("userID");
         newUser.setUserId(Long.parseLong(userID));
-        userService.updateUserDetail(newUser);
+        userService.updateUser(newUser);
         Controller.flash("result", accountConstants.UPDATE_SUCCESS);
         return Results.redirect("/index");
     }

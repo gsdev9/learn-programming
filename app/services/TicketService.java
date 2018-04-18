@@ -60,4 +60,13 @@ public class TicketService {
         ticketRepository.updateTicket(ticket);
     }
 
+    /**
+     * TicketRepositoryのdeleteTicketを呼び出す
+     *
+     * @param ticket
+     */
+    public void deleteTicket(Ticket ticket) {
+        ticketRepository.deleteTicket(ticket);
+    }
+
 }

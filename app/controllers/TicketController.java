@@ -10,7 +10,6 @@ import play.api.i18n.Lang;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
-import play.libs.Json;
 import play.mvc.*;
 import services.*;
 
@@ -228,7 +227,6 @@ public class TicketController extends Controller {
     public Result appoint(Long ticketId) {
 
         Form<MessageForm> f = formFactory.form(MessageForm.class).bindFromRequest();
-        System.out.println(Json.toJson(f.get()));
 
         Long userId = Long.valueOf(session("userID"));
 

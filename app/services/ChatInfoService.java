@@ -14,7 +14,7 @@ public class ChatInfoService {
     @Inject
     private ChatInfoRepository chatInfoRepository;
 
-    @Inject
+//    @Inject
 //    private UserDetailDTO userDetailDTO;
 
 

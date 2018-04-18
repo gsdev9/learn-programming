@@ -1,14 +1,80 @@
 let localStream = null;
 let peer = null;
 let existingCall = null;
+var rt = jsRoutes.controllers.WebSocketController.socket();
+var webSocket = null;
 
-var token = $('input[name="csrfToken"]').attr('value')
-$.ajaxSetup({
-    beforeSend: function (xhr) {
-        xhr.setRequestHeader('Csrf-Token', token);
+open();
+$("[data-name='message']").keypress(press);
+
+//****websocket***
+//websocketの初期設定
+function open() {
+    if (webSocket == null) {
+        // WebSocket の初期化
+        webSocket = new WebSocket(rt.webSocketURL());
+        // イベントハンドラの設定
+        webSocket.onopen = onOpen;
+        webSocket.onmessage = onMessage;
+        webSocket.onclose = onClose;
+        webSocket.onerror = onError;
     }
-});
+}
 
+// 接続イベント
+function onOpen(e) {
+    chat("接続しました。");
+}
+
+// メッセージ受信イベント
+function onMessage(e) {
+    if (e && e.data) {
+        chat(e.data);
+    }
+}
+
+// エラーイベント
+function onError(e) {
+    //chat("エラーが発生しました。");
+}
+
+// 切断イベント
+function onClose(e) {
+    chat("切断しました。3秒後に再接続します。(" + e.code + ")");
+    webSocket = null;
+    setTimeout("open()", 3000);
+}
+
+// キー押下時
+function press(event) {
+    // キーがEnterか判定
+    if (event && event.which == 13) {
+        // メッセージ取得
+        var message = $("[data-name='message']").val();
+        // 存在チェック
+        if (message && webSocket) {
+            // メッセージ送信
+            webSocket.send("" + message);
+            // メッセージ初期化
+            $("[data-name='message']").val("");
+        }
+    }
+}
+
+// チャットに表示
+function chat(message) {
+    // 100件まで残す
+    var chats = $("[data-name='chat']").find("div");
+    while (chats.length >= 100) {
+        chats = chats.last().remove();
+    }
+    // メッセージ表示
+    var msgtag = $("<div>").text(message);
+    $("[data-name='chat']").prepend(msgtag);
+}
+
+
+//***skyway***
 //カメラ映像、音声出力取得
 navigator.mediaDevices.getUserMedia({video: true, audio: true})
     .then(function (stream) {
@@ -32,7 +98,6 @@ peer = new Peer({
 peer.on('open', function () {
     $('#my-id').text(peer.id);
     var json = {'peer': peer.id};
-    // var r = jsRoutes.controllers.ChatController.peerIdSend();
     console.log(json);
     $.ajax(jsRoutes.controllers.ChatController.peerIdSend(peer.id)).done(function (data) {
         alert("ok");

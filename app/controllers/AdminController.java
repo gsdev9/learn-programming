@@ -2,13 +2,13 @@ package controllers;
 
 import dtos.UserDTO;
 import forms.AdminForm;
-import models.User;
+import models.*;
 import play.Logger;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.mvc.*;
-import services.UserService;
+import services.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -30,6 +30,9 @@ public class AdminController extends Controller {
 
     @Inject
     private UserDTO userDTO;
+
+    @Inject
+    private TicketService ticketService;
 
     @Inject
     public AdminController(FormFactory formFactory, MessagesApi messagesApi) {
@@ -69,7 +72,7 @@ public class AdminController extends Controller {
             Logger.warn("ユーザーが存在しません", f.get().userName);
             return Results.forbidden(views.html.admin.login.render(f));
         }
-        
+
         // 管理ユーザーチェック
         if (user.admin == null) {
             user.admin = false;
@@ -179,4 +182,13 @@ public class AdminController extends Controller {
         return redirect("/admin/users");
     }
 
+    @Transactional(readOnly = true)
+    public Result showTickets() {
+        List<Ticket> ticketList = ticketService.findAll();
+        if(ticketList.isEmpty()) {
+            flash("noTickets", "チケットが存在しません");
+        }
+
+        return Results.ok(views.html.admin.tickets.index.render(ticketList));
+    }
 }

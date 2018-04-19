@@ -1,0 +1,21 @@
+@(tickets: java.util.List[Ticket])
+
+@main("Tickets Lists") {
+    <h1>チケット一覧やで</h1>
+
+    <ul class="ticket_list">
+    @for(t <- tickets) {
+        <li id="@t.getTicketId">
+            @*<p><a href="@routes.AdminController.editUser(u.userId)">編集する</a></p>*@
+            @*<p><a href="@routes.AdminController.deleteUser(u.userId)">削除する</a></p>*@
+            <p>@t.title</p>
+            <p>@t.body</p>
+            <p>@t.date</p>
+            <p>@t.startAt</p>
+            <p>@t.endAt</p>
+            <p>@t.price</p>
+            <p>@t.user.userName</p>
+        </li>
+    }
+    </ul>
+}

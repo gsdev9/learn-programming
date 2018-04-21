@@ -41,6 +41,8 @@ GET         /admin/tickets                      controllers.AdminController.show
 GET         /admin/tickets/:id/edit             controllers.AdminController.editTicket(id: Long)
 POST        /admin/tickets/:id/confirm          controllers.AdminController.confirmEditedTicket(id: Long)
 POST        /admin/tickets/:id/update           controllers.AdminController.updateTicket(id: Long)
+GET         /admin/tickets/:id/delete           controllers.AdminController.deleteTicket(id: Long)
+POST        /admin/tikcets/:id/destroy          controllers.AdminController.destroyTicket(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

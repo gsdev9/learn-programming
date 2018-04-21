@@ -265,4 +265,51 @@ public class AdminController extends Controller {
 
         return redirect("/admin/tickets");
     }
+
+    /**
+     * チケット削除確認
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result deleteTicket(Long id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            Logger.warn("チケットが見つかりません。id={}", id);
+            return redirect("/admin/tickets");
+        }
+
+        TicketForm formData = new TicketForm();
+
+        BeanUtils.copyProperties(ticket, formData);
+
+        formData.date = DateUtils.toStringFromLocalDate(ticket.date, "uuuu-MM-dd");
+        formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
+        formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
+        formData.price = String.valueOf(ticket.price);
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
+
+        return Results.ok(views.html.admin.tickets.delete.render(f, id));
+    }
+
+    /**
+     * チケットの削除
+     *
+     * @param id
+     * @return
+     */
+    @Transactional
+    public Result destroyTicket(Long id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            Logger.warn("チケットが見つかりません。id={}", id);
+            return redirect("/admin/tickets");
+        }
+
+        ticketService.deleteTicket(ticket);
+
+        return redirect("/admin/tickets");
+    }
 }

@@ -7,7 +7,7 @@
     @for(t <- tickets) {
         <li id="@t.getTicketId">
             <p><a href="@routes.AdminController.editTicket(t.getTicketId)">編集する</a></p>
-            @*<p><a href="@routes.AdminController.deleteUser(u.userId)">削除する</a></p>*@
+            <p><a href="@routes.AdminController.deleteTicket(t.getTicketId)">削除する</a></p>
             <p>@t.title</p>
             <p>@t.body</p>
             <p>@t.date</p>

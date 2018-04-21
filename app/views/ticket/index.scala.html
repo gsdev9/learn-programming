@@ -29,7 +29,10 @@
         <p>@flash.get("appointed")</p>
     }
 
-    <ul>
+    <p><input type="text" name="input" id="input"></p>
+    <p><input type="submit" id="submit" value="SEARCH"></p>
+
+    <ul id="ticket_list">
         @for(l <- lists) {
         <li id="@l.getTicketId">
             <a href="@routes.TicketController.single(l.getTicketId.toLong)">
@@ -43,3 +46,5 @@
         }
     </ul>
 }
+
+<script src="@routes.Assets.at("js/search_by_input.js")"></script>

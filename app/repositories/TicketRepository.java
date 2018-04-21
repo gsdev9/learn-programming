@@ -54,6 +54,19 @@ public class TicketRepository {
     }
 
     /**
+     * タイトルかチケット内容で検索
+     *
+     * @param input
+     * @return
+     */
+    public List<Ticket> findByTitleOrBody(String input){
+        return jpa.em().createQuery("SELECT t FROM Ticket t WHERE t.title LIKE :title OR t.body LIKE :body", Ticket.class)
+            .setParameter("title", "%" + input + "%")
+            .setParameter("body", "%" + input + "%")
+            .getResultList();
+    }
+
+    /**
      * チケットの登録
      *
      * @param ticket

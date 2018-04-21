@@ -37,8 +37,17 @@ public class TicketService {
     /**
      * TickerRepositoryのfinByUserを呼び出す
      *
+     * @param user
+     * @return
      */
     public List<Ticket> findByUser(User user) { return ticketRepository.findByUser(user); }
+
+    /**
+     * TicketRepositoryのfindByTitleOrBodyを呼び出す
+     * @param input
+     * @return
+     */
+    public List<Ticket> findByTitleOrBody(String input) { return ticketRepository.findByTitleOrBody(input); }
 
     /**
      * TicketRepositoryのcreateTicketを呼び出す

@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.common.base.Strings;
 import dtos.TicketDTO;
 import dtos.utils.DateUtils;
 import forms.*;
@@ -10,12 +11,12 @@ import play.api.i18n.Lang;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
+import play.libs.Json;
 import play.mvc.*;
-import scala.annotation.meta.param;
 import services.*;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.*;
 
 /**
  * チケット情報に関するコントローラ
@@ -68,6 +69,33 @@ public class TicketController extends Controller {
             Results.notFound(views.html.ticket.index.render(tickets));
         }
         return Results.ok(views.html.ticket.index.render(tickets));
+    }
+
+    /**
+     * フォーム入力によるチケット検索
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result searchByInput() {
+        DynamicForm f = formFactory.form().bindFromRequest();
+
+        String input = Strings.nullToEmpty(f.get("input"));
+        if(input.isEmpty()) {
+            return Results.ok();
+        }
+
+        List<Ticket> tickets = ticketService.findByTitleOrBody(input);
+
+        if (tickets.isEmpty()) {
+            Logger.warn("検索結果に該当するチケットがありませんでした.。input={}", input);
+            return Results.ok(Json.toJson(tickets));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("tickets", tickets);
+
+        return Results.ok(Json.toJson(map));
     }
 
     /**

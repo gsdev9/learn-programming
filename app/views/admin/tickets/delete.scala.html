@@ -3,7 +3,7 @@
 
 @main("Ticket Delete Confirm") {
 
-    <form action="@routes.AdminController.destroyTicket(id)" method="post">
+    <form action="@routes.TicketController.destroy(id)" method="post">
 
         @helper.CSRF.formField
         <p>日付：@form("date").getValue.get() <input type="hidden" name="date" value="@form("date").getValue.get()"></p>
@@ -12,7 +12,7 @@
         <p>料金：@form("price").getValue.get() <input type="hidden" name="price" value="@form("price").getValue.get()"></p>
         <p>タイトル：@form("title").getValue.get() <input type="hidden" name="title" value="@form("title").getValue.get()"></p>
         <p>チケット内容：@form("body").getValue.get() <input type="hidden" name="body" value="@form("body").getValue.get()"></p>
-        <p><a href="@routes.AdminController.showTickets()">チケット管理画面に戻る</a></p>
+        <p><a href="@routes.AccountController.UserDetail">プロフィール画面に戻る</a></p>
         <input type="submit" value="チケットを削除する">
 
     </form>

@@ -57,6 +57,7 @@ public class TicketService {
     public void createTicket(Ticket ticket, Long userId) {
         User user = userService.findById(userId);
         ticket.user = user;
+        System.out.println(ticket);
         ticketRepository.createTicket(ticket);
     }
 

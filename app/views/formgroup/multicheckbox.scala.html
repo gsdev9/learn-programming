@@ -1,0 +1,22 @@
+@(
+    form: play.data.Form[_],
+    name: String,
+    label: String,
+    items: java.util.Map[String, String],
+    required: Boolean = false,
+    htmlArgs: scala.collection.immutable.Map[Symbol, Any] = scala.collection.immutable.Map.empty
+)
+
+<div class="form-group @if(form(name).hasErrors) {has-error}">
+    <label class="control-label">@label @if(required == true) {<strong class="text-danger">*</strong>}</label><br>
+    @for((key, value) <- items) {
+        <input type="checkbox" name="@{name + "[]"}" value="@key" @toHtmlArgs(htmlArgs)
+        @helper.repeat(form(name), min = 0) { r =>
+            @if(r.value.get.toLong == key.toLong) {checked="checked"}
+        }
+        > @value
+    }
+    @for(error <- form(name).errors()) {
+        <p class="help-block">@Messages(error.message(), error.arguments().toArray: _*)</p>
+    }
+</div>

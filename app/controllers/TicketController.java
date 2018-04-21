@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
 import play.data.*;
-import play.db.jpa.Transactional;
+import play.db.jpa.*;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.*;
@@ -29,6 +29,8 @@ public class TicketController extends Controller {
 
     private final MessagesApi messagesApi;
 
+    private final JPAApi jpa;
+
     @Inject
     private TicketService ticketService;
 
@@ -36,12 +38,16 @@ public class TicketController extends Controller {
     private PurchasedTicketService purchasedTicketService;
 
     @Inject
+    private TicketLabelService ticketLabelService;
+
+    @Inject
     private MessageService messageService;
 
     @Inject
-    public TicketController(FormFactory formFactory, MessagesApi messagesApi) {
+    public TicketController(FormFactory formFactory, MessagesApi messagesApi, JPAApi jpa) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
+        this.jpa = jpa;
     }
 
     private boolean checkUser(Ticket ticket, Long userId) {
@@ -122,9 +128,9 @@ public class TicketController extends Controller {
      */
     public Result create() {
 
-        Form<TicketForm> f = formFactory.form(TicketForm.class);
+        Form<TicketForm> ticketForm = formFactory.form(TicketForm.class);
 
-        return Results.ok(views.html.ticket.create.render(f));
+        return Results.ok(views.html.ticket.create.render(ticketForm));
 
     }
 
@@ -135,14 +141,14 @@ public class TicketController extends Controller {
      */
     public Result createConfirm() {
 
-        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+        Form<TicketForm> ticketForm = formFactory.form(TicketForm.class).bindFromRequest();
 
-        if(f.hasErrors()) {
-            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
-            return Results.badRequest(views.html.ticket.create.render(f));
+        if(ticketForm.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), ticketForm.errorsAsJson());
+            return Results.badRequest(views.html.ticket.create.render(ticketForm));
         }
 
-        return Results.ok(views.html.ticket.create_confirm.render(f));
+        return Results.ok(views.html.ticket.create_confirm.render(ticketForm));
 
     }
 
@@ -154,17 +160,41 @@ public class TicketController extends Controller {
     @Transactional
     public Result regist() {
 
-        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+        Form<TicketForm> ticketForm = formFactory.form(TicketForm.class).bindFromRequest();
 
-        if(f.hasErrors()) {
-            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", f.errorsAsJson()));
-
-            return Results.badRequest(views.html.ticket.create_confirm.render(f));
+        if(ticketForm.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), ticketForm.errorsAsJson());
+            return Results.badRequest(views.html.ticket.create.render(ticketForm));
         }
 
-        TicketForm ticketForm = f.get();
+        TicketForm ticketFormGet = ticketForm.get();
+
+        // チケットラベルを作成
+        TicketLabel ticketLabel = new TicketLabel();
+        ticketLabel.c = ticketFormGet.c;
+        ticketLabel.cPlusPlus = ticketFormGet.cPlusPlus;
+        ticketLabel.cSharp = ticketFormGet.cSharp;
+        ticketLabel.java = ticketFormGet.java;
+        ticketLabel.javaScript = ticketFormGet.javaScript;
+        ticketLabel.php = ticketFormGet.php;
+        ticketLabel.ruby = ticketFormGet.ruby;
+        ticketLabel.python = ticketFormGet.python;
+        ticketLabel.perl = ticketFormGet.perl;
+        ticketLabel.r = ticketFormGet.r;
+        ticketLabel.go = ticketFormGet.go;
+        ticketLabel.scala = ticketFormGet.scala;
+        ticketLabel.objectiveC = ticketFormGet.objectiveC;
+        ticketLabel.swift = ticketFormGet.swift;
+        ticketLabel.kotlin = ticketFormGet.kotlin;
+        ticketLabel.scratch = ticketFormGet.scratch;
+        ticketLabel.blockly = ticketFormGet.blockly;
+        ticketLabel.sqlLang = ticketFormGet.sqlLang;
+        jpa.em().persist(ticketLabel);
+
+        // チケットを作成
         Ticket ticket = new Ticket();
-        Ticket newTicket = TicketDTO.convertToEntity(ticket, ticketForm);
+        Ticket newTicket = TicketDTO.convertToEntity(ticket, ticketFormGet, ticketLabel);
+
         Long userId = Long.valueOf(session("userID"));
 
         ticketService.createTicket(newTicket, userId);
@@ -183,6 +213,7 @@ public class TicketController extends Controller {
     public Result edit(Long id) {
 
         Ticket ticket = ticketService.findById(id);
+        TicketLabel ticketLabel = ticketLabelService.findById(ticket.getTicketLabel().TicketLabelId);
         TicketForm formData = new TicketForm();
 
         BeanUtils.copyProperties(ticket, formData);
@@ -191,6 +222,24 @@ public class TicketController extends Controller {
         formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
         formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
         formData.price = String.valueOf(ticket.price);
+        formData.c = ticketLabel.c;
+        formData.cPlusPlus = ticketLabel.cPlusPlus;
+        formData.cSharp = ticketLabel.cSharp;
+        formData.java = ticketLabel.java;
+        formData.javaScript = ticketLabel.javaScript;
+        formData.php = ticketLabel.php;
+        formData.ruby = ticketLabel.ruby;
+        formData.python = ticketLabel.python;
+        formData.perl = ticketLabel.perl;
+        formData.r = ticketLabel.r;
+        formData.go = ticketLabel.go;
+        formData.scala = ticketLabel.scala;
+        formData.objectiveC = ticketLabel.objectiveC;
+        formData.swift = ticketLabel.swift;
+        formData.kotlin = ticketLabel.kotlin;
+        formData.scratch = ticketLabel.scratch;
+        formData.blockly = ticketLabel.blockly;
+        formData.sqlLang = ticketLabel.sqlLang;
 
         Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
 
@@ -239,7 +288,7 @@ public class TicketController extends Controller {
             return Results.badRequest(views.html.ticket.index.render(tickets));
         }
 
-        Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
+        Ticket updateTicket = TicketDTO.ticketLabelToEntityForUpdate(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
         flash("updated", "チケットを更新しました");

@@ -40,7 +40,6 @@ public class WebSocketController extends Controller {
             Flow out = ActorFlow.actorRef(ChatResponseActor::props, actorSystem, materializer);
             Flow broad = in.viaMat(roomClient.bus, Keep.right()).viaMat(out, Keep.right());
             return broad;
-//            return in.viaMat(roomClient.bus, Keep.both());
         });
     }
 }

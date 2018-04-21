@@ -74,18 +74,18 @@ function chat(message) {
 }
 
 
-//***skyway***
-//カメラ映像、音声出力取得
-navigator.mediaDevices.getUserMedia({video: true, audio: true})
-    .then(function (stream) {
-        // Success
-        $('#my-video').get(0).srcObject = stream;
-        localStream = stream;
-    }).catch(function (error) {
-    // Error
-    console.error('mediaDevice.getUserMedia() error:', error);
-    return;
-});
+// //***skyway***
+// //カメラ映像、音声出力取得
+// navigator.mediaDevices.getUserMedia({video: true, audio: true})
+//     .then(function (stream) {
+//         // Success
+//         $('#my-video').get(0).srcObject = stream;
+//         localStream = stream;
+//     }).catch(function (error) {
+//     // Error
+//     console.error('mediaDevice.getUserMedia() error:', error);
+//     return;
+// });
 
 //peerオブジェクトの作成
 peer = new Peer({
@@ -180,3 +180,49 @@ function setupEndCallUI() {
     $('#make-call').hide();
     $('#end-call').show();
 }
+
+
+var screenshare = ScreenShare.create({debug: true});
+
+
+// window.addEventListner('message', function (ev) {
+//     if (ev.data.type === "ScreenShareInjected") {
+//         console.log('screen share extension is injected, get ready to start');
+//         startScreenShare();
+//     }
+// }, false);
+
+
+// window.addEventListner('message', function (ev) {
+//     if (ev.data.type === "ScreenShareInjected") {
+//         console.log('screen share extension is injected, get ready to start');
+startScreenShare();
+console.log(screenshare.isScreenShareAvailable());
+//     }
+// }, false);
+
+// スクリーンシェアを開始
+
+
+function startScreenShare() {
+
+    screenshare.start({
+        width: 500,
+        height: 600,
+        frameRate: 2,
+    })
+        .then(function (stream) {
+            $('#my-video').get(0).srcObject = stream;
+            localStream = stream;
+        })
+        .catch(function (error) {
+            // error callback
+        });
+}
+
+// スクリーンシェアを終了
+$('#stop-screen').click(function () {
+    localStream.stop();
+});
+
+

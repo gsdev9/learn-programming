@@ -21,8 +21,7 @@ public class ChatController extends Controller {
     public Result chatRoute() {
         return Results.ok(views.html.chat.chat.render());
     }
-
-    //ajaxでPOSTするとうまく値が取れなかったのでGETで一旦実装
+    
     public Result peerIdSend(String peerId) {
         String userID = Controller.session().get("userID");
         ChatInfo chatInfo = chatInfoService.findById(Long.parseLong(userID));

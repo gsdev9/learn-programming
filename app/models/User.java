@@ -55,6 +55,9 @@ public class User {
     /** クレジットセキュリテイNo */
     public Integer cardCVC;
 
+    /** adminフラグ */
+    public Boolean admin;
+
     /** チケット情報 */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     @JsonIgnore
@@ -175,5 +178,13 @@ public class User {
 
     public void setUserReviews(List<UserReview> userReviews) {
         this.userReviews = userReviews;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

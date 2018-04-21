@@ -1,0 +1,17 @@
+@(users: java.util.List[User])
+
+@main("User Lists") {
+    <h1>ユーザー一覧やで</h1>
+
+    <ul class="user_list">
+    @for(u <- users) {
+        <li id="@u.userId">
+            <p><a href="@routes.AdminController.editUser(u.userId)">編集する</a></p>
+            <p><a href="@routes.AdminController.deleteUser(u.userId)">削除する</a></p>
+            <p>@u.userName</p>
+            <p>@u.nickName</p>
+            <p>@u.email</p>
+        </li>
+    }
+    </ul>
+}

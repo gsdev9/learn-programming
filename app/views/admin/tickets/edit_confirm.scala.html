@@ -1,0 +1,20 @@
+@import forms.TicketForm
+@(form: play.data.Form[TicketForm], id: Long)
+
+@main("Ticket Create Confirm") {
+
+    <form action="@routes.AdminController.updateTicket(id)" method="post">
+
+        @helper.CSRF.formField
+        <p>日付：@form("date").getValue.get() <input type="hidden" name="date" value="@form("date").getValue.get()"></p>
+        <p>授業開始時間：@form("startAt").getValue.get() <input type="hidden" name="startAt" value="@form("startAt").getValue.get()"></p>
+        <p>授業終了時間：@form("endAt").getValue.get() <input type="hidden" name="endAt" value="@form("endAt").getValue.get()"></p>
+        <p>料金：@form("price").getValue.get() <input type="hidden" name="price" value="@form("price").getValue.get()"></p>
+        <p>タイトル：@form("title").getValue.get() <input type="hidden" name="title" value="@form("title").getValue.get()"></p>
+        <p>チケット内容：@form("body").getValue.get() <input type="hidden" name="body" value="@form("body").getValue.get()"></p>
+        <p><a href="@routes.AdminController.editTicket(id)">入力画面に戻る</a></p>
+        <input type="submit" value="チケットを更新する">
+
+    </form>
+
+}

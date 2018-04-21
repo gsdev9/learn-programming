@@ -1,9 +1,12 @@
 package controllers;
 
-import dtos.UserDTO;
-import forms.AdminForm;
+import dtos.*;
+import dtos.utils.DateUtils;
+import forms.*;
 import models.*;
+import org.springframework.beans.BeanUtils;
 import play.Logger;
+import play.api.i18n.Lang;
 import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
@@ -87,7 +90,7 @@ public class AdminController extends Controller {
     }
 
     /**
-     * ユーザー一覧画面
+     * ユーザー一覧
      *
      * @return
      */
@@ -102,7 +105,7 @@ public class AdminController extends Controller {
     }
 
     /**
-     * ユーザー情報の編集画面
+     * ユーザー情報の編集
      *
      * @param id
      * @return
@@ -182,6 +185,11 @@ public class AdminController extends Controller {
         return redirect("/admin/users");
     }
 
+    /**
+     * チケット一覧
+     *
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result showTickets() {
         List<Ticket> ticketList = ticketService.findAll();
@@ -190,5 +198,71 @@ public class AdminController extends Controller {
         }
 
         return Results.ok(views.html.admin.tickets.index.render(ticketList));
+    }
+
+    /**
+     * チケット編集
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result editTicket(Long id) {
+        Ticket ticket = ticketService.findById(id);
+        if (ticket == null) {
+            Logger.warn("チケットが見つかりません。id={}", id);
+            return redirect("/admin/tickets");
+        }
+
+        TicketForm formData = new TicketForm();
+
+        BeanUtils.copyProperties(ticket, formData);
+
+        formData.date = DateUtils.toStringFromLocalDate(ticket.date, "uuuu-MM-dd");
+        formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
+        formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
+        formData.price = String.valueOf(ticket.price);
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
+
+        return Results.ok(views.html.admin.tickets.edit.render(f, id));
+    }
+
+    /**
+     * チケット編集確認
+     *
+     * @return
+     */
+    public Result confirmEditedTicket(Long id) {
+        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        if (f.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
+            return Results.badRequest(views.html.admin.tickets.edit.render(f, id));
+        }
+
+        return Results.ok(views.html.admin.tickets.edit_confirm.render(f, id));
+    }
+
+    /**
+     * チケッtの更新
+     *
+     * @param id
+     * @return
+     */
+    @Transactional
+    public Result updateTicket(Long id) {
+        Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        if (f.hasErrors()) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
+            return Results.badRequest(views.html.admin.tickets.edit_confirm.render(f, id));
+        }
+
+        Ticket ticket = ticketService.findById(id);
+        Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
+        ticketService.updateTicket(updateTicket);
+
+        return redirect("/admin/tickets");
     }
 }

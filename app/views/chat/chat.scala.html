@@ -23,8 +23,11 @@
         <div data-name="chat"></div>
         @javascriptRouter("jsRoutes")(
             routes.javascript.ChatController.peerIdSend,
-            //            routes.javascript.WebSocketController.socket
         )
     </div>
 
+    <script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+    <script src="https://cdn.webrtc.ecl.ntt.com/screenshare-latest.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="@routes.Assets.at("js/webrtc.js")"></script>
 }

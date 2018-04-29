@@ -1,6 +1,8 @@
 package controllers;
 
 import models.ChatInfo;
+import play.Logger;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -21,7 +23,8 @@ public class ChatController extends Controller {
     public Result chatRoute() {
         return Results.ok(views.html.chat.chat.render());
     }
-    
+
+    @Transactional
     public Result peerIdSend(String peerId) {
         String userID = Controller.session().get("userID");
         ChatInfo chatInfo = chatInfoService.findById(Long.parseLong(userID));
@@ -29,14 +32,15 @@ public class ChatController extends Controller {
             chatInfo.setUserId(Long.parseLong(userID));
             chatInfo.setPeerId(peerId);
         }
-        //chatルームID取得方後から決める
+        //TODO:chatルームID取得方法後から決める
         chatInfo.setChatRoomId(1L);
         chatInfoService.registChatInfo(chatInfo);
+        Logger.info("userId:{} , peerId:{}", userID, peerId);
         return Results.ok();
     }
 
     public Result peerIdGet(String peerId) {
-        //chatルームID取得方後から決める
+        //TODO:chatルームID取得方法後から決める
         List<ChatInfo> chatInfoList = chatInfoService.findByChatRoomId(1L);
         if (chatInfoList != null) {
             for (ChatInfo bean : chatInfoList) {

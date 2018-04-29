@@ -3,11 +3,11 @@
 @main("user detail") {
 
     <div class="pure-g">
-
+        <button id="tab">画面共有</button>
             <!-- Video area -->
         <div class="pure-u-2-3" id="video-container">
             <video id="their-video" autoplay></video>
-            <video id="my-video" muted="true" autoplay height="100px" width="auto"></video>
+            <video id="my-video" muted="true" autoplay height="200px" width="auto"></video>
         </div>
         <form id="make-call" class="pure-form">
             <input type="text" placeholder="Call user id..." id="callto-id">
@@ -18,12 +18,12 @@
             <button href="#" class="pure-button pure-button-success" type="submit">End Call</button>
             @CSRF.formField
         </form>
+        <button id="startchat">chat start</button>
         <input type="text" data-name="message" size="100" />
-        <hr />
         <div data-name="chat"></div>
         @javascriptRouter("jsRoutes")(
             routes.javascript.ChatController.peerIdSend,
-            routes.javascript.WebSocketController.socket
+            //            routes.javascript.WebSocketController.socket
         )
     </div>
 

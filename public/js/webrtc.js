@@ -1,91 +1,31 @@
 let localStream = null;
 let peer = null;
 let existingCall = null;
-var rt = jsRoutes.controllers.WebSocketController.socket();
-var webSocket = null;
+let screenStream = new MediaStream();
+let yourPeer = null;
+let call = null;
+let dataConnection = null;
 
-open();
 $("[data-name='message']").keypress(press);
 
-//****websocket***
-//websocketの初期設定
-function open() {
-    if (webSocket == null) {
-        // WebSocket の初期化
-        webSocket = new WebSocket(rt.webSocketURL());
-        // イベントハンドラの設定
-        webSocket.onopen = onOpen;
-        webSocket.onmessage = onMessage;
-        webSocket.onclose = onClose;
-        webSocket.onerror = onError;
-    }
-}
+// ***skyway***
 
-// 接続イベント
-function onOpen(e) {
-    chat("接続しました。");
-}
-
-// メッセージ受信イベント
-function onMessage(e) {
-    if (e && e.data) {
-        chat(e.data);
-    }
-}
-
-// エラーイベント
-function onError(e) {
-    //chat("エラーが発生しました。");
-}
-
-// 切断イベント
-function onClose(e) {
-    chat("切断しました。3秒後に再接続します。(" + e.code + ")");
-    webSocket = null;
-    setTimeout("open()", 3000);
-}
-
-// キー押下時
-function press(event) {
-    // キーがEnterか判定
-    if (event && event.which == 13) {
-        // メッセージ取得
-        var message = $("[data-name='message']").val();
-        // 存在チェック
-        if (message && webSocket) {
-            // メッセージ送信
-            webSocket.send("" + message);
-            // メッセージ初期化
-            $("[data-name='message']").val("");
-        }
-    }
-}
-
-// チャットに表示
-function chat(message) {
-    // 100件まで残す
-    var chats = $("[data-name='chat']").find("div");
-    while (chats.length >= 100) {
-        chats = chats.last().remove();
-    }
-    // メッセージ表示
-    var msgtag = $("<div>").text(message);
-    $("[data-name='chat']").prepend(msgtag);
-}
-
-
-// //***skyway***
-// //カメラ映像、音声出力取得
-// navigator.mediaDevices.getUserMedia({video: true, audio: true})
-//     .then(function (stream) {
-//         // Success
-//         $('#my-video').get(0).srcObject = stream;
-//         localStream = stream;
-//     }).catch(function (error) {
-//     // Error
-//     console.error('mediaDevice.getUserMedia() error:', error);
-//     return;
-// });
+//***video***
+// カメラ映像、音声出力取得
+navigator.mediaDevices.getUserMedia({video: true, audio: true})
+    .then(function (cameraStream) {
+        // Success
+        $('#my-video').get(0).srcObject = cameraStream;
+        localStream = cameraStream;
+        //音声のトラックを取得後、streamに詰める
+        cameraStream.getAudioTracks().forEach(track => {
+            screenStream.addTrack(track.clone())
+        });
+    }).catch(function (error) {
+    // Error
+    console.error('mediaDevice.getUserMedia() error:', error);
+    return;
+});
 
 //peerオブジェクトの作成
 peer = new Peer({
@@ -100,9 +40,9 @@ peer.on('open', function () {
     var json = {'peer': peer.id};
     console.log(json);
     $.ajax(jsRoutes.controllers.ChatController.peerIdSend(peer.id)).done(function (data) {
-        alert("ok");
+        console.log("ajax ok");
     }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-        alert("error");
+        console.log("ajax error");
     })
 });
 
@@ -118,8 +58,11 @@ peer.on('disconnected', function () {
 //発信処理
 //相手のPeerID、自分自身のlocalStreamを引数にセットし発信
 $('#make-call').submit(function (e) {
+    if (yourPeer == null || $('#callto-id').val() != null) {
+        yourPeer = $('#callto-id').val();
+    }
     e.preventDefault();
-    const call = peer.call($('#callto-id').val(), localStream);
+    call = peer.call(yourPeer, localStream);
     setupCallEventHandlers(call);
 });
 
@@ -132,6 +75,7 @@ $('#end-call').click(function () {
 peer.on('call', function (call) {
     call.answer(localStream);
     setupCallEventHandlers(call);
+
 });
 
 //着信時のイベントハンドラー
@@ -185,44 +129,107 @@ function setupEndCallUI() {
 var screenshare = ScreenShare.create({debug: true});
 
 
-// window.addEventListner('message', function (ev) {
-//     if (ev.data.type === "ScreenShareInjected") {
-//         console.log('screen share extension is injected, get ready to start');
-//         startScreenShare();
-//     }
-// }, false);
-
-
-// window.addEventListner('message', function (ev) {
-//     if (ev.data.type === "ScreenShareInjected") {
-//         console.log('screen share extension is injected, get ready to start');
-startScreenShare();
-console.log(screenshare.isScreenShareAvailable());
-//     }
-// }, false);
-
 // スクリーンシェアを開始
+
+$("#tab").on("click", function () {
+    //stream作成
+    startScreenShare();
+});
+
 
 
 function startScreenShare() {
+    console.log(screenshare.isScreenShareAvailable());
+    if (screenshare.isScreenShareAvailable() == true) {
 
-    screenshare.start({
-        width: 500,
-        height: 600,
-        frameRate: 2,
-    })
-        .then(function (stream) {
-            $('#my-video').get(0).srcObject = stream;
-            localStream = stream;
+        screenshare.start({
+            width: 1200,
+            height: 800,
+            frameRate: 2,
         })
-        .catch(function (error) {
-            // error callback
-        });
+            .then(function (videoStream) {
+                //ビデオのトラック取得後、streamに詰める
+                videoStream.getVideoTracks().forEach(track => {
+                    screenStream.addTrack(track.clone())
+                });
+                $('#my-video').get(0).srcObject = screenStream;
+                localStream = screenStream
+
+                //通話の再構築
+                if (existingCall) {
+                    call = null;
+                    call = peer.call(yourPeer, localStream);
+                    setupCallEventHandlers(call);
+                }
+            })
+            .catch(function (error) {
+                // error callback
+            });
+    }
+    else {
+        alert('Screen Share cannot be used. Please install the Chrome extension.');
+    }
 }
 
 // スクリーンシェアを終了
 $('#stop-screen').click(function () {
     localStream.stop();
 });
+
+
+//***Chat***
+// 発信側
+$('#startchat').on("click", function () {
+    if ($('#callto-id').val() || dataConnection == null) {
+        dataConnection = peer.connect($('#callto-id').val());
+        dataConnection.on('data', function (data) {
+            chat(data);
+        });
+    }
+})
+
+// 着信側
+peer.on('connection', connection => {
+    dataConnection = connection;
+    dataConnection.on('data', function (data) {
+        chat(data);
+    });
+});
+
+dataConnection.on('data', function (data) {
+    chat(data);
+});
+
+// キー押下時
+function press(event) {
+    // キーがEnterか判定
+    if (event && event.which == 13) {
+        // メッセージ取得
+        //TODO:ユーザー名を動的にする。
+        var message = "userName > " + $("[data-name='message']").val();
+        // 存在チェック
+        if (message) {
+            // メッセージ送信
+            //TODO:サーバーサイドにチャットの内容を送信してDBに入れる
+            dataConnection.send(message);
+            chat(message)
+            // メッセージ初期化
+            $("[data-name='message']").val("");
+        }
+    }
+}
+
+
+// チャットに表示
+function chat(message) {
+    // 100件まで残す
+    var chats = $("[data-name='chat']").find("div");
+    while (chats.length >= 100) {
+        chats = chats.last().remove();
+    }
+    // メッセージ表示
+    var msgtag = $("<div>").text(message);
+    $("[data-name='chat']").prepend(msgtag);
+}
 
 

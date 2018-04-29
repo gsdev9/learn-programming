@@ -20,3 +20,10 @@ libraryDependencies ++= Seq(
   "org.pac4j" % "play-pac4j" % "3.0.0",
   "org.pac4j" % "pac4j-oauth" % "2.0.0"
 )
+
+// https://mvnrepository.com/artifact/org.webjars/jquery
+libraryDependencies += "org.webjars" % "jquery" % "3.3.1"
+// https://mvnrepository.com/artifact/org.webjars/bootstrap
+libraryDependencies += "org.webjars" % "bootstrap" % "3.3.7-1"
+// https://mvnrepository.com/artifact/org.webjars/Eonasdan-bootstrap-datetimepicker
+libraryDependencies += "org.webjars" % "Eonasdan-bootstrap-datetimepicker" % "4.17.43"

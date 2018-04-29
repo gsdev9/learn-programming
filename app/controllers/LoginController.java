@@ -74,6 +74,7 @@ public class LoginController extends Controller {
         }
 
         session("userID", String.valueOf(user.userId));
+        flash("signin", "ログインしました");
         return redirect("/top");
     }
 

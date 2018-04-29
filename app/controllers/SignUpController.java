@@ -125,18 +125,9 @@ public class SignUpController extends Controller {
             return badRequest(views.html.signup.input.render(f));
         }
 
-        flash("success", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.status.200"));
+        flash("signup", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.status.200"));
         session("userID", String.valueOf(user.userId));
         return redirect("/top");
-    }
-
-    /**
-     * 登録後のリダイレクトページ
-     *
-     * @return
-     */
-    public Result top() {
-        return Results.ok(views.html.signup.top.render());
     }
 
 }

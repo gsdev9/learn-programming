@@ -1,0 +1,36 @@
+@(lists: java.util.List[Ticket])
+
+@main("Top Page with Login") {
+    @if(flash.containsKey("signup")) {
+        <p>@flash.get("signup")</p>
+    }
+    @if(flash.containsKey("created")) {
+        <p>@flash.get("created")</p>
+    }
+    @if(flash.containsKey("updated")) {
+        <p>@flash.get("updated")</p>
+    }
+    @if(flash.containsKey("signin")) {
+        <p>@flash.get("signin")</p>
+    }
+    @if(flash.containsKey("result")) {
+        <p>@flash.get("result")</p>
+    }
+    @if(flash.containsKey("notFound")) {
+        <p>@flash.get("notFound")</p>
+    }
+
+    <ul>
+        @for(l <- lists) {
+        <li id="@l.getTicketId">
+            <a href="@routes.TicketController.single(l.getTicketId.toLong)">
+                <img src="@l.getUser.getThumbnailPath">
+                <h3>@l.getTitle</h3>
+                <p>@l.getBody</p>
+                <p>@l.getDate</p>
+                <p>@l.getPrice 円</p>
+            </a>
+        </li>
+        }
+    </ul>
+}

@@ -1,16 +1,14 @@
 package controllers;
 
 import controllers.constants.AccountConstants;
-import models.User;
-import play.data.Form;
-import play.data.FormFactory;
+import models.*;
+import play.data.*;
 import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Results;
-import services.UserService;
+import play.mvc.*;
+import services.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class AccountController extends Controller {
 
@@ -18,6 +16,9 @@ public class AccountController extends Controller {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    TicketService ticketService;
 
     @Inject
     private AccountConstants accountConstants;
@@ -38,7 +39,10 @@ public class AccountController extends Controller {
         String userID = Controller.session().get("userID");
         User user = userService.findById(Long.parseLong(userID));
         form = form.fill(user);
-        return Results.ok(views.html.user.userUpdate.render(form));
+
+        List<Ticket> myTickets = ticketService.findByUser(user);
+
+        return Results.ok(views.html.user.userUpdate.render(form, myTickets));
     }
 
     /**
@@ -55,7 +59,7 @@ public class AccountController extends Controller {
         newUser.setUserId(Long.parseLong(userID));
         userService.updateUserDetail(newUser);
         Controller.flash("result", accountConstants.UPDATE_SUCCESS);
-        return Results.redirect("/top");
+        return Results.redirect("/index");
     }
 
 }

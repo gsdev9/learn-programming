@@ -196,10 +196,6 @@ peer.on('connection', connection => {
     });
 });
 
-dataConnection.on('data', function (data) {
-    chat(data);
-});
-
 // キー押下時
 function press(event) {
     // キーがEnterか判定

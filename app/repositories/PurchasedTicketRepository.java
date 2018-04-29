@@ -1,14 +1,18 @@
 package repositories;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import models.PurchasedTicket;
+import play.Logger;
 import play.db.jpa.JPAApi;
+import play.libs.Json;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
- * ChatInfoエンティティに対するCURD処理
+ * 購入済みチケットのCRUD処理
+ *
+ * @author arapiku
  */
-@Singleton
 public class PurchasedTicketRepository {
 
     private final JPAApi jpa;
@@ -18,42 +22,40 @@ public class PurchasedTicketRepository {
         this.jpa = jpa;
     }
 
-
     /**
-     * purchasedTicketのID検索
+     * ユーザーに紐づく購入済みチケットリストの取得
      *
-     * @param purchasedTicketId
+     * @param userId
      * @return
      */
-    public PurchasedTicket find(Long purchasedTicketId) {
-        return jpa.em().find(PurchasedTicket.class, purchasedTicketId);
+    public List<PurchasedTicket> findByUserId(Long userId) {
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.ticket.user.userId = :ownerId OR p.buyer.userId = :buyerId", PurchasedTicket.class)
+            .setParameter("ownerId", userId)
+            .setParameter("buyerId", userId)
+            .getResultList();
     }
 
+    /**
+     * 購入済みチケット情報の取得
+     *
+     * @param purchasedTicketId
+     * @param userId
+     * @return
+     */
+    public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.purchasedTicketId = :purchasedTicketId AND p.buyer.userId = :userId", PurchasedTicket.class)
+            .setParameter("purchasedTicketId", purchasedTicketId)
+            .setParameter("userId", userId)
+            .getSingleResult();
+    }
 
     /**
-     * purchasedTicketの新規登録
+     * 購入済みチケットの登録
      *
      * @param purchasedTicket
      */
-    public void registchatPurchasedTicket(PurchasedTicket purchasedTicket) {
+    public void create(PurchasedTicket purchasedTicket) {
         jpa.em().persist(purchasedTicket);
-    }
-
-    /**
-     * purchasedTicketの論理削除
-     *
-     * @param purchasedTicket
-     */
-    public void deletechatPurchasedTicket(PurchasedTicket purchasedTicket) {
-        jpa.em().remove(purchasedTicket);
-    }
-
-    /**
-     * purchasedTicket情報の変更後
-     *
-     * @param purchasedTicket
-     */
-    public void updatechatPurchasedTicket(PurchasedTicket purchasedTicket) {
-        jpa.em().merge(purchasedTicket);
+        Logger.debug("チケットが購入されました： {}", Json.toJson(purchasedTicket));
     }
 }

@@ -1,46 +1,65 @@
 package services;
 
-import models.PurchasedTicket;
+import models.*;
 import repositories.PurchasedTicketRepository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
- * PurchasedTicketRepositoryに関するサービス層
+ * 購入済みチケット
+ *
+ * @author arapiku
  */
 public class PurchasedTicketService {
+
+    @Inject
+    private UserService userService;
+
+    @Inject
+    private TicketService ticketService;
 
     @Inject
     private PurchasedTicketRepository purchasedTicketRepository;
 
     /**
-     * PurchasedTicketRepositoryのfind()を呼び出す
+     * PurchasedTicketRepositoryのfindByUserIdを呼び出す
      *
-     * @param id
+     * @param userId
      * @return
      */
-    public PurchasedTicket findById(Long id) {
-        return purchasedTicketRepository.find(id);
-    }
-
-
-    /**
-     * PurchasedTicketRepositoryのregist()を呼び出す
-     *
-     * @param purchasedTicket
-     */
-    public void registPurchasedTicket(PurchasedTicket purchasedTicket) {
-        purchasedTicketRepository.registchatPurchasedTicket(purchasedTicket);
+    public List<PurchasedTicket> findByUserId(Long userId) {
+        return purchasedTicketRepository.findByUserId(userId);
     }
 
     /**
-     * PurchasedTicketRepositoryのdelete()を呼び出す
+     * PurchasedTicketRepositoryのfindByTicketIdAndUserIdを呼び出す
      *
-     * @param id
+     * @param purchasedTicketId
+     * @param userId
+     * @return
      */
-    public void deletePurchasedTicket(Long id) {
-        PurchasedTicket purchasedTicket = purchasedTicketRepository.find(id);
-        purchasedTicketRepository.deletechatPurchasedTicket(purchasedTicket);
+    public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
+        return purchasedTicketRepository.findByTicketIdAndUserId(purchasedTicketId, userId);
     }
 
+    /**
+     * PurchasedTicketRepositoryのcreateを呼び出す
+     *
+     * @param ticketId
+     * @param userId
+     */
+    public PurchasedTicket create(Long ticketId, Long userId) {
+        User buyer = userService.findById(userId);
+        Ticket ticket = ticketService.findById(ticketId);
+
+        PurchasedTicket purchasedTicket = new PurchasedTicket();
+        purchasedTicket.buyer = buyer;
+        purchasedTicket.ticket = ticket;
+        purchasedTicket.status = false;
+
+        purchasedTicketRepository.create(purchasedTicket);
+
+        return purchasedTicket;
+    }
 }

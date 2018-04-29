@@ -21,6 +21,9 @@ public class AccountController extends Controller {
     TicketService ticketService;
 
     @Inject
+    PurchasedTicketService purchasedTicketService;
+
+    @Inject
     private AccountConstants accountConstants;
 
     @Inject
@@ -36,13 +39,15 @@ public class AccountController extends Controller {
     @Transactional
     public Result UserDetail() {
         //TODO sessionの中にcookie(userID)が存在するかの判定がいる
-        String userID = Controller.session().get("userID");
-        User user = userService.findById(Long.parseLong(userID));
+        Long userID = Long.valueOf(Controller.session().get("userID"));
+        User user = userService.findById(userID);
         form = form.fill(user);
+
+        List<PurchasedTicket> purchasedTickets = purchasedTicketService.findByUserId(userID);
 
         List<Ticket> myTickets = ticketService.findByUser(user);
 
-        return Results.ok(views.html.user.userUpdate.render(form, myTickets));
+        return Results.ok(views.html.user.userUpdate.render(form, myTickets, purchasedTickets));
     }
 
     /**
@@ -57,7 +62,7 @@ public class AccountController extends Controller {
         User newUser = result.get();
         String userID = Controller.session().get("userID");
         newUser.setUserId(Long.parseLong(userID));
-        userService.updateUserDetail(newUser);
+        userService.updateUser(newUser);
         Controller.flash("result", accountConstants.UPDATE_SUCCESS);
         return Results.redirect("/index");
     }

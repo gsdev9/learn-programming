@@ -70,7 +70,7 @@ public class UserService {
      *
      * @param newuser
      */
-    public void updateUserDetail(User newuser) {
+    public void updateUser(User newuser) {
         User olduser = userRepository.findById(newuser.getUserId());
         newuser = userDetailDTO.oldToNew(olduser, newuser);
         userRepository.updateUser(newuser);

@@ -72,4 +72,14 @@ public class TicketRepository {
         jpa.em().merge(ticket);
         Logger.debug("チケットが更新されました： {}", Json.toJson(ticket));
     }
+
+    /**
+     * チケットの削除
+     *
+     * @param ticket
+     */
+    public void deleteTicket(Ticket ticket) {
+        jpa.em().remove(ticket);
+        Logger.debug("チケットが削除されました： {}", Json.toJson(ticket));
+    }
 }

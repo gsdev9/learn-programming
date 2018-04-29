@@ -2,8 +2,8 @@ package controllers;
 
 import dtos.TicketDTO;
 import dtos.utils.DateUtils;
-import forms.TicketForm;
-import models.Ticket;
+import forms.*;
+import models.*;
 import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
@@ -11,7 +11,8 @@ import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.mvc.*;
-import services.TicketService;
+import scala.annotation.meta.param;
+import services.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -31,9 +32,24 @@ public class TicketController extends Controller {
     private TicketService ticketService;
 
     @Inject
+    private PurchasedTicketService purchasedTicketService;
+
+    @Inject
+    private MessageService messageService;
+
+    @Inject
     public TicketController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
+    }
+
+    private boolean checkUser(Ticket ticket, Long userId) {
+        if(!ticket.getUser().userId.equals(userId)) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+            flash("badRequest", "不正なアクセスです");
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -188,6 +204,13 @@ public class TicketController extends Controller {
         }
 
         Ticket ticket = ticketService.findById(id);
+        Long userId = Long.valueOf(session("userID"));
+
+        if(checkUser(ticket, userId)) {
+            List<Ticket> tickets = ticketService.findAll();
+            return Results.badRequest(views.html.ticket.index.render(tickets));
+        }
+
         Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
@@ -195,5 +218,92 @@ public class TicketController extends Controller {
         return redirect("/top");
 
     }
+
+    /**
+     * チケットの削除確認
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result delete(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        TicketForm formData = new TicketForm();
+
+        BeanUtils.copyProperties(ticket, formData);
+
+        formData.date = DateUtils.toStringFromLocalDate(ticket.date, "uuuu-MM-dd");
+        formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
+        formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
+        formData.price = String.valueOf(ticket.price);
+
+        Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
+
+        return Results.ok(views.html.ticket.delete.render(f, id));
+
+    }
     
+    /**
+     * チケットの削除
+     *
+     * @param id
+     * @return
+     */
+    @Transactional
+    public Result destroy(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        Long userId = Long.valueOf(session("userID"));
+
+        if(checkUser(ticket, userId)) {
+            List<Ticket> tickets = ticketService.findAll();
+            return Results.badRequest(views.html.ticket.index.render(tickets));
+        }
+
+        ticketService.deleteTicket(ticket);
+
+        flash("deleted", "チケットを削除しました");
+        return redirect("/top");
+
+    }
+
+    /**
+     * チケット購入画面
+     *
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result purchase(Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        Form<MessageForm> f = formFactory.form(MessageForm.class);
+        return Results.ok(views.html.ticket.purchase.render(ticket, f));
+    }
+
+    /**
+     * チケットの購入成立
+     *
+     * @param ticketId
+     * @return
+     */
+    @Transactional
+    public Result appoint(Long ticketId) {
+
+        Form<MessageForm> f = formFactory.form(MessageForm.class).bindFromRequest();
+
+        Long userId = Long.valueOf(session("userID"));
+
+        // 購入済みチケットの登録
+        PurchasedTicket purchasedTicket = purchasedTicketService.create(ticketId, userId);
+
+        // メッセージの登録
+        messageService.create(f.get().getMessage(), userId, purchasedTicket);
+
+        flash("appointed", "授業が成立しました！");
+        return redirect("/top");
+
+    }
+
 }

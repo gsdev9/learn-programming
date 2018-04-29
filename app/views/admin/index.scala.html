@@ -1,0 +1,11 @@
+@main("Admin Page") {
+    <h1>管理画面だよーん</h1>
+    @if(flash.containsKey("noUsers")) {
+        <p>@flash.get("noUsers")</p>
+    }
+    @if(flash.containsKey("noTickets")) {
+        <p>@flash.get("noTickets")</p>
+    }
+    <p><a href="@routes.AdminController.showUsers">ユーザー管理</a></p>
+    <p><a href="@routes.AdminController.showTickets">チケット管理</a></p>
+}

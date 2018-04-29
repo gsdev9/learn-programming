@@ -1,0 +1,17 @@
+@(form: play.data.Form[User])
+
+@main("Admin Delet User") {
+
+    <form action="@routes.AdminController.destroyUser(form.get().userId)" method="post">
+
+        @helper.CSRF.formField
+        <p>ユーザーID：@form("userId").getValue.get() <input type="hidden" name="userId" value="@form("userId").getValue.get()"></p>
+        <p>ユーザー名：@form("userName").getValue.get() <input type="hidden" name="userName" value="@form("userName").getValue.get()"></p>
+        <p>ニックネーム：@form("nickName").getValue.get() <input type="hidden" name="nickName" value="@form("nickName").getValue.get()"></p>
+        <p>メールアドレス：@form("email").getValue.get() <input type="hidden" name="email" value="@form("email").getValue.get()"></p>
+        <p><a href="@routes.AdminController.showUsers()">ユーザー一覧画面に戻る</a></p>
+        <input type="submit" value="ユーザーを削除する">
+
+    </form>
+
+}

@@ -1,6 +1,8 @@
 package services;
 
-import models.*;
+import models.PurchasedTicket;
+import models.Ticket;
+import models.User;
 import repositories.PurchasedTicketRepository;
 
 import javax.inject.Inject;
@@ -42,6 +44,17 @@ public class PurchasedTicketService {
     public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
         return purchasedTicketRepository.findByTicketIdAndUserId(purchasedTicketId, userId);
     }
+
+    /**
+     * PurchasedTicketRepositoryのfindByIdを呼び出す
+     *
+     * @param purchasedTicketId
+     * @return
+     */
+    public PurchasedTicket findById(Long purchasedTicketId) {
+        return purchasedTicketRepository.findById(purchasedTicketId);
+    }
+
 
     /**
      * PurchasedTicketRepositoryのcreateを呼び出す

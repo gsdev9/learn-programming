@@ -1,5 +1,4 @@
-@import helper._;
-
+@import helper._
 @main("user detail") {
 
     <div class="pure-g">
@@ -25,9 +24,7 @@
             routes.javascript.ChatController.peerIdSend,
         )
     </div>
-
-    <script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
-    <script src="https://cdn.webrtc.ecl.ntt.com/screenshare-latest.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="@routes.Assets.at("js/webrtc.js")"></script>
 }
+<script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+<script src="https://cdn.webrtc.ecl.ntt.com/screenshare-latest.js"></script>
+<script src="@routes.Assets.at("js/webrtc.js")"></script>

@@ -36,6 +36,16 @@ public class PurchasedTicketRepository {
     }
 
     /**
+     * purchasedTicketId(主キー)で検索
+     *
+     * @param purchasedTicketId
+     * @return
+     */
+    public PurchasedTicket findById(Long purchasedTicketId) {
+        return jpa.em().find(PurchasedTicket.class, purchasedTicketId);
+    }
+
+    /**
      * 購入済みチケット情報の取得
      *
      * @param purchasedTicketId

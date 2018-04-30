@@ -14,10 +14,6 @@ public class ChatInfoService {
     @Inject
     private ChatInfoRepository chatInfoRepository;
 
-//    @Inject
-//    private UserDetailDTO userDetailDTO;
-
-
     /**
      * ChatInfoRepositoryのfindById()を呼び出す
      *

@@ -50,6 +50,13 @@ public class TicketController extends Controller {
         this.jpa = jpa;
     }
 
+    /**
+     * チケットオーナー判定
+     *
+     * @param ticket
+     * @param userId
+     * @return
+     */
     private boolean checkUser(Ticket ticket, Long userId) {
         if(!ticket.getUser().userId.equals(userId)) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
@@ -95,6 +102,33 @@ public class TicketController extends Controller {
 
         if (tickets.isEmpty()) {
             Logger.warn("検索結果に該当するチケットがありませんでした.。input={}", input);
+            return Results.ok(Json.toJson(tickets));
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("tickets", tickets);
+
+        return Results.ok(Json.toJson(map));
+    }
+
+    /**
+     * チケットのカテゴリ検索
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Result searchByCategory() {
+        DynamicForm f = formFactory.form().bindFromRequest();
+
+        String category = Strings.nullToEmpty(f.get("category"));
+        if(category.isEmpty()) {
+            return Results.ok();
+        }
+
+        List<Ticket> tickets = ticketService.findByCategory(category);
+
+        if (tickets.isEmpty()) {
+            Logger.warn("検索結果に該当するチケットがありませんでした.。category={}", category);
             return Results.ok(Json.toJson(tickets));
         }
 

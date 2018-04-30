@@ -13,7 +13,8 @@ GET         /signout                            controllers.SignOutController.in
 GET         /signout/delete                     controllers.SignOutController.deleteUser()
 ## Ticket
 GET         /top                                controllers.TicketController.index
-GET         /top/search                         controllers.TicketController.searchByInput
+GET         /top/search/input                   controllers.TicketController.searchByInput
+GET         /top/search/category                controllers.TicketController.searchByCategory
 GET         /ticket/create                      controllers.TicketController.create
 POST        /ticket/create/confirm              controllers.TicketController.createConfirm
 POST        /ticket/create/regist               controllers.TicketController.regist

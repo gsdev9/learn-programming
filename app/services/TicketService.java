@@ -50,6 +50,14 @@ public class TicketService {
     public List<Ticket> findByTitleOrBody(String input) { return ticketRepository.findByTitleOrBody(input); }
 
     /**
+     * TicketRepositoryのfindByCategoryを呼び出す
+     *
+     * @param category
+     * @return
+     */
+    public List<Ticket> findByCategory(String category) { return ticketRepository.findByCategory(category); }
+
+    /**
      * TicketRepositoryのcreateTicketを呼び出す
      *
      * @param ticket

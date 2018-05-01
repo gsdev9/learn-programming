@@ -37,8 +37,25 @@ public class TicketService {
     /**
      * TickerRepositoryのfinByUserを呼び出す
      *
+     * @param user
+     * @return
      */
     public List<Ticket> findByUser(User user) { return ticketRepository.findByUser(user); }
+
+    /**
+     * TicketRepositoryのfindByTitleOrBodyを呼び出す
+     * @param input
+     * @return
+     */
+    public List<Ticket> findByTitleOrBody(String input) { return ticketRepository.findByTitleOrBody(input); }
+
+    /**
+     * TicketRepositoryのfindByCategoryを呼び出す
+     *
+     * @param category
+     * @return
+     */
+    public List<Ticket> findByCategory(String category) { return ticketRepository.findByCategory(category); }
 
     /**
      * TicketRepositoryのcreateTicketを呼び出す
@@ -48,6 +65,7 @@ public class TicketService {
     public void createTicket(Ticket ticket, Long userId) {
         User user = userService.findById(userId);
         ticket.user = user;
+        System.out.println(ticket);
         ticketRepository.createTicket(ticket);
     }
 

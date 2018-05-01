@@ -38,6 +38,9 @@ public class AdminController extends Controller {
     private TicketService ticketService;
 
     @Inject
+    private TicketLabelService ticketLabelService;
+
+    @Inject
     public AdminController(FormFactory formFactory, MessagesApi messagesApi) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
@@ -213,6 +216,7 @@ public class AdminController extends Controller {
             Logger.warn("チケットが見つかりません。id={}", id);
             return redirect("/admin/tickets");
         }
+        TicketLabel ticketLabel = ticketLabelService.findById(ticket.getTicketLabel().TicketLabelId);
 
         TicketForm formData = new TicketForm();
 
@@ -222,6 +226,24 @@ public class AdminController extends Controller {
         formData.startAt = DateUtils.toStringFromLocalTime(ticket.startAt, "HH:mm");
         formData.endAt = DateUtils.toStringFromLocalTime(ticket.endAt, "HH:mm");
         formData.price = String.valueOf(ticket.price);
+        formData.c = ticketLabel.c;
+        formData.cPlusPlus = ticketLabel.cPlusPlus;
+        formData.cSharp = ticketLabel.cSharp;
+        formData.java = ticketLabel.java;
+        formData.javaScript = ticketLabel.javaScript;
+        formData.php = ticketLabel.php;
+        formData.ruby = ticketLabel.ruby;
+        formData.python = ticketLabel.python;
+        formData.perl = ticketLabel.perl;
+        formData.r = ticketLabel.r;
+        formData.go = ticketLabel.go;
+        formData.scala = ticketLabel.scala;
+        formData.objectiveC = ticketLabel.objectiveC;
+        formData.swift = ticketLabel.swift;
+        formData.kotlin = ticketLabel.kotlin;
+        formData.scratch = ticketLabel.scratch;
+        formData.blockly = ticketLabel.blockly;
+        formData.sqlLang = ticketLabel.sqlLang;
 
         Form<TicketForm> f = formFactory.form(TicketForm.class).fill(formData);
 
@@ -260,7 +282,7 @@ public class AdminController extends Controller {
         }
 
         Ticket ticket = ticketService.findById(id);
-        Ticket updateTicket = TicketDTO.convertToEntity(ticket, f.get());
+        Ticket updateTicket = TicketDTO.ticketLabelToEntityForUpdate(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
         return redirect("/admin/tickets");

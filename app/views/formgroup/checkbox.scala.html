@@ -1,0 +1,15 @@
+@(
+    form: play.data.Form[_],
+    name: String,
+    label: String,
+    defaultValue: Boolean=false
+)
+
+<div class="checkbox @if(form(name).hasErrors) {has-error}">
+    <label>
+        <input type="checkbox" name="@name" @if(form(name).getValue.orElse(null)=="true"){checked="checked"} value="true"> @label
+    </label>
+    @for(error <- form(name).errors()) {
+        <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
+    }
+</div>

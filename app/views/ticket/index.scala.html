@@ -29,17 +29,51 @@
         <p>@flash.get("appointed")</p>
     }
 
-    <ul>
-        @for(l <- lists) {
-        <li id="@l.getTicketId">
-            <a href="@routes.TicketController.single(l.getTicketId.toLong)">
-                <img src="@l.getUser.getThumbnailPath">
-                <h3>@l.getTitle</h3>
-                <p>@l.getBody</p>
-                <p>@l.getDate</p>
-                <p>@l.getPrice 円</p>
-            </a>
-        </li>
-        }
-    </ul>
+    <div class="sidebar">
+       <nav>
+           <ul class="category_list">
+               <li class="category" id="c"><p>C</p></li>
+               <li class="category" id="cPlusPlus"><p>C++</p></li>
+               <li class="category" id="cSharp"><p>C#</p></li>
+               <li class="category" id="java"><p>Java</p></li>
+               <li class="category" id="javaScript"><p>JavaScript</p></li>
+               <li class="category" id="php"><p>PHP</p></li>
+               <li class="category" id="ruby"><p>Ruby</p></li>
+               <li class="category" id="python"><p>Python</p></li>
+               <li class="category" id="perl"><p>Perl</p></li>
+               <li class="category" id="r"><p>R</p></li>
+               <li class="category" id="go"><p>Go</p></li>
+               <li class="category" id="scala"><p>Scala</p></li>
+               <li class="category" id="objectiveC"><p>Objective-C</p></li>
+               <li class="category" id="swift"><p>Swift</p></li>
+               <li class="category" id="kotlin"><p>Kotlin</p></li>
+               <li class="category" id="scratch"><p>Scratch</p></li>
+               <li class="category" id="blockly"><p>Blockly</p></li>
+               <li class="category" id="sqlLang"><p>SQL</p></li>
+           </ul>
+       </nav>
+    </div>
+
+    <div class="contents">
+
+        <p><input type="text" name="input" id="input"></p>
+        <p><input type="submit" id="submit" value="SEARCH"></p>
+
+        <ul id="ticket_list">
+            @for(l <- lists) {
+            <li id="@l.getTicketId">
+                <a href="@routes.TicketController.single(l.getTicketId.toLong)">
+                    <img src="@l.getUser.getThumbnailPath">
+                    <h3>@l.getTitle</h3>
+                    <p>@l.getBody</p>
+                    <p>@l.getDate</p>
+                    <p>@l.getPrice 円</p>
+                </a>
+            </li>
+            }
+        </ul>
+
+    </div>
 }
+
+<script src="@routes.Assets.at("js/search_tickets.js")"></script>

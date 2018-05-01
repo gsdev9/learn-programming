@@ -51,6 +51,10 @@ public class Ticket {
     @JsonIgnore
     private List<PurchasedTicket> purchasedTickets;
 
+    /** チケットラベル */
+    @OneToOne(cascade = CascadeType.ALL)
+    private TicketLabel ticketLabel;
+
     public Long getTicketId() {
         return ticketId;
     }
@@ -129,5 +133,13 @@ public class Ticket {
 
     public void setPurchasedTickets(List<PurchasedTicket> purchasedTickets) {
         this.purchasedTickets = purchasedTickets;
+    }
+
+    public TicketLabel getTicketLabel() {
+        return ticketLabel;
+    }
+
+    public void setTicketLabel(TicketLabel ticketLabel) {
+        this.ticketLabel = ticketLabel;
     }
 }

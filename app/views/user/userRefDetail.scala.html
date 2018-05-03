@@ -1,0 +1,34 @@
+@(user: models.User, myTickets: java.util.List[Ticket], userReviews: java.util.List[UserReview])
+
+@main("user detail") {
+    @if(flash().containsKey("result")) {
+        <p>@flash.get("result")</p>
+    }
+
+    <h2>ユーザー情報</h2>
+    <p>@user.getNickName</p>
+    <img src="@user.getThumbnailPath">
+    <p>@user.getIntroduction</p>
+
+    <h2>チケット一覧</h2>
+    <ul>
+    @for(t <- myTickets) {
+        <li id="@t.getTicketId">
+
+            <a href="@routes.TicketController.single(t.getTicketId.toLong)">
+                <img src="@t.getUser.getThumbnailPath">
+                <h3>@t.getTitle</h3>
+                <p>@t.getBody</p>
+                <p>@t.getDate</p>
+                <p>@t.getPrice 円</p>
+            </a>
+        </li>
+    }
+    </ul>
+
+    <h2>レビュー一覧</h2>
+    @for(u <- userReviews) {
+        <p>@u.evaluation</p>
+        <p>@u.comment</p>
+    }
+}

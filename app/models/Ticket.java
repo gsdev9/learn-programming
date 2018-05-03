@@ -3,7 +3,8 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -14,32 +15,27 @@ import java.util.List;
 @Entity
 public class Ticket {
 
-    /** チケットID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ticketId;
-
     /** チケットタイトル */
     public String title;
-
     /** チケット内容 */
     public String body;
-
     /** 授業日 */
     public LocalDate date;
-
     /** 授業開始時間 */
     public LocalTime startAt;
-
     /** 授業終了時間 */
     public LocalTime endAt;
-
     /** 価格 */
     public Integer price;
-
     /** ユーザー情報 */
     @ManyToOne(optional = false)
     public User user;
+    /**
+     * チケットID
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ticketId;
 
     /** レビュー情報 */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")

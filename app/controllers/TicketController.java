@@ -3,20 +3,31 @@ package controllers;
 import com.google.common.base.Strings;
 import dtos.TicketDTO;
 import dtos.utils.DateUtils;
-import forms.*;
-import models.*;
+import forms.MessageForm;
+import forms.TicketForm;
+import models.PurchasedTicket;
+import models.Ticket;
+import models.TicketLabel;
+import models.UserReview;
 import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
-import play.data.*;
-import play.db.jpa.*;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.data.FormFactory;
+import play.db.jpa.JPAApi;
+import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.libs.Json;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
 import services.*;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * チケット情報に関するコントローラ
@@ -44,6 +55,10 @@ public class TicketController extends Controller {
     private MessageService messageService;
 
     @Inject
+    private ReviewService reviewService;
+
+
+    @Inject
     public TicketController(FormFactory formFactory, MessagesApi messagesApi, JPAApi jpa) {
         this.formFactory = formFactory;
         this.messagesApi = messagesApi;
@@ -60,7 +75,7 @@ public class TicketController extends Controller {
     private boolean checkUser(Ticket ticket, Long userId) {
         if(!ticket.getUser().userId.equals(userId)) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
-            flash("badRequest", "不正なアクセスです");
+            Controller.flash("badRequest", "不正なアクセスです");
             return true;
         }
         return false;
@@ -77,7 +92,7 @@ public class TicketController extends Controller {
     public Result index() {
         List<Ticket> tickets = ticketService.findAll();
         if(tickets.isEmpty()) {
-            flash("notFound", "チケットが見つかりませんでした。");
+            Controller.flash("notFound", "チケットが見つかりませんでした。");
             Logger.warn("Nothing Tickets.");
             Results.notFound(views.html.ticket.index.render(tickets));
         }
@@ -147,12 +162,13 @@ public class TicketController extends Controller {
     @Transactional(readOnly = true)
     public Result single(Long id) {
         Ticket ticket = ticketService.findById(id);
+        List<UserReview> userReviews = reviewService.findByTicketId(id);
         if(ticket == null) {
             Logger.warn("id={}'s ticket is not founded.", id);
             List<Ticket> tickets = ticketService.findAll();
             Results.notFound(views.html.ticket.index.render(tickets));
         }
-        return Results.ok(views.html.ticket.single.render(ticket));
+        return Results.ok(views.html.ticket.single.render(ticket, userReviews));
     }
 
     /**
@@ -229,12 +245,12 @@ public class TicketController extends Controller {
         Ticket ticket = new Ticket();
         Ticket newTicket = TicketDTO.convertToEntity(ticket, ticketFormGet, ticketLabel);
 
-        Long userId = Long.valueOf(session("userID"));
+        Long userId = Long.valueOf(Controller.session("userID"));
 
         ticketService.createTicket(newTicket, userId);
 
-        flash("created", "チケットを作成しました");
-        return redirect("/top");
+        Controller.flash("created", "チケットを作成しました");
+        return Results.redirect("/top");
     }
 
     /**
@@ -315,7 +331,7 @@ public class TicketController extends Controller {
         }
 
         Ticket ticket = ticketService.findById(id);
-        Long userId = Long.valueOf(session("userID"));
+        Long userId = Long.valueOf(Controller.session("userID"));
 
         if(checkUser(ticket, userId)) {
             List<Ticket> tickets = ticketService.findAll();
@@ -325,8 +341,8 @@ public class TicketController extends Controller {
         Ticket updateTicket = TicketDTO.ticketLabelToEntityForUpdate(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
-        flash("updated", "チケットを更新しました");
-        return redirect("/top");
+        Controller.flash("updated", "チケットを更新しました");
+        return Results.redirect("/top");
 
     }
 
@@ -365,7 +381,7 @@ public class TicketController extends Controller {
     public Result destroy(Long id) {
 
         Ticket ticket = ticketService.findById(id);
-        Long userId = Long.valueOf(session("userID"));
+        Long userId = Long.valueOf(Controller.session("userID"));
 
         if(checkUser(ticket, userId)) {
             List<Ticket> tickets = ticketService.findAll();
@@ -374,8 +390,8 @@ public class TicketController extends Controller {
 
         ticketService.deleteTicket(ticket);
 
-        flash("deleted", "チケットを削除しました");
-        return redirect("/top");
+        Controller.flash("deleted", "チケットを削除しました");
+        return Results.redirect("/top");
 
     }
 
@@ -404,7 +420,7 @@ public class TicketController extends Controller {
 
         Form<MessageForm> f = formFactory.form(MessageForm.class).bindFromRequest();
 
-        Long userId = Long.valueOf(session("userID"));
+        Long userId = Long.valueOf(Controller.session("userID"));
 
         // 購入済みチケットの登録
         PurchasedTicket purchasedTicket = purchasedTicketService.create(ticketId, userId);
@@ -412,8 +428,8 @@ public class TicketController extends Controller {
         // メッセージの登録
         messageService.create(f.get().getMessage(), userId, purchasedTicket);
 
-        flash("appointed", "授業が成立しました！");
-        return redirect("/top");
+        Controller.flash("appointed", "授業が成立しました！");
+        return Results.redirect("/top");
 
     }
 

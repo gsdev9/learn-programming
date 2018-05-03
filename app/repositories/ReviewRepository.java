@@ -24,7 +24,7 @@ public class ReviewRepository {
      * @param reviewId
      * @return
      */
-    public UserReview findByUserId(Long reviewId) {
+    public UserReview findById(Long reviewId) {
         return jpa.em().find(UserReview.class, reviewId);
     }
 
@@ -52,6 +52,31 @@ public class ReviewRepository {
         return jpa.em().createQuery("SELECT COUNT(u) FROM  UserReview u WHERE u.purchasedTicketId = :purchasedTicketId", Long.TYPE)
                 .setParameter("purchasedTicketId", purchasedTicketId)
                 .getSingleResult();
+    }
+
+
+    /**
+     * UserReviewデータのTicketId検索
+     *
+     * @param ticketId
+     * @return
+     */
+    public List<UserReview> findByTicketId(Long ticketId) {
+        return jpa.em().createQuery("SELECT u FROM UserReview u WHERE u.ticket.ticketId = :ticketId", UserReview.class)
+                .setParameter("ticketId", ticketId)
+                .getResultList();
+    }
+
+    /**
+     * UserReviewデータのuserId検索
+     *
+     * @param userId
+     * @return
+     */
+    public List<UserReview> findByUserId(Long userId) {
+        return jpa.em().createQuery("SELECT u FROM UserReview u WHERE u.ticket.user.userId = :userId", UserReview.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
     /**

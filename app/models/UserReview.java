@@ -21,7 +21,7 @@ public class UserReview {
     public Ticket ticket;
 
     /**
-     * チケット購入IDは
+     * チケット購入ID
      */
     public Long purchasedTicketId;
 

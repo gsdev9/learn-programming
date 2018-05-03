@@ -21,23 +21,38 @@ public class ReviewRepository {
     /**
      * UserReviewデータのID検索
      *
-     * @param userId
-     * @return
-     */
-    public UserReview find(Long userId) {
-        return jpa.em().find(UserReview.class, userId);
-    }
-
-    /**
-     * UserReviewデータのチャットルームID検索
-     *
      * @param reviewId
      * @return
      */
-    public List<UserReview> findByReviewId(Long reviewId) {
-        return jpa.em().createQuery("SELECT u FROM UserReview u WHERE u.reviewId=:reviewId", UserReview.class).setParameter("reviewId", reviewId).getResultList();
+    public UserReview findByUserId(Long reviewId) {
+        return jpa.em().find(UserReview.class, reviewId);
     }
 
+    /**
+     * UserReviewデータの購入ID検索
+     *
+     * @param purchasedTicketId
+     * @return
+     */
+    public List<UserReview> findByPurchasedId(Long purchasedTicketId) {
+        return jpa.em().createQuery("SELECT u FROM  UserReview u WHERE u.purchasedTicketId = :purchasedTicketId", UserReview.class)
+                .setParameter("purchasedTicketId", purchasedTicketId)
+                .getResultList();
+    }
+
+    /**
+     * UserReviewデータの購入ID検索
+     *
+     * @param purchasedTicketId
+     * @return
+     */
+
+    //TODO:COUNTの返り値エラー解消ー終わったら消す
+    public Long findByPurchasedIdNum(Long purchasedTicketId) {
+        return jpa.em().createQuery("SELECT COUNT(u) FROM  UserReview u WHERE u.purchasedTicketId = :purchasedTicketId", Long.TYPE)
+                .setParameter("purchasedTicketId", purchasedTicketId)
+                .getSingleResult();
+    }
 
     /**
      * UserReviewの新規登録

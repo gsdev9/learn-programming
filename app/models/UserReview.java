@@ -15,9 +15,16 @@ public class UserReview {
 
     /** 評価 */
     public Integer evaluation;
+
     /** オーナー情報はこちら */
     @ManyToOne(optional = false)
     public Ticket ticket;
+
+    /**
+     * チケット購入IDは
+     */
+    public Long purchasedTicketId;
+
     /** 購入者情報 */
     @ManyToOne(optional = false)
     public User buyer;
@@ -63,6 +70,14 @@ public class UserReview {
 
     public void setBuyer(User buyer) {
         this.buyer = buyer;
+    }
+
+    public Long getPurchasedTicketId() {
+        return purchasedTicketId;
+    }
+
+    public void setPurchasedTicketId(Long purchasedTicketId) {
+        this.purchasedTicketId = purchasedTicketId;
     }
 
 }

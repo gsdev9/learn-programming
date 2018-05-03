@@ -4,11 +4,10 @@ import play.data.validation.Constraints;
 
 import javax.validation.constraints.NotNull;
 
-public class ReviewFrom {
+public class ReviewForm {
     /**
      * コメント
      */
-    @NotNull
     @Constraints.Required(message = "コメントが入力されていません。")
     public String comment;
 

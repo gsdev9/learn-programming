@@ -18,17 +18,29 @@ public class ReviewService {
      * @return
      */
     public UserReview findById(Long id) {
-        return reviewRepository.find(id);
+        return reviewRepository.findByUserId(id);
     }
 
     /**
      * reviewRepositoryのfindByReviewId()を呼び出す
      *
-     * @param reviewId
+     * @param purchasedTicketId
      * @return
      */
-    public List<UserReview> findByChatRoomId(Long reviewId) {
-        return reviewRepository.findByReviewId(reviewId);
+    public List<UserReview> findByPurchasedId(Long purchasedTicketId) {
+        return reviewRepository.findByPurchasedId(purchasedTicketId);
+    }
+
+
+    /**
+     * reviewRepositoryのfindByReviewId()を呼び出す
+     *
+     * @param purchasedTicketId
+     * @return
+     */
+    //TODO:COUNTの返り値エラー解消ー終わったら消す
+    public Long findByPurchasedIdNum(Long purchasedTicketId) {
+        return reviewRepository.findByPurchasedIdNum(purchasedTicketId);
     }
 
     /**
@@ -46,7 +58,7 @@ public class ReviewService {
      * @param userID
      */
     public void deleteUserReview(Long userID) {
-        UserReview UserReview = reviewRepository.find(userID);
+        UserReview UserReview = reviewRepository.findByUserId(userID);
         reviewRepository.deleteUserReview(UserReview);
     }
 

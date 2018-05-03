@@ -45,6 +45,12 @@ POST        /admin/tickets/:id/confirm          controllers.AdminController.conf
 POST        /admin/tickets/:id/update           controllers.AdminController.updateTicket(id: Long)
 GET         /admin/tickets/:id/delete           controllers.AdminController.deleteTicket(id: Long)
 POST        /admin/tikcets/:id/destroy          controllers.AdminController.destroyTicket(id: Long)
+## Chat
+GET         /chat                               controllers.ChatController.chatRoute
+GET         /api/peerid                         controllers.ChatController.peerIdSend(peerId)
+## Review
+GET         /purchasedticket/:id/review         controllers.ReviewController.reviewRoute(id: Long)
+POST        /purchasedticket/reviewcreate        controllers.ReviewController.reviewCreate()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

@@ -75,4 +75,26 @@ public class UserService {
         newuser = userDetailDTO.oldToNew(olduser, newuser);
         userRepository.updateUser(newuser);
     }
+
+
+    /**
+     * UserIdをUserNameに変換する
+     *
+     * @param userid
+     * @return
+     */
+    public String idPerserName(Long userid) {
+        List<User> userList = findAll();
+        String userName = null;
+        if (userList.isEmpty()) {
+            return null;
+        } else {
+            for (User user : userList) {
+                if (user.getUserId().equals(userid)) {
+                    userName = user.getUserName();
+                }
+            }
+        }
+        return userName;
+    }
 }

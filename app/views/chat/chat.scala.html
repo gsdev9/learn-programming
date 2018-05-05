@@ -20,11 +20,12 @@
         <button id="startchat">chat start</button>
         <input type="text" data-name="message" size="100" />
         <div data-name="chat"></div>
-        @javascriptRouter("jsRoutes")(
-            routes.javascript.ChatController.peerIdSend,
-        )
     </div>
+    @helper.javascriptRouter("jsRoutes")(
+        routes.javascript.ChatController.peerIdSend,
+    )
 }
+
 <script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
 <script src="https://cdn.webrtc.ecl.ntt.com/screenshare-latest.js"></script>
 <script src="@routes.Assets.at("js/webrtc.js")"></script>

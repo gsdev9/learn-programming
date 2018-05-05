@@ -20,7 +20,8 @@ public class ChatController extends Controller {
     @Inject
     private PurchasedTicketService purchasedTicketService;
 
-    public Result chatRoute() {
+    public Result chatRoute(Long roomId) {
+        //TODO::ユーザーID整合性確認
         return Results.ok(views.html.chat.chat.render());
     }
 

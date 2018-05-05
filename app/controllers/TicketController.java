@@ -5,10 +5,7 @@ import dtos.TicketDTO;
 import dtos.utils.DateUtils;
 import forms.MessageForm;
 import forms.TicketForm;
-import models.PurchasedTicket;
-import models.Ticket;
-import models.TicketLabel;
-import models.UserReview;
+import models.*;
 import org.springframework.beans.BeanUtils;
 import play.Logger;
 import play.api.i18n.Lang;
@@ -25,6 +22,7 @@ import play.mvc.Results;
 import services.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +48,9 @@ public class TicketController extends Controller {
 
     @Inject
     private TicketLabelService ticketLabelService;
+
+    @Inject
+    private ChatRoomService chatRoomService;
 
     @Inject
     private MessageService messageService;
@@ -162,13 +163,25 @@ public class TicketController extends Controller {
     @Transactional(readOnly = true)
     public Result single(Long id) {
         Ticket ticket = ticketService.findById(id);
+        Long userId = Long.valueOf(Controller.session().get("userID"));
         List<UserReview> userReviews = reviewService.findByTicketId(id);
         if(ticket == null) {
             Logger.warn("id={}'s ticket is not founded.", id);
             List<Ticket> tickets = ticketService.findAll();
             Results.notFound(views.html.ticket.index.render(tickets));
         }
-        return Results.ok(views.html.ticket.single.render(ticket, userReviews));
+        List<PurchasedTicket> purchasedSaleTickets = purchasedTicketService.findByTicketId(id);
+        List<PurchasedTicket> purchasedTickets = purchasedTicketService.findByBuyerId(userId);
+        List<PurchasedTicket> purchasedBuyTickets = new ArrayList<>();
+        for (PurchasedTicket purchasedTicket : purchasedTickets) {
+            if (purchasedTicket.getStatus() == false) {
+                purchasedBuyTickets.add(purchasedTicket);
+            }
+        }
+        if (ticket.getUser().getUserId() != userId) {
+            purchasedSaleTickets = null;
+        }
+        return Results.ok(views.html.ticket.single.render(ticket, userReviews, purchasedSaleTickets, purchasedBuyTickets));
     }
 
     /**
@@ -422,8 +435,13 @@ public class TicketController extends Controller {
 
         Long userId = Long.valueOf(Controller.session("userID"));
 
+        ChatRoom chatRoom = new ChatRoom();
+
+        //チャットルームの作成
+        chatRoomService.registChatRoom(chatRoom);
+
         // 購入済みチケットの登録
-        PurchasedTicket purchasedTicket = purchasedTicketService.create(ticketId, userId);
+        PurchasedTicket purchasedTicket = purchasedTicketService.create(ticketId, userId, chatRoom);
 
         // メッセージの登録
         messageService.create(f.get().getMessage(), userId, purchasedTicket);

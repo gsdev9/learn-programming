@@ -1,57 +1,60 @@
-GET         /                                   controllers.LoginController.index
-GET         /login                              controllers.LoginController.loginForm
-POST        /login/login                        controllers.LoginController.login
+GET         /                                     controllers.LoginController.index
+GET         /login                                controllers.LoginController.loginForm
+POST        /login/login                          controllers.LoginController.login
 ## OAuth
-GET         /signup                             controllers.SignUpController.index
-GET         /signup/twitter                     controllers.SignUpController.accessTwitter
-POST        /signup/input                       controllers.SignUpController.input
-GET         /callback                           org.pac4j.play.CallbackController.callback()
+GET         /signup                               controllers.SignUpController.index
+GET         /signup/twitter                       controllers.SignUpController.accessTwitter
+POST        /signup/input                         controllers.SignUpController.input
+GET         /callback                             org.pac4j.play.CallbackController.callback()
 #GET         /logout                org.pac4j.play.LogoutController.logout()
-GET         /logout                             controllers.LogoutController.logout
+GET         /logout                               controllers.LogoutController.logout
 ## SignOut
-GET         /signout                            controllers.SignOutController.index
-GET         /signout/delete                     controllers.SignOutController.deleteUser()
+GET         /signout                              controllers.SignOutController.index
+GET         /signout/delete                       controllers.SignOutController.deleteUser()
 ## Ticket
-GET         /top                                controllers.TicketController.index
-GET         /top/search/input                   controllers.TicketController.searchByInput
-GET         /top/search/category                controllers.TicketController.searchByCategory
-GET         /ticket/create                      controllers.TicketController.create
-POST        /ticket/create/confirm              controllers.TicketController.createConfirm
-POST        /ticket/create/regist               controllers.TicketController.regist
-GET         /ticket/:id                         controllers.TicketController.single(id: Long)
-GET         /ticket/:id/edit                    controllers.TicketController.edit(id: Long)
-POST        /ticket/:id/edit/confirm            controllers.TicketController.editConfirm(id: Long)
-POST        /ticket/:id/edit/update             controllers.TicketController.update(id: Long)
-GET         /ticket/:id/purchase                controllers.TicketController.purchase(id: Long)
-POST        /ticket/:id/purchase/appoint        controllers.TicketController.appoint(id: Long)
-GET         /ticket/:id/delete                  controllers.TicketController.delete(id: Long)
-POST        /ticket/:id/delete/destroy          controllers.TicketController.destroy(id: Long)
+GET         /top                                  controllers.TicketController.index
+GET         /top/search/input                     controllers.TicketController.searchByInput
+GET         /top/search/category                  controllers.TicketController.searchByCategory
+GET         /ticket/create                        controllers.TicketController.create
+POST        /ticket/create/confirm                controllers.TicketController.createConfirm
+POST        /ticket/create/regist                 controllers.TicketController.regist
+GET         /ticket/:id                           controllers.TicketController.single(id: Long)
+GET         /ticket/:id/edit                      controllers.TicketController.edit(id: Long)
+POST        /ticket/:id/edit/confirm              controllers.TicketController.editConfirm(id: Long)
+POST        /ticket/:id/edit/update               controllers.TicketController.update(id: Long)
+GET         /ticket/:id/purchase                  controllers.TicketController.purchase(id: Long)
+POST        /ticket/:id/purchase/appoint          controllers.TicketController.appoint(id: Long)
+GET         /ticket/:id/delete                    controllers.TicketController.delete(id: Long)
+POST        /ticket/:id/delete/destroy            controllers.TicketController.destroy(id: Long)
 ## PurchasedTicket
-GET         /purchasedTicket/:ticketId          controllers.PurchasedTicketController.index(ticketId: Long)
+GET         /purchasedTicket/:ticketId            controllers.PurchasedTicketController.index(ticketId: Long)
 ## Account
-GET         /profile                            controllers.AccountController.UserDetail
-GET         /profile/:id                        controllers.AccountController.UserRefDetail(id: Long)
-POST        /profile/edit                       controllers.AccountController.UserUpdate
+GET         /profile                              controllers.AccountController.UserDetail
+GET         /profile/:id                          controllers.AccountController.UserRefDetail(id: Long)
+POST        /profile/edit                         controllers.AccountController.UserUpdate
 ## Admin
-GET         /admin                              controllers.AdminController.index
-POST        /admin/login                        controllers.AdminController.login
-GET         /admin/users                        controllers.AdminController.showUsers
-GET         /admin/users/:id/edit               controllers.AdminController.editUser(id: Long)
-POST        /admin/users/:id/update             controllers.AdminController.updateUser(id: Long)
-GET         /admin/users/:id/delete             controllers.AdminController.deleteUser(id: Long)
-POST        /admin/users/:id/destroy            controllers.AdminController.destroyUser(id: Long)
-GET         /admin/tickets                      controllers.AdminController.showTickets
-GET         /admin/tickets/:id/edit             controllers.AdminController.editTicket(id: Long)
-POST        /admin/tickets/:id/confirm          controllers.AdminController.confirmEditedTicket(id: Long)
-POST        /admin/tickets/:id/update           controllers.AdminController.updateTicket(id: Long)
-GET         /admin/tickets/:id/delete           controllers.AdminController.deleteTicket(id: Long)
-POST        /admin/tikcets/:id/destroy          controllers.AdminController.destroyTicket(id: Long)
+GET         /admin                                controllers.AdminController.index
+POST        /admin/login                          controllers.AdminController.login
+GET         /admin/users                          controllers.AdminController.showUsers
+GET         /admin/users/:id/edit                 controllers.AdminController.editUser(id: Long)
+POST        /admin/users/:id/update               controllers.AdminController.updateUser(id: Long)
+GET         /admin/users/:id/delete               controllers.AdminController.deleteUser(id: Long)
+POST        /admin/users/:id/destroy              controllers.AdminController.destroyUser(id: Long)
+GET         /admin/tickets                        controllers.AdminController.showTickets
+GET         /admin/tickets/:id/edit               controllers.AdminController.editTicket(id: Long)
+POST        /admin/tickets/:id/confirm            controllers.AdminController.confirmEditedTicket(id: Long)
+POST        /admin/tickets/:id/update             controllers.AdminController.updateTicket(id: Long)
+GET         /admin/tickets/:id/delete             controllers.AdminController.deleteTicket(id: Long)
+POST        /admin/tikcets/:id/destroy            controllers.AdminController.destroyTicket(id: Long)
 ## Chat
-GET         /chat                               controllers.ChatController.chatRoute
-GET         /api/peerid                         controllers.ChatController.peerIdSend(peerId)
+GET         /chat/:roomId                         controllers.ChatController.chatRoute(roomId: Long)
+GET         /api/peerid                           controllers.ChatController.peerIdSend(peerId)
+GET         /api/messege/post/:purchasedId        controllers.PurchasedTicketController.sendMessage(purchasedId: Long,message)
+GET         /api/messege/get/:purchasedId         controllers.PurchasedTicketController.getMessage(purchasedId: Long)
+
 ## Review
-GET         /purchasedticket/:id/review         controllers.ReviewController.reviewRoute(id: Long)
-POST        /purchasedticket/reviewcreate        controllers.ReviewController.reviewCreate()
+GET         /purchasedticket/:id/review           controllers.ReviewController.reviewRoute(id: Long)
+POST        /purchasedticket/reviewcreate         controllers.ReviewController.reviewCreate()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                       controllers.Assets.at(path="/public", file)
+GET         /assets/*file                         controllers.Assets.at(path="/public", file)

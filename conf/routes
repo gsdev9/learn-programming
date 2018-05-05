@@ -29,9 +29,9 @@ POST        /ticket/:id/delete/destroy          controllers.TicketController.des
 ## PurchasedTicket
 GET         /purchasedTicket/:ticketId          controllers.PurchasedTicketController.index(ticketId: Long)
 ## Account
-GET         /userdetail                         controllers.AccountController.UserDetail
-GET         /userdetailref/:id                  controllers.AccountController.UserRefDetail(id: Long)
-POST        /userupdate                         controllers.AccountController.UserUpdate
+GET         /profile                            controllers.AccountController.UserDetail
+GET         /profile/:id                        controllers.AccountController.UserRefDetail(id: Long)
+POST        /profile/edit                       controllers.AccountController.UserUpdate
 ## Admin
 GET         /admin                              controllers.AdminController.index
 POST        /admin/login                        controllers.AdminController.login

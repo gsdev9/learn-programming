@@ -5,9 +5,12 @@ import models.PurchasedTicket;
 import models.Ticket;
 import models.User;
 import models.UserReview;
+import play.Logger;
+import play.api.i18n.Lang;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.Transactional;
+import play.i18n.MessagesApi;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -21,26 +24,23 @@ import java.util.List;
 
 public class AccountController extends Controller {
 
+    private final MessagesApi messagesApi;
     private Form<User> form;
-
     @Inject
     private UserService userService;
-
     @Inject
     private TicketService ticketService;
-
     @Inject
     private PurchasedTicketService purchasedTicketService;
-
     @Inject
     private ReviewService reviewService;
-
     @Inject
     private AccountConstants accountConstants;
 
     @Inject
-    public AccountController(FormFactory formFactory) {
+    public AccountController(FormFactory formFactory, MessagesApi messagesApi) {
         form = formFactory.form(User.class);
+        this.messagesApi = messagesApi;
     }
 
     /**
@@ -86,6 +86,11 @@ public class AccountController extends Controller {
      */
     @Transactional
     public Result UserRefDetail(Long userId) {
+        if (userId == null) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+            Controller.flash("badRequest", "不正なアクセスです");
+            return Results.redirect("/top");
+        }
         User user = userService.findById(userId);
         List<Ticket> myTickets = ticketService.findByUser(user);
         List<UserReview> UserReviews = reviewService.findByUserId(userId);

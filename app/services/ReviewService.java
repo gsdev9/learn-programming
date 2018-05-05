@@ -18,7 +18,7 @@ public class ReviewService {
      * @return
      */
     public UserReview findById(Long id) {
-        return reviewRepository.findByUserId(id);
+        return reviewRepository.findById(id);
     }
 
     /**
@@ -44,6 +44,26 @@ public class ReviewService {
     }
 
     /**
+     * reviewRepositoryのfindByTicketId()を呼び出す
+     *
+     * @param ticketId
+     * @return
+     */
+    public List<UserReview> findByTicketId(Long ticketId) {
+        return reviewRepository.findByTicketId(ticketId);
+    }
+
+    /**
+     * reviewRepositoryのfindByUserId()を呼び出す
+     *
+     * @param userId
+     * @return
+     */
+    public List<UserReview> findByUserId(Long userId) {
+        return reviewRepository.findByUserId(userId);
+    }
+
+    /**
      * reviewRepositoryのregistUser()を呼び出す
      *
      * @param UserReview
@@ -55,10 +75,10 @@ public class ReviewService {
     /**
      * reviewRepositoryのdeleteUser()を呼び出す
      *
-     * @param userID
+     * @param reviewId
      */
-    public void deleteUserReview(Long userID) {
-        UserReview UserReview = reviewRepository.findByUserId(userID);
+    public void deleteUserReview(Long reviewId) {
+        UserReview UserReview = reviewRepository.findById(reviewId);
         reviewRepository.deleteUserReview(UserReview);
     }
 

@@ -34,6 +34,11 @@ public class User {
     /** パスワード */
     public String password;
 
+    /**
+     * 紹介文
+     */
+    public String introduction;
+
     /** サムネイルパス */
     public String thumbnailPath;
 
@@ -186,5 +191,21 @@ public class User {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        introduction = introduction;
+    }
+
+    public Boolean getDeletedStatus() {
+        return deletedStatus;
+    }
+
+    public void setDeletedStatus(Boolean deletedStatus) {
+        this.deletedStatus = deletedStatus;
     }
 }

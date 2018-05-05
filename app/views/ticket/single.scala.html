@@ -1,4 +1,4 @@
-@(ticket: Ticket)
+@(ticket: Ticket, userReviews: java.util.List[UserReview])
 
 @main("Ticket's Single Page") {
 
@@ -10,6 +10,17 @@
     <p>@ticket.price</p>
     <p>@ticket.user.thumbnailPath</p>
     <p>@ticket.user.nickName</p>
+
     <button><a href="@routes.TicketController.purchase(ticket.getTicketId)">購入手続きに進む</a></button>
 
+
+    <h2>レビュー</h2>
+    @for(u <- userReviews) {
+        <div>
+            <p>@u.buyer.userName</p>
+            <img src="@u.buyer.thumbnailPath">
+            <p>@u.evaluation</p>
+            <p>@u.comment</p>
+        </div>
+    }
 }

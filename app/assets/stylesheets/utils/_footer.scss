@@ -1,0 +1,125 @@
+@import "./mixins";
+
+.footer {
+  background-color: #0a0a0a;
+  &__inner {
+    padding: 40px 10px;
+    overflow: hidden;
+    &__content {
+      overflow: hidden;
+    }
+    &__left {
+      float: left;
+      width: 50%;
+      @include mq(tablet) {
+        float: none;
+        width: 100%;
+        margin-bottom: 40px;
+      }
+    }
+    &__logo {
+      width: 172px;
+      height: auto;
+    }
+    &__msg {
+      margin-top: 30px;
+      font-size: 3.0em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #ffffff;
+      @include mq(sp) {
+        font-size: 2.2em;
+      }
+    }
+    &__dev {
+      margin-top: 30px;
+    }
+    &__dev-title {
+      font-size: 1.4em;
+      color: #ffffff;
+    }
+    &__dev-list {
+      margin-top: 10px;
+    }
+    &__dev-developer {
+      display: inline-block;
+      & + & {
+        margin-left: 20px;
+      }
+    }
+    &__dev-developer-name {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 9px;
+      font-size: 1.2em;
+      color: #ffffff;
+    }
+    &__dev-developer-twitter {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    &__right {
+      float :right;
+      width: 50%;
+      @include mq(tablet) {
+        float: none;
+        width: 100%;
+      }
+    }
+    &__link-list-title {
+      font-size: 3.0em;
+      font-weight: bold;
+      color: #ffffff;
+      text-align: left;
+      @include mq(sp) {
+        font-size: 2.2em;
+      }
+    }
+    &__link-list {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      @include mq(tablet) {
+        margin-top: 20px;
+      }
+    }
+    &__link {
+      width: 33.33333%;
+      margin-bottom: 20px;
+      @include mq(sp) {
+        width: 50%;
+      }
+    }
+    &__link-btn {
+      position: relative;
+      font-size: 1.4em;
+      color: #ffffff;
+      transition: .3s ease-in color;
+      &::before {
+        position: relative;
+        content: '-';
+        margin-right: 6px;
+        color: #fff;
+        transition: .5s ease-in color;
+      }
+      &:hover {
+        color: #39c0d4;
+        &::before {
+          color: #39c0d4;
+        }
+      }
+    }
+    &__copyright {
+      display: block;
+      margin-top: 40px;
+      font-size: 1.2em;
+      color: #ffffff;
+      text-align: center;
+      @include mq(sp) {
+        margin-top: 20px;
+        font-size: 1.0em;
+      }
+    }
+  }
+}

@@ -127,6 +127,7 @@ public class SignUpController extends Controller {
 
         flash("signup", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signup.status.200"));
         session("userID", String.valueOf(user.userId));
+        session("thumbnailPath", user.thumbnailPath);
         return redirect("/top");
     }
 

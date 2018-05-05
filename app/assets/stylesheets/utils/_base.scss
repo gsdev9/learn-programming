@@ -1,0 +1,46 @@
+@import "./_mixins.scss";
+
+body {
+  font-size: 62.5%;
+  font-family: Menlo, Osaka, 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+#main {
+  position: relative;
+  background-color: #1b1b1b;
+  overflow: hidden;
+}
+
+.container {
+  width: 1280px;
+  margin: 0 auto;
+  @include mq(container) {
+    width: 95%;
+  }
+  @include mq(sp) {
+    width: 90%;
+  }
+}
+
+.pc {
+  display: block !important;
+  @include mq(tablet) {
+    display: none !important;;
+  }
+}
+
+.sp {
+  display: block !important;;
+  @include mq(pc) {
+    display: none !important;;
+  }
+}
+

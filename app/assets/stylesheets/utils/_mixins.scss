@@ -1,0 +1,25 @@
+// コンテンツ幅
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+// メディアクエリ
+@mixin mq($breakpoint) {
+  @if $breakpoint == sp {
+    @media only screen and (max-width: 480px) {
+      @content
+    }
+  } @else if $breakpoint == tablet {
+    @media only screen and (max-width: 768px) {
+      @content
+    }
+  } @else if $breakpoint == pc {
+    @media only screen and (min-width: 769px) {
+      @content
+    }
+  } @else if $breakpoint == container {
+    @media only screen and (max-width: 1300px) {
+      @content
+    }
+  }
+}

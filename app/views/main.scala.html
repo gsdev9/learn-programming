@@ -3,17 +3,21 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
+        <meta charset="utf-8">
+        <meta description="ラープロは時間単位でプロからプログラミングを学べるオンライン学習サイトです。プログラミングを愛する全てのみなさま、教え教わり合いお互いを高め合うためにぜひこのサービスをご利用ください！">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>@title</title>
-        <link rel="stylesheet" href='@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")'>
-        <link rel="stylesheet" href='@routes.Assets.at("lib/Eonasdan-bootstrap-datetimepicker/css/bootstrap-datetimepicker.css")'>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     </head>
     <body>
         @common.header()
-        @content
+        <main id="main">
+            @content
+        </main>
+        @common.footer()
         <script src="@routes.Assets.at("lib/jquery/jquery.min.js")"></script>
-        <script src='@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")'></script>
-        <script src='@routes.Assets.at("lib/momentjs/min/moment-with-locales.min.js")'></script>
-        <script src='@routes.Assets.at("lib/Eonasdan-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")'></script>
+        <script src="@routes.Assets.at("js/header.js")"></script>
+        <script src="@routes.Assets.at("js/search_tickets.js")"></script>
     </body>
 </html>

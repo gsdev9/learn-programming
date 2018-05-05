@@ -1,35 +1,61 @@
 @import org.pac4j.core.util.CommonHelper
 
 <header class="header">
-    <div class="header__inner">
-        <h1><a href="/">LEARN PROGRAMMING</a></h1>
-        <nav class="global-menu">
-            <div class="global-menu__search">
-                SEARCH
+    <div class="header__inner container">
+        <h1 class="header__inner__logo">
+            <a href="@routes.TicketController.index()"><img src="@routes.Assets.at("images/logo.png")"></a>
+        </h1>
+        <nav class="header__global-menu pc">
+            @if(CommonHelper.isNotBlank(session().get("userID"))) {
+            <div class="header__global-menu__search">
+                <p class="header__global-menu__search-input">
+                    <input class="header__global-menu__search-input-area" type="text" name="input" id="input" placeholder="キーワード検索">
+                    <span class="header__global-menu__search-input-img" style="background-image: url('@routes.Assets.at("images/search-icon.png")')"></span>
+                </p>
             </div>
-            <div class="global-menu__avatar">
-                AVATAR
+
+            @if(CommonHelper.isNotBlank(session().get("thumbnailPath"))) {
+            <div class="header__global-menu__avatar" id="header-avatar">
+                <p class="header__global-menu__avatar-img" style="background-image: url('@session().get("thumbnailPath")')"></p>
             </div>
-            <div class="global-menu__ticket-create">
-                <a href="@routes.TicketController.create()" class="global-menu__ticket-create-btn">チケットの作成</a>
-            </div>
-            @if(CommonHelper.isBlank(session().get("userID"))) {
-                <div class="global-menu__signup">
-                    <a href="@routes.SignUpController.index()" class="global-menu__signup-btn">新規会員登録</a>
+            }
+
+            <div class="header__global-menu__sub-menu" id="sub-menu">
+                <div class="header__global-menu__userdetail header__global-menu__sub-menu-list">
+                    <a href="@routes.AccountController.UserDetail()" class="header__global-menu__userdetail-btn">会員情報</a>
                 </div>
-                <div class="global-menu__login">
-                    <a href="@routes.LoginController.loginForm()" class="global-menu__login-btn">ログイン</a>
+                <div class="header__global-menu__logout header__global-menu__sub-menu-list">
+                    <a href="@routes.LogoutController.logout()" class="header__global-menu__logout-btn">ログアウト</a>
                 </div>
+                <div class="header__global-menu__signout header__global-menu__sub-menu-list">
+                    <a href="@routes.SignOutController.index()" class="header__global-menu__signout-btn">退会する</a>
+                </div>
+            </div>
+
+            <div class="header__global-menu__ticket-create">
+                <a href="@routes.TicketController.create()" class="header__global-menu__ticket-create-btn" id="ticket-create">チケットの作成<span></span></a>
+            </div>
             } else {
-                <div class="global-menu__userdetail">
-                    <a href="@routes.AccountController.UserDetail()" class="global-menu__userdetail-btn">会員情報</a>
-                </div>
-                <div class="global-menu__logout">
-                    <a href="@routes.LogoutController.logout()" class="global-menu__logout-btn">ログアウト</a>
-                </div>
-                <div class="global-menu__signout">
-                    <a href="@routes.SignOutController.index()" class="global-menu__signout-btn">退会する</a>
-                </div>
+            <div class="header__global-menu__signup">
+                <a href="@routes.SignUpController.index()" class="header__global-menu__signup-btn">新規会員登録</a>
+            </div>
+            <div class="header__global-menu__login">
+                <a href="@routes.LoginController.loginForm()" class="header__global-menu__login-btn">ログイン</a>
+            </div>
+            }
+        </nav>
+        <nav class="header__global-menu sp">
+            @if(CommonHelper.isNotBlank(session().get("userID"))) {
+            <div class="header__global-menu__ticket-create">
+                <a href="@routes.TicketController.create()" class="header__global-menu__ticket-create-btn" id="ticket-create">チケットの作成<span></span></a>
+            </div>
+            } else {
+            <div class="header__global-menu__signup">
+                <a href="@routes.SignUpController.index()" class="header__global-menu__signup-btn">新規会員登録</a>
+            </div>
+            <div class="header__global-menu__login">
+                <a href="@routes.LoginController.loginForm()" class="header__global-menu__login-btn">ログイン</a>
+            </div>
             }
         </nav>
     </div>

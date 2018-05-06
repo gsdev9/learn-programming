@@ -27,8 +27,21 @@ public class ChatInfoRepository {
      * @param userId
      * @return
      */
-    public ChatInfo find(Long userId) {
+    public ChatInfo findByUserId(Long userId) {
         return jpa.em().find(ChatInfo.class, userId);
+    }
+
+    /**
+     * ChatInfoデータのID,ルームID検索
+     *
+     * @param userId
+     * @return
+     */
+    public List<ChatInfo> findByUserIdAndRoomId(Long userId, Long roomId) {
+        return jpa.em().createQuery("SELECT c FROM ChatInfo c WHERE c.userId=:userId AND c.chatRoomId=:roomId", ChatInfo.class)
+                .setParameter("userId", userId)
+                .setParameter("roomId", roomId)
+                .getResultList();
     }
 
     /**

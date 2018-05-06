@@ -1,4 +1,4 @@
-var POLLLING_INVERVAL_TIME_IN_MILLIS = 10000;
+let POLLLING_INVERVAL_TIME_IN_MILLIS = 10000;
 
 
 $("[data-name='message']").keypress(press);
@@ -46,22 +46,17 @@ function chat(message) {
 function send(message) {
 
     $.ajax(jsRoutes.controllers.PurchasedTicketController.sendMessage($("#purchasedTicketId").val(), message)).done(function (data) {
-        console.log("ajax ok");
         chat(data);
     }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-        console.log("ajax error");
     })
 }
 
 function get() {
-    $.ajax(jsRoutes.controllers.PurchasedTicketController.getMessage($("#purchasedTicketId").val())).done(function (data) {
-        console.log("ajax ok");
-        console.log(data);
+    $.ajax(jsRoutes.controllers.ChatController.peerIdGet($("#purchasedTicketId").val())).done(function (data) {
         let len = data.length;
         for (let i = 0; i < len; i++) {
             chat(data[i].message)
         }
     }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-        console.log("ajax error");
     })
 }

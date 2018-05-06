@@ -5,11 +5,13 @@ let screenStream = new MediaStream();
 let yourPeer = null;
 let call = null;
 let dataConnection = null;
+var POLLLING_INVERVAL_TIME_IN_MILLIS = 10000;
+
 
 $("[data-name='message']").keypress(press);
+polling();
 
 // ***skyway***
-
 //***video***
 // カメラ映像、音声出力取得
 navigator.mediaDevices.getUserMedia({video: true, audio: true})
@@ -38,11 +40,8 @@ peer = new Peer({
 peer.on('open', function () {
     $('#my-id').text(peer.id);
     var json = {'peer': peer.id};
-    console.log(json);
-    $.ajax(jsRoutes.controllers.ChatController.peerIdSend(peer.id)).done(function (data) {
-        console.log("ajax ok");
+    $.ajax(jsRoutes.controllers.ChatController.peerIdSend(peer.id, $("#roomId").val())).done(function (data) {
     }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
-        console.log("ajax error");
     })
 });
 
@@ -70,6 +69,11 @@ $('#make-call').submit(function (e) {
 $('#end-call').click(function () {
     existingCall.close();
 });
+
+//切断処理
+function endcall() {
+    existingCall.close();
+};
 
 //着信処理
 peer.on('call', function (call) {
@@ -139,7 +143,6 @@ $("#tab").on("click", function () {
 
 
 function startScreenShare() {
-    console.log(screenshare.isScreenShareAvailable());
     if (screenshare.isScreenShareAvailable() == true) {
 
         screenshare.start({
@@ -179,14 +182,14 @@ $('#stop-screen').click(function () {
 
 //***Chat***
 // 発信側
-$('#startchat').on("click", function () {
+function chatstart() {
     if ($('#callto-id').val() || dataConnection == null) {
         dataConnection = peer.connect($('#callto-id').val());
         dataConnection.on('data', function (data) {
             chat(data);
         });
     }
-})
+}
 
 // 着信側
 peer.on('connection', connection => {
@@ -228,4 +231,22 @@ function chat(message) {
     $("[data-name='chat']").prepend(msgtag);
 }
 
+//ポーリング
+function polling() {
+    if (!document.hidden) { // このページが表示されているときだけリクエストする
+        getPeerId();
+    }
+    window.setTimeout(polling, POLLLING_INVERVAL_TIME_IN_MILLIS);
+};
 
+//相手のpeerId取得
+function getPeerId() {
+    $.ajax(jsRoutes.controllers.ChatController.peerIdGet($("#roomId").val())).done(function (data) {
+        if (data.peerId != $("#callto-id").val()) {
+            $("#callto-id").val(data.peerId);
+            endcall();
+            chatstart();
+        }
+    }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+    })
+}

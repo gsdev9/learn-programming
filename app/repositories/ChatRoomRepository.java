@@ -44,7 +44,8 @@ public class ChatRoomRepository {
      * @param ChatRoom
      */
     public void deleteChatRoom(ChatRoom ChatRoom) {
-        jpa.em().remove(ChatRoom);
+        ChatRoom.setStatus(false);
+        jpa.em().merge(ChatRoom);
     }
 
     /**

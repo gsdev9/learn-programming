@@ -7,9 +7,6 @@
     <input type="hidden" value="@purchasedTickets.getPurchasedTicketId" name="purchasedTicketId" id="purchasedTicketId">
     <input type="text" data-name="message" size="100" />
     <div data-name="chat">
-        @* @for(m <- purchasedTickets.message) {*@
-        @*<p>@m.getMessageText</p>*@
-        @*}*@
     </div>
     @helper.javascriptRouter("jsRoutes")(
         routes.javascript.PurchasedTicketController.sendMessage,

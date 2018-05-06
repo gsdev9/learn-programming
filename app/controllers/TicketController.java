@@ -170,18 +170,22 @@ public class TicketController extends Controller {
             List<Ticket> tickets = ticketService.findAll();
             Results.notFound(views.html.ticket.index.render(tickets));
         }
-        List<PurchasedTicket> purchasedSaleTickets = purchasedTicketService.findByTicketId(id);
+        //売れたチケット
+        List<PurchasedTicket> saledTickets = purchasedTicketService.findByTicketId(id);
         List<PurchasedTicket> purchasedTickets = purchasedTicketService.findByBuyerId(userId);
-        List<PurchasedTicket> purchasedBuyTickets = new ArrayList<>();
-        for (PurchasedTicket purchasedTicket : purchasedTickets) {
-            if (purchasedTicket.getStatus() == false) {
-                purchasedBuyTickets.add(purchasedTicket);
+        //購入したチケット
+        List<PurchasedTicket> buyTickets = new ArrayList<>();
+        if (!purchasedTickets.isEmpty()) {
+            for (PurchasedTicket purchasedTicket : purchasedTickets) {
+                if (purchasedTicket.getStatus() == false) {
+                    buyTickets.add(purchasedTicket);
+                }
             }
         }
         if (ticket.getUser().getUserId() != userId) {
-            purchasedSaleTickets = null;
+            saledTickets = new ArrayList<>();
         }
-        return Results.ok(views.html.ticket.single.render(ticket, userReviews, purchasedSaleTickets, purchasedBuyTickets));
+        return Results.ok(views.html.ticket.single.render(ticket, userReviews, saledTickets, buyTickets));
     }
 
     /**

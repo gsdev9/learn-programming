@@ -25,6 +25,7 @@ public class ChatRoom {
     @JsonIgnore
     public ChatContent chatContent;
 
+
     public Long getChatRoomId() {
         return chatRoomId;
     }

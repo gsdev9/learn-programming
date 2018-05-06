@@ -1,3 +1,4 @@
+@(roomId: Long)
 @import helper._
 @main("user detail") {
 
@@ -9,7 +10,7 @@
             <video id="my-video" muted="true" autoplay height="200px" width="auto"></video>
         </div>
         <form id="make-call" class="pure-form">
-            <input type="text" placeholder="Call user id..." id="callto-id">
+            <input type="hidden" placeholder="Call user id..." id="callto-id">
             <button href="#" class="pure-button pure-button-success" type="submit">Call</button>
             @CSRF.formField
         </form>
@@ -17,12 +18,13 @@
             <button href="#" class="pure-button pure-button-success" type="submit">End Call</button>
             @CSRF.formField
         </form>
-        <button id="startchat">chat start</button>
         <input type="text" data-name="message" size="100" />
         <div data-name="chat"></div>
     </div>
+    <input type="hidden" value="@roomId" name="roomId" id="roomId">
     @helper.javascriptRouter("jsRoutes")(
         routes.javascript.ChatController.peerIdSend,
+        routes.javascript.ChatController.peerIdGet
     )
 }
 

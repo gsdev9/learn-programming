@@ -36,6 +36,16 @@ public class PurchasedTicketService {
     }
 
     /**
+     * PurchasedTicketRepositoryのfindByRoomIdを呼び出す
+     *
+     * @param roomId
+     * @return
+     */
+    public List<PurchasedTicket> findByRoomId(Long roomId) {
+        return purchasedTicketRepository.findByRoomId(roomId);
+    }
+
+    /**
      * PurchasedTicketRepositoryのfindByUserIdを呼び出す
      *
      * @param userId
@@ -97,6 +107,15 @@ public class PurchasedTicketService {
         purchasedTicketRepository.create(purchasedTicket);
 
         return purchasedTicket;
+    }
+
+    /**
+     * purchasedTicketRepositoryのupdateを呼び出す
+     *
+     * @param purchasedTicket
+     */
+    public void update(PurchasedTicket purchasedTicket) {
+        purchasedTicketRepository.update(purchasedTicket);
     }
 
 }

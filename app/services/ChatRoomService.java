@@ -48,7 +48,7 @@ public class ChatRoomService {
      *
      * @param chatRoom
      */
-    public void updateChatRoom(ChatRoom chatRoom) {
+    public void update(ChatRoom chatRoom) {
         chatRoomRepository.updateChatRoom(chatRoom);
     }
 

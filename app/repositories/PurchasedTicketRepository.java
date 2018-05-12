@@ -36,6 +36,18 @@ public class PurchasedTicketRepository {
     }
 
     /**
+     * chatroomに紐づく購入済みチケットリストの取得
+     *
+     * @param roomId
+     * @return
+     */
+    public List<PurchasedTicket> findByRoomId(Long roomId) {
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.chatRoom.chatRoomId = :roomId", PurchasedTicket.class)
+                .setParameter("roomId", roomId)
+                .getResultList();
+    }
+
+    /**
      * 購入者に紐づく購入済みチケットリストの取得
      *
      * @param userId
@@ -91,5 +103,15 @@ public class PurchasedTicketRepository {
     public void create(PurchasedTicket purchasedTicket) {
         jpa.em().persist(purchasedTicket);
         Logger.debug("チケットが購入されました： {}", Json.toJson(purchasedTicket));
+    }
+
+    /**
+     * 購入済みチケットの更新
+     *
+     * @param purchasedTicket
+     */
+    public void update(PurchasedTicket purchasedTicket) {
+        jpa.em().merge(purchasedTicket);
+        Logger.debug("購入済みチケットが更新されました： {}", Json.toJson(purchasedTicket));
     }
 }

@@ -426,7 +426,7 @@ public class TicketController extends Controller {
         return Results.ok(views.html.ticket.purchase.render(ticket, f));
     }
 
-    /**
+    /** 
      * チケットの購入成立
      *
      * @param ticketId

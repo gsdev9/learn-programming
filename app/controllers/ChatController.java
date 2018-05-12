@@ -25,11 +25,25 @@ public class ChatController extends Controller {
     @Inject
     private PurchasedTicketService purchasedTicketService;
 
+
+    /**
+     * チャット画面
+     *
+     * @param roomId
+     * @return
+     */
     public Result chatRoute(Long roomId) {
         //TODO::ユーザーID整合性確認
         return Results.ok(views.html.chat.chat.render(roomId));
     }
 
+    /**
+     * peerIdを受け取るrest
+     *
+     * @param peerId
+     * @param roomId
+     * @return
+     */
     @Transactional
     public Result peerIdSend(String peerId, Long roomId) {
         String userId = Controller.session().get("userID");
@@ -49,6 +63,12 @@ public class ChatController extends Controller {
         return Results.ok();
     }
 
+    /**
+     * peerIdを送るrest
+     *
+     * @param roomId
+     * @return
+     */
     @Transactional
     public Result peerIdGet(Long roomId) {
         List<ChatInfo> chatInfoList = chatInfoService.findByChatRoomId(roomId);

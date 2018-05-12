@@ -1,5 +1,6 @@
 package services;
 
+import models.ChatRoom;
 import models.PurchasedTicket;
 import models.Ticket;
 import models.User;
@@ -35,6 +36,27 @@ public class PurchasedTicketService {
     }
 
     /**
+     * PurchasedTicketRepositoryのfindByUserIdを呼び出す
+     *
+     * @param userId
+     * @return
+     */
+    public List<PurchasedTicket> findByBuyerId(Long userId) {
+        return purchasedTicketRepository.findByBuyerId(userId);
+    }
+
+
+    /**
+     * PurchasedTicketRepositoryのfindByUserIdを呼び出す
+     *
+     * @param ticketId
+     * @return
+     */
+    public List<PurchasedTicket> findByTicketId(Long ticketId) {
+        return purchasedTicketRepository.findByTicketId(ticketId);
+    }
+
+    /**
      * PurchasedTicketRepositoryのfindByTicketIdAndUserIdを呼び出す
      *
      * @param purchasedTicketId
@@ -62,7 +84,7 @@ public class PurchasedTicketService {
      * @param ticketId
      * @param userId
      */
-    public PurchasedTicket create(Long ticketId, Long userId) {
+    public PurchasedTicket create(Long ticketId, Long userId, ChatRoom chatRoom) {
         User buyer = userService.findById(userId);
         Ticket ticket = ticketService.findById(ticketId);
 
@@ -70,9 +92,11 @@ public class PurchasedTicketService {
         purchasedTicket.buyer = buyer;
         purchasedTicket.ticket = ticket;
         purchasedTicket.status = false;
+        purchasedTicket.setChatRoom(chatRoom);
 
         purchasedTicketRepository.create(purchasedTicket);
 
         return purchasedTicket;
     }
+
 }

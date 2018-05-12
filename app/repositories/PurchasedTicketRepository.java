@@ -36,6 +36,30 @@ public class PurchasedTicketRepository {
     }
 
     /**
+     * 購入者に紐づく購入済みチケットリストの取得
+     *
+     * @param userId
+     * @return
+     */
+    public List<PurchasedTicket> findByBuyerId(Long userId) {
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.buyer.userId = :buyerId", PurchasedTicket.class)
+                .setParameter("buyerId", userId)
+                .getResultList();
+    }
+
+    /**
+     * チケットIDに紐づく購入済みチケットリストの取得
+     *
+     * @param ticketId
+     * @return
+     */
+    public List<PurchasedTicket> findByTicketId(Long ticketId) {
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.ticket.ticketId = :ticketId", PurchasedTicket.class)
+                .setParameter("ticketId", ticketId)
+                .getResultList();
+    }
+
+    /**
      * purchasedTicketId(主キー)で検索
      *
      * @param purchasedTicketId

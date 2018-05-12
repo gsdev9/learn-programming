@@ -3,11 +3,13 @@ package controllers;
 import models.ChatInfo;
 import play.Logger;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.ChatInfoService;
 import services.PurchasedTicketService;
+import services.UserService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -18,35 +20,43 @@ public class ChatController extends Controller {
     private ChatInfoService chatInfoService;
 
     @Inject
+    private UserService userService;
+
+    @Inject
     private PurchasedTicketService purchasedTicketService;
 
-    public Result chatRoute() {
-        return Results.ok(views.html.chat.chat.render());
+    public Result chatRoute(Long roomId) {
+        //TODO::ユーザーID整合性確認
+        return Results.ok(views.html.chat.chat.render(roomId));
     }
 
     @Transactional
-    public Result peerIdSend(String peerId) {
-        String userID = Controller.session().get("userID");
-        ChatInfo chatInfo = chatInfoService.findById(Long.parseLong(userID));
+    public Result peerIdSend(String peerId, Long roomId) {
+        String userId = Controller.session().get("userID");
+        String userName = userService.idPerserName(Long.parseLong(userId));
+        ChatInfo chatInfo = chatInfoService.findByUserId(Long.parseLong(userId));
         if (chatInfo == null) {
-            chatInfo.setUserId(Long.parseLong(userID));
+            chatInfo = new ChatInfo();
+            chatInfo.setUserId(Long.parseLong(userId));
             chatInfo.setPeerId(peerId);
+            chatInfo.setChatRoomId(roomId);
+            chatInfoService.registChatInfo(chatInfo);
         }
-        //TODO:chatルームID取得方法後から決める
-        chatInfo.setChatRoomId(1L);
-        chatInfoService.registChatInfo(chatInfo);
-        Logger.info("userId:{} , peerId:{}", userID, peerId);
+        chatInfo.setPeerId(peerId);
+        chatInfo.setChatRoomId(roomId);
+        chatInfoService.updatechatInfo(chatInfo);
+        Logger.info("userId:{} , peerId:{}", userId, peerId);
         return Results.ok();
     }
 
-    public Result peerIdGet(String peerId) {
-        //TODO:chatルームID取得方法後から決める
-        List<ChatInfo> chatInfoList = chatInfoService.findByChatRoomId(1L);
+    @Transactional
+    public Result peerIdGet(Long roomId) {
+        List<ChatInfo> chatInfoList = chatInfoService.findByChatRoomId(roomId);
         if (chatInfoList != null) {
             for (ChatInfo bean : chatInfoList) {
                 if (!Long.toString(bean.getUserId()).equals(Controller.session().get("userID"))) {
                     ChatInfo chatInfo = bean;
-                    return Results.ok();
+                    return Results.ok(Json.toJson(chatInfo));
                 }
             }
         }

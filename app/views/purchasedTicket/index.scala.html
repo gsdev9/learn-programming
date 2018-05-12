@@ -1,10 +1,17 @@
-@(ticket: Ticket, purchasedTicket: PurchasedTicket)
+@(ticket: Ticket, purchasedTickets: PurchasedTicket)
 
 @main("PurchasedTicket Page") {
     <p>@ticket.date</p>
     <p>@ticket.startAt</p>
     <p>@ticket.endAt</p>
-    @for(m <- purchasedTicket.message) {
-        <p>@m.message</p>
-    }
+    <input type="hidden" value="@purchasedTickets.getPurchasedTicketId" name="purchasedTicketId" id="purchasedTicketId">
+    <input type="text" data-name="message" size="100" />
+    <div data-name="chat">
+    </div>
+    @helper.javascriptRouter("jsRoutes")(
+        routes.javascript.PurchasedTicketController.sendMessage,
+        routes.javascript.PurchasedTicketController.getMessage
+    )
 }
+
+    <script src="@routes.Assets.at("js/message.js")"></script>

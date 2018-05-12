@@ -42,7 +42,7 @@ public class PurchasedTicket {
         this.purchasedTicketId = purchasedTicketId;
     }
 
-    public boolean isStatus() {
+    public boolean getStatus() {
         return status;
     }
 

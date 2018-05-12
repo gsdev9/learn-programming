@@ -1,0 +1,141 @@
+@import "./mixins.scss";
+
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: #0a0a0a;
+  &__inner {
+    padding: 15px 10px;
+    &__logo {
+      float: left;
+      margin-top: 10px;
+      width: 172px;
+      height: auto;
+      @include mq(sp) {
+        margin-top: 17px;
+        width: 100px;
+      }
+      img {
+        width: 100%;
+      }
+    }
+  }
+  &__global-menu {
+    position: relative;
+    float: right;
+    &__search {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 35px;
+    }
+    &__search-input {
+      position: relative;
+    }
+    &__search-input-area {
+      width: 240px;
+      height: 50px;
+      background-color: #eeeeee;
+      outline: none;
+      position: relative;
+      padding: 0 10px;
+      font-size: 1.6em;
+      color: #313131;
+      @include mq(container) {
+        width: 200px;
+      }
+    }
+    &__search-input-img {
+      display: block;
+      position: absolute;
+      right: 10px;
+      bottom: 17px;
+      width: 16px;
+      height: 16px;
+      background-size: contain;
+    }
+    &__avatar {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 35px;
+    }
+    &__avatar-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-position: 50%;
+      background-size: contain;
+      border: 3px solid #ffffff;
+      cursor: pointer;
+    }
+    &__sub-menu {
+      position: absolute;
+      display: none;
+      top: 65px;
+      right: 37.5%;
+      width: 150px;
+      z-index: 10;
+    }
+    &__sub-menu-list {
+      display: block;
+      background-color: #eeeeee;
+      transition: .3s ease-in background-color;
+      &:hover {
+        background-color: #313131;
+      }
+    }
+    &__sub-menu-list a {
+      display: block;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #313131;
+      transition: .3s ease-in color;
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+    &__ticket-create {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    &__ticket-create-btn {
+      display: block;
+      position: relative;
+      width: 240px;
+      height: 50px;
+      line-height: 50px;
+      background-color: #39c0d4;
+      text-align: center;
+      font-size: 1.8em;
+      color: #fff;
+      cursor: pointer;
+      overflow: hidden;
+      z-index: 1;
+      $btn-width: 240px;
+      @include mq(container) {
+        width: 200px;
+        $btn-width: 200px;
+      }
+      @include mq(sp) {
+        width: 150px;
+        $btn-width: 150px;
+      }
+
+      span {
+        position: absolute;
+        @include size(0);
+        display: block;
+        border-radius: 50%;
+        background-color: #d43e00;
+        transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+
+      &:hover {
+        span {
+          @include size(225%, $btn-width*2.25);
+        }
+      }
+    }
+  }
+}

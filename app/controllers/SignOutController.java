@@ -67,6 +67,7 @@ public class SignOutController extends Controller {
 
         userService.deleteUser(user);
         session().remove("userID");
+        session().remove("thumbnailPath");
 
         flash("userDeleted", messagesApi.get(Lang.apply(Lang.defaultLang().code()),"signout.status.204"));
 

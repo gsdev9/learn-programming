@@ -19,6 +19,7 @@ public class LogoutController {
      */
     public Result logout() {
         session().remove("userID");
+        session().remove("thumbnailPath");
         return redirect("/");
     }
 

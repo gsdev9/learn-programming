@@ -36,6 +36,8 @@ public class LoginController extends Controller {
 
     public Result index() {
         session().remove("userID");
+        session().remove("thumbnailPath");
+
         return Results.ok(views.html.login.index.render());
     }
 
@@ -74,6 +76,7 @@ public class LoginController extends Controller {
         }
 
         session("userID", String.valueOf(user.userId));
+        session("thumbnailPath", user.thumbnailPath);
         flash("signin", "ログインしました");
         return redirect("/top");
     }

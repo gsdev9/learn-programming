@@ -1,0 +1,53 @@
+<footer class="footer">
+    <div class="footer__inner container">
+        <div class="footer__inner__content">
+            <div class="footer__inner__left">
+                <p class="footer__inner__logo">
+                    <a href="@routes.TicketController.index()"><img src="@routes.Assets.at("images/logo.png")"></a>
+                </p>
+                <p class="footer__inner__msg">プログラミング、しようぜ。</p>
+                <div class="footer__inner__dev">
+                    <p class="footer__inner__dev-title">Developer</p>
+                    <ul class="footer__inner__dev-list">
+                        <li class="footer__inner__dev-developer">
+                            <p class="footer__inner__dev-developer-name">arapiku</p>
+                            <a href="https://twitter.com/kenta_arata" target="_blank">
+                                <img class="footer__inner__dev-developer-twitter" src="@routes.Assets.at("images/twitter_icon.png")">
+                            </a>
+                        </li>
+                        <li class="footer__inner__dev-developer">
+                            <p class="footer__inner__dev-developer-name">huton338</p>
+                            <a href="https://twitter.com/kenta_arata" target="_blank">
+                                <img class="footer__inner__dev-developer-twitter" src="@routes.Assets.at("images/twitter_icon.png")">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__inner__right">
+                <p class="footer__inner__link-list-title">List&lt;Link&gt;</p>
+                <ul class="footer__inner__link-list">
+                    <li class="footer__inner__link">
+                        <a href="@routes.TicketController.index()" class="footer__inner__link-btn">チケット一覧</a>
+                    </li>
+                    <li class="footer__inner__link">
+                        <a href="@routes.TicketController.create()" class="footer__inner__link-btn">チケット作成</a>
+                    </li>
+                    <li class="footer__inner__link">
+                        <a href="@routes.AccountController.UserDetail()" class="footer__inner__link-btn">購入したチケット</a>
+                    </li>
+                    <li class="footer__inner__link">
+                        <a href="@routes.AccountController.UserDetail()" class="footer__inner__link-btn">購入されたチケット</a>
+                    </li>
+                    <li class="footer__inner__link">
+                        <a href="@routes.AccountController.UserDetail()" class="footer__inner__link-btn">プロフィール</a>
+                    </li>
+                    <li class="footer__inner__link">
+                        <a href="#" class="footer__inner__link-btn">お問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <small class="footer__inner__copyright">2018 © ラープロ制作委員会 All Rights Reserved.</small>
+    </div>
+</footer>

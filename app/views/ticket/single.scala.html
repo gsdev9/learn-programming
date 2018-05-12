@@ -1,0 +1,41 @@
+@(ticket: Ticket, userReviews: java.util.List[UserReview], purchasedSaleTickets: java.util.List[PurchasedTicket], purchasedBuyTickets: java.util.List[PurchasedTicket])
+
+@main("Ticket's Single Page") {
+
+    <p>@ticket.title</p>
+    <p>@ticket.body</p>
+    <p>@ticket.date</p>
+    <p>@ticket.startAt</p>
+    <p>@ticket.endAt</p>
+    <p>@ticket.price</p>
+    <p>@ticket.user.thumbnailPath</p>
+    <p>@ticket.user.nickName</p>
+
+    <button><a href="@routes.TicketController.purchase(ticket.getTicketId)">購入手続きに進む</a></button>
+
+
+    <h2>レビュー</h2>
+    @for(u <- userReviews) {
+        <div>
+            <p>@u.buyer.userName</p>
+            <img src="@u.buyer.thumbnailPath">
+            <p>@u.evaluation</p>
+            <p>@u.comment</p>
+        </div>
+    }
+
+    @if(!purchasedSaleTickets.isEmpty) {
+        <h2>売れたチケット</h2>
+        @for(t <- purchasedSaleTickets) {
+            <p><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細</a></p>
+            <p><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット</a></p>
+        }
+    }
+    @if(!purchasedBuyTickets.isEmpty) {
+        <h2>買ったチケット</h2>
+        @for(t <- purchasedBuyTickets) {
+            <p><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細</a></p>
+            <p><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット</a></p>
+        }
+    }
+}

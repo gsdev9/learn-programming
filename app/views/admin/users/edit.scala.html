@@ -1,0 +1,15 @@
+@(form: play.data.Form[User])
+
+@main("User Edit") {
+
+    <h1>ユーザー編集画面っす</h1>
+    <form action="@routes.AdminController.updateUser(form.get().userId)" method="post">
+
+        @helper.CSRF.formField
+        @formgroup.text(form, "userName", "ユーザー名", true)
+        @formgroup.text(form, "nickName", "ニックネーム", true)
+        @formgroup.text(form, "email", "メールアドレス", true)
+        <input type="submit" value="更新する">
+
+    </form>
+}

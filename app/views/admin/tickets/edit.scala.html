@@ -1,0 +1,42 @@
+@import forms.TicketForm
+@(form: play.data.Form[TicketForm], id: Long)
+
+@action = {@routes.AdminController.confirmEditedTicket(id)}
+
+@main("Ticket Edit") {
+
+    <h1>チケット編集画面っす</h1>
+
+    <form action="@action" method="post">
+
+        @helper.CSRF.formField
+        @views.html.formgroup.date(form, "date", "日付", true)
+        @views.html.formgroup.time(form, "startAt", "授業開始時間", true)
+        @views.html.formgroup.time(form, "endAt", "授業終了時間", true)
+        @views.html.formgroup.num(form, "price", "料金", true)
+        @views.html.formgroup.text(form, "title", "チケットタイトル", true)
+        @views.html.formgroup.textarea(form, "body", "内容", true)
+        @views.html.formgroup.checkbox(form, "c", "C")
+        @views.html.formgroup.checkbox(form, "cPlusPlus", "C++")
+        @views.html.formgroup.checkbox(form, "cSharp", "C#")
+        @views.html.formgroup.checkbox(form, "java", "Java")
+        @views.html.formgroup.checkbox(form, "javaScript", "JavaScript")
+        @views.html.formgroup.checkbox(form, "php", "PHP")
+        @views.html.formgroup.checkbox(form, "ruby", "Ruby")
+        @views.html.formgroup.checkbox(form, "python", "Python")
+        @views.html.formgroup.checkbox(form, "perl", "Perl")
+        @views.html.formgroup.checkbox(form, "r", "R")
+        @views.html.formgroup.checkbox(form, "go", "Go")
+        @views.html.formgroup.checkbox(form, "scala", "Scala")
+        @views.html.formgroup.checkbox(form, "objectiveC", "Objective-C")
+        @views.html.formgroup.checkbox(form, "swift", "Swift")
+        @views.html.formgroup.checkbox(form, "kotlin", "Kotlin")
+        @views.html.formgroup.checkbox(form, "scratch", "Scratch")
+        @views.html.formgroup.checkbox(form, "blockly", "Blockly")
+        @views.html.formgroup.checkbox(form, "sqlLang", "SQL")
+
+        <input type="submit" value="チケット内容を確認">
+
+    </form>
+
+}

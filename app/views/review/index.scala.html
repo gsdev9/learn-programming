@@ -1,0 +1,24 @@
+@(form: play.data.Form[forms.ReviewForm])
+
+@action = {
+@routes.ReviewController.reviewCreate()
+}
+
+@main("Ticket Create") {
+
+    <form action="@action" method="post">
+
+        <div id="evaluation"></div>
+        @helper.CSRF.formField
+        @views.html.formgroup.text(form, "comment", "レビュー内容", true)
+        <input type="hidden" value="@form("purchasedTicketId").getValue.get()" name="purchasedTicketId">
+        <input type="submit" value="送信">
+    </form>
+
+}
+
+<script src="@routes.Assets.at("js/jquery.raty.js")"></script>
+<script type="text/javascript">
+        $.fn.raty.defaults.path = "/assets/images";
+        $('#evaluation').raty();
+</script>

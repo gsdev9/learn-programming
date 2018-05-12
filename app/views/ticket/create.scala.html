@@ -1,0 +1,43 @@
+@import forms.TicketForm
+@(ticketForm: play.data.Form[TicketForm])
+
+@action = {@routes.TicketController.createConfirm()}
+
+@main("Ticket Create") {
+
+    <form action="@action" method="post">
+
+        @helper.CSRF.formField
+        @views.html.formgroup.date(ticketForm, "date", "日付", true)
+        @views.html.formgroup.time(ticketForm, "startAt", "授業開始時間", true)
+        @views.html.formgroup.time(ticketForm, "endAt", "授業終了時間", true)
+        @views.html.formgroup.num(ticketForm, "price", "料金", true)
+        @views.html.formgroup.text(ticketForm, "title", "チケットタイトル", true)
+        @views.html.formgroup.textarea(ticketForm, "body", "内容", true)
+        @views.html.formgroup.checkbox(ticketForm, "c", "C")
+        @views.html.formgroup.checkbox(ticketForm, "cPlusPlus", "C++")
+        @views.html.formgroup.checkbox(ticketForm, "cSharp", "C#")
+        @views.html.formgroup.checkbox(ticketForm, "java", "Java")
+        @views.html.formgroup.checkbox(ticketForm, "javaScript", "JavaScript")
+        @views.html.formgroup.checkbox(ticketForm, "php", "PHP")
+        @views.html.formgroup.checkbox(ticketForm, "ruby", "Ruby")
+        @views.html.formgroup.checkbox(ticketForm, "python", "Python")
+        @views.html.formgroup.checkbox(ticketForm, "perl", "Perl")
+        @views.html.formgroup.checkbox(ticketForm, "r", "R")
+        @views.html.formgroup.checkbox(ticketForm, "go", "Go")
+        @views.html.formgroup.checkbox(ticketForm, "scala", "Scala")
+        @views.html.formgroup.checkbox(ticketForm, "objectiveC", "Objective-C")
+        @views.html.formgroup.checkbox(ticketForm, "swift", "Swift")
+        @views.html.formgroup.checkbox(ticketForm, "kotlin", "Kotlin")
+        @views.html.formgroup.checkbox(ticketForm, "scratch", "Scratch")
+        @views.html.formgroup.checkbox(ticketForm, "blockly", "Blockly")
+        @views.html.formgroup.checkbox(ticketForm, "sqlLang", "SQL")
+
+        <input type="submit" value="チケット内容を確認">
+
+    </form>
+
+}
+
+@*動いてないのでコメントアウトしてます*@
+@*<script src='@routes.Assets.at("js/date.js")'></script>*@

@@ -1,0 +1,15 @@
+@(form: play.data.Form[models.User])
+
+@main("Login Page") {
+    @if(flash.containsKey("error")) {
+        <p style="color: #ff0000;">@flash.get("error")</p>
+    }
+
+    @helper.form(action = routes.LoginController.login) {
+        @helper.CSRF.formField
+        @helper.inputText(form("userName"))
+        @helper.inputText(form("password"))
+        <input type="submit" value="ログイン">
+    }
+
+}

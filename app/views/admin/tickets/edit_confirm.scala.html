@@ -1,0 +1,40 @@
+@import forms.TicketForm
+@(form: play.data.Form[TicketForm], id: Long)
+
+@main("Ticket Create Confirm") {
+
+    <form action="@routes.AdminController.updateTicket(id)" method="post">
+
+        @helper.CSRF.formField
+        <p>日付：@form("date").getValue.get() <input type="hidden" name="date" value="@form("date").getValue.get()"></p>
+        <p>授業開始時間：@form("startAt").getValue.get() <input type="hidden" name="startAt" value="@form("startAt").getValue.get()"></p>
+        <p>授業終了時間：@form("endAt").getValue.get() <input type="hidden" name="endAt" value="@form("endAt").getValue.get()"></p>
+        <p>料金：@form("price").getValue.get() <input type="hidden" name="price" value="@form("price").getValue.get()"></p>
+        <p>タイトル：@form("title").getValue.get() <input type="hidden" name="title" value="@form("title").getValue.get()"></p>
+        <p>チケット内容：@form("body").getValue.get() <input type="hidden" name="body" value="@form("body").getValue.get()"></p>
+        <p>受講可能言語：<br>
+            @if(form("c").getValue.isPresent) {C} <input type="hidden" name="c" value="@form("c").getValue.orElse("false")">@if(form("c").getValue.isPresent) {<br>}
+            @if(form("cPlusPlus").getValue.isPresent) {CPlusPlus} <input type="hidden" name="cPlusPlus" value="@form("cPlusPlus").getValue.orElse("false")">@if(form("cPlusPlus").getValue.isPresent) {<br>}
+            @if(form("cSharp").getValue.isPresent) {CSharp} <input type="hidden" name="cSharp" value="@form("cSharp").getValue.orElse("false")">@if(form("cSharp").getValue.isPresent) {<br>}
+            @if(form("java").getValue.isPresent) {Java} <input type="hidden" name="java" value="@form("java").getValue.orElse("false")">@if(form("java").getValue.isPresent) {<br>}
+            @if(form("javaScript").getValue.isPresent) {JavaScript} <input type="hidden" name="javaScript" value="@form("javaScript").getValue.orElse("false")">@if(form("javaScript").getValue.isPresent) {<br>}
+            @if(form("php").getValue.isPresent) {PHP} <input type="hidden" name="php" value="@form("php").getValue.orElse("false")">@if(form("php").getValue.isPresent) {<br>}
+            @if(form("ruby").getValue.isPresent) {Ruby} <input type="hidden" name="ruby" value="@form("ruby").getValue.orElse("false")">@if(form("ruby").getValue.isPresent) {<br>}
+            @if(form("python").getValue.isPresent) {Python} <input type="hidden" name="python" value="@form("python").getValue.orElse("false")">@if(form("python").getValue.isPresent) {<br>}
+            @if(form("perl").getValue.isPresent) {Perl} <input type="hidden" name="perl" value="@form("perl").getValue.orElse("false")">@if(form("perl").getValue.isPresent) {<br>}
+            @if(form("r").getValue.isPresent) {R} <input type="hidden" name="r" value="@form("r").getValue.orElse("false")">@if(form("r").getValue.isPresent) {<br>}
+            @if(form("go").getValue.isPresent) {Go} <input type="hidden" name="go" value="@form("go").getValue.orElse("false")">@if(form("go").getValue.isPresent) {<br>}
+            @if(form("scala").getValue.isPresent) {Scala} <input type="hidden" name="scala" value="@form("scala").getValue.orElse("false")">@if(form("scala").getValue.isPresent) {<br>}
+            @if(form("objectiveC").getValue.isPresent) {Objective-C} <input type="hidden" name="objectiveC" value="@form("objectiveC").getValue.orElse("false")">@if(form("objectiveC").getValue.isPresent) {<br>}
+            @if(form("swift").getValue.isPresent) {Swift} <input type="hidden" name="swift" value="@form("swift").getValue.orElse("false")">@if(form("swift").getValue.isPresent) {<br>}
+            @if(form("kotlin").getValue.isPresent) {Kotlin} <input type="hidden" name="kotlin" value="@form("kotlin").getValue.orElse("false")">@if(form("kotlin").getValue.isPresent) {<br>}
+            @if(form("scratch").getValue.isPresent) {Scratch} <input type="hidden" name="scratch" value="@form("scratch").getValue.orElse("false")">@if(form("scratch").getValue.isPresent) {<br>}
+            @if(form("blockly").getValue.isPresent) {Blockly} <input type="hidden" name="blockly" value="@form("blockly").getValue.orElse("false")">@if(form("blockly").getValue.isPresent) {<br>}
+            @if(form("sqlLang").getValue.isPresent) {SQL} <input type="hidden" name="sqlLang" value="@form("sqlLang").getValue.orElse("false")">@if(form("sqlLang").getValue.isPresent) {<br>}
+        </p>
+        <p><a href="@routes.AdminController.editTicket(id)">入力画面に戻る</a></p>
+        <input type="submit" value="チケットを更新する">
+
+    </form>
+
+}

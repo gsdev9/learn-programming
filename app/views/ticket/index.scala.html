@@ -1,0 +1,111 @@
+@(lists: java.util.List[Ticket])
+
+@main("Top Page with Login") {
+    @if(flash.containsKey("signup")) {
+        <p>@flash.get("signup")</p>
+    }
+    @if(flash.containsKey("created")) {
+        <p>@flash.get("created")</p>
+    }
+    @if(flash.containsKey("updated")) {
+        <p>@flash.get("updated")</p>
+    }
+    @if(flash.containsKey("deleted")) {
+        <p>@flash.get("deleted")</p>
+    }
+    @if(flash.containsKey("signin")) {
+        <p>@flash.get("signin")</p>
+    }
+    @if(flash.containsKey("result")) {
+        <p>@flash.get("result")</p>
+    }
+    @if(flash.containsKey("notFound")) {
+        <p>@flash.get("notFound")</p>
+    }
+    @if(flash.containsKey("badRequest")) {
+        <p>@flash.get("badRequest")</p>
+    }
+    @if(flash.containsKey("appointed")) {
+        <p>@flash.get("appointed")</p>
+    }
+
+    <div class="container top-container">
+        <div class="top-container__sidebar" id="sidebar">
+           <nav class="top-container__sidebar__nav">
+               <ul class="top-container__sidebar__nav__category">
+                   <li class="top-container__sidebar__nav__category__list" id="c"><p>C</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="cPlusPlus"><p>C++</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="cSharp"><p>C#</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="java"><p>Java</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="javaScript"><p>JavaScript</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="php"><p>PHP</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="ruby"><p>Ruby</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="python"><p>Python</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="perl"><p>Perl</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="r"><p>R</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="go"><p>Go</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="scala"><p>Scala</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="objectiveC"><p>Objective-C</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="swift"><p>Swift</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="kotlin"><p>Kotlin</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="scratch"><p>Scratch</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="blockly"><p>Blockly</p></li>
+                   <li class="top-container__sidebar__nav__category__list" id="sqlLang"><p>SQL</p></li>
+               </ul>
+           </nav>
+        </div>
+
+        <div class="top-container__content">
+            <ul class="top-container__content__ticket-list" id="ticket-list">
+                @for(l <- lists) {
+                <li class="top-container__content__ticket" id="@l.getTicketId">
+                    <a href="@routes.TicketController.single(l.getTicketId.toLong)">
+                        <div class="top-container__content__ticket-thumbnail-area">
+                            <img class="top-container__content__ticket-thumbnail" src="">
+                        </div>
+                        <div class="top-container__content__ticket-top">
+                            <div class="top-container__content__ticket-top-left">
+                                <p class="top-container__content__ticket-avatar-img" style="background-image: url('@l.user.thumbnailPath')">
+                                <p class="top-container__content__ticket-nick-name">@l.user.nickName</p>
+                            </div>
+                            <div class="top-container__content__ticket-top-right">
+                                <div class="top-container__content__ticket-price">¥@l.price</div>
+                            </div>
+                        </div>
+                        <div class="top-container__content__ticket-middle">
+                            <h3 class="top-container__content__ticket-title">@l.getTitle</h3>
+                            <p class="top-container__content__ticket-date">
+                                @l.getDate @l.getStartAt~@l.getEndAt
+                            </p>
+                        </div>
+                        <div class="top-container__content__ticket-bottom">
+                            <ul class="top-container__content__ticket-label-list">
+                                @if(l.getTicketLabel.c == true) {<li class="top-container__content__ticket-label">C</li>}
+                                @if(l.getTicketLabel.cPlusPlus == true) {<li class="top-container__content__ticket-label">C++</li>}
+                                @if(l.getTicketLabel.cSharp == true) {<li class="top-container__content__ticket-label">C#</li>}
+                                @if(l.getTicketLabel.java == true) {<li class="top-container__content__ticket-label">Java</li>}
+                                @if(l.getTicketLabel.javaScript == true) {<li class="top-container__content__ticket-label">JavaScript</li>}
+                                @if(l.getTicketLabel.php == true) {<li class="top-container__content__ticket-label">PHP</li>}
+                                @if(l.getTicketLabel.ruby == true) {<li class="top-container__content__ticket-label">Ruby</li>}
+                                @if(l.getTicketLabel.python == true) {<li class="top-container__content__ticket-label">Python</li>}
+                                @if(l.getTicketLabel.perl == true) {<li class="top-container__content__ticket-label">Perl</li>}
+                                @if(l.getTicketLabel.r == true) {<li class="top-container__content__ticket-label">R</li>}
+                                @if(l.getTicketLabel.go == true) {<li class="top-container__content__ticket-label">Go</li>}
+                                @if(l.getTicketLabel.scala == true) {<li class="top-container__content__ticket-label">Scala</li>}
+                                @if(l.getTicketLabel.objectiveC == true) {<li class="top-container__content__ticket-label">Objective-C</li>}
+                                @if(l.getTicketLabel.swift == true) {<li class="top-container__content__ticket-label">Swift</li>}
+                                @if(l.getTicketLabel.kotlin == true) {<li class="top-container__content__ticket-label">Kotlin</li>}
+                                @if(l.getTicketLabel.scratch == true) {<li class="top-container__content__ticket-label">Scratch</li>}
+                                @if(l.getTicketLabel.blockly == true) {<li class="top-container__content__ticket-label">Blockly</li>}
+                                @if(l.getTicketLabel.sqlLang == true) {<li class="top-container__content__ticket-label">SQL</li>}
+                            </ul>
+                        </div>
+                    </a>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+<script src="@routes.Assets.at("js/top.js")"></script>

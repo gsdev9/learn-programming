@@ -77,7 +77,7 @@ public class PurchasedTicketRepository {
      * @return
      */
     public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
-        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.purchasedTicketId = :purchasedTicketId AND p.buyer.userId = :userId", PurchasedTicket.class)
+        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.purchasedTicketId = :purchasedTicketId AND p.buyer.userId = :userId OR p.ticket.user.userId = :userId", PurchasedTicket.class)
             .setParameter("purchasedTicketId", purchasedTicketId)
             .setParameter("userId", userId)
             .getSingleResult();

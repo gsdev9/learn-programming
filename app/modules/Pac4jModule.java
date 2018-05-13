@@ -5,9 +5,12 @@ import execptions.LoginHttpActionAdapter;
 import org.pac4j.core.authorization.authorizer.RequireAnyRoleAuthorizer;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
-import org.pac4j.oauth.client.*;
+import org.pac4j.oauth.client.TwitterClient;
 import org.pac4j.play.*;
 import org.pac4j.play.store.*;
+import play.Environment;
+
+import javax.inject.Inject;
 
 /**
  * Pac4j利用のためのモジュール
@@ -16,14 +19,27 @@ import org.pac4j.play.store.*;
  */
 public class Pac4jModule extends AbstractModule {
 
+    private static final String CONSUMER_KEY = "oauth.consumerKey";
+
+    private static final String CONSUMER_SECRET = "oauth.consumerSecret";
+
+    private static final String CALL_BACK_URL = "oauth.callBackUrl";
+
+    private final com.typesafe.config.Config config;
+
+    @Inject
+    public Pac4jModule(Environment environment, com.typesafe.config.Config config) {
+        this.config = config;
+    }
+
     @Override
     protected void configure() {
         bind(PlaySessionStore.class).to(PlayCacheSessionStore.class);
 
         // Twitter API
         TwitterClient twitterClient = new TwitterClient(
-            "d7ZRfaHu4aD5A1vRo0sVzINnN",
-            "GDEjkITvPTm29ymnkaqwRpiji5dgZZjrJUk9d7adeZvjLZwX7r"
+            config.getString(CONSUMER_KEY),
+            config.getString(CONSUMER_SECRET)
         );
 
         // Facebook API
@@ -34,7 +50,7 @@ public class Pac4jModule extends AbstractModule {
 
 
         // コールバックURL、クライアント
-        Clients clients = new Clients("http://localhost:9000/callback", twitterClient);
+        Clients clients = new Clients(config.getString(CALL_BACK_URL), twitterClient);
 
         // config
         Config config = new Config(clients);

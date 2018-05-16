@@ -20,6 +20,13 @@
             <button href="#" class="pure-button pure-button-success" type="submit">End Call</button>
             @CSRF.formField
         </form>
+        @form(action = routes.ChatController.fileUpload(), 'enctype -> "multipart/form-data") {
+            @CSRF.formField
+            <input type="file" name="picture">
+            <p>
+                <input type="submit">
+            </p>
+        }
         <input type="text" data-name="message" size="100" />
         <div data-name="chat"></div>
     </div>

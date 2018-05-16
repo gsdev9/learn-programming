@@ -5,6 +5,7 @@ import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.ChatInfoService;
@@ -12,6 +13,7 @@ import services.PurchasedTicketService;
 import services.UserService;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.List;
 
 public class ChatController extends Controller {
@@ -81,5 +83,19 @@ public class ChatController extends Controller {
             }
         }
         return Results.ok();
+    }
+
+    public Result fileUpload() {
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = body.getFile("picture");
+        if (picture != null) {
+            String fileName = picture.getFilename();
+            String contentType = picture.getContentType();
+            File file = picture.getFile();
+            return Results.ok("File uploaded");
+        } else {
+            Controller.flash("error", "Missing file");
+            return Results.badRequest();
+        }
     }
 }

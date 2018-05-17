@@ -1,13 +1,11 @@
 $(function () {
-    'use strict';
-
     // サブメニューの開閉
     $('#header-avatar').on('click', function() {
         $('#sub-menu').toggle();
     });
 
     // ボタンのマウスオーバーエフェクト
-    $('#ticket-create')
+    $('.btn-effect')
         .on('mouseenter', function(e) {
             let parentOffset = $(this).offset(),
                 relX = e.pageX - parentOffset.left,

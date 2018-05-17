@@ -8,9 +8,13 @@
 )
 
 <div class="form-group @if(form(name).hasErrors) {has-error}">
-    <label class="control-label">@label @if(required == true) {<strong>*</strong>}</label>
-    <textarea name="@name" class="form-control textarea" @if(required == true) {required} @if(disabled == true) {disabled} @toHtmlArgs(htmlArgs)>@form(name).getValue.orElse(null)</textarea>
-    @for(error <- form(name).errors) {
-        <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
-    }
+    <dl class="basic-form__textarea">
+        <dt><label>@label @if(required == true) {<strong>*</strong>}</label></dt>
+        <dd>
+            <textarea name="@name" class="form-control textarea" @if(required == true) {required} @if(disabled == true) {disabled} @toHtmlArgs(htmlArgs)>@form(name).getValue.orElse(null)</textarea>
+            @for(error <- form(name).errors) {
+                <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
+            }
+        </dd>
+    </dl>
 </div>

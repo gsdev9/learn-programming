@@ -3,8 +3,16 @@
 .footer {
   background-color: #0a0a0a;
   &__inner {
+    width: 1280px;
+    margin: 0 auto;
     padding: 40px 10px;
     overflow: hidden;
+    @include mq(container) {
+      width: 95%;
+    }
+    @include mq(sp) {
+      width: 90%;
+    }
     &__content {
       overflow: hidden;
     }

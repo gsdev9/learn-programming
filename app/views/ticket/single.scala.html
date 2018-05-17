@@ -1,41 +1,67 @@
 @(ticket: Ticket, userReviews: java.util.List[UserReview], purchasedSaleTickets: java.util.List[PurchasedTicket], purchasedBuyTickets: java.util.List[PurchasedTicket])
 
 @main("Ticket's Single Page") {
-
-    <p>@ticket.title</p>
-    <p>@ticket.body</p>
-    <p>@ticket.date</p>
-    <p>@ticket.startAt</p>
-    <p>@ticket.endAt</p>
-    <p>@ticket.price</p>
-    <p>@ticket.user.thumbnailPath</p>
-    <p>@ticket.user.nickName</p>
-
-    <button><a href="@routes.TicketController.purchase(ticket.getTicketId)">購入手続きに進む</a></button>
-
-
-    <h2>レビュー</h2>
-    @for(u <- userReviews) {
-        <div>
-            <p>@u.buyer.userName</p>
-            <img src="@u.buyer.thumbnailPath">
-            <p>@u.evaluation</p>
-            <p>@u.comment</p>
+    <div class="ticket-container container">
+        <div class="ticket-container__content">
+            <article id="@ticket.getTicketId">
+                <div class="ticket-container__catch">
+                    <img class="ticket-container__ticket-thumbnail" src="">
+                    <h1 class="ticket-container__ticket-title">@ticket.title</h1>
+                    <div class="ticket-container__user-thumbnail">
+                        <p class="ticket-container__user-thumbnail-img" style="background-image: url('@ticket.user.thumbnailPath')"></p>
+                    </div>
+                    <p class="ticket-container__user-nickname">@ticket.user.nickName</p>
+                    <p class="ticket-container__ticket-price">@ticket.price 円</p>
+                </div>
+                <div class="ticket-container__main">
+                    <p class="ticket-container__ticket-date">@ticket.date</p>
+                    <p class="ticket-container__ticket-time">@ticket.startAt ~ @ticket.endAt</p>
+                    <p class="ticket-container__ticket-body">@ticket.body</p>
+                    <button class="basic-form__submit btn-effect"><a href="@routes.TicketController.purchase(ticket.getTicketId)">購入手続きに進む<span></span></a></button>
+                </div>
+            </article>
         </div>
-    }
-
-    @if(!purchasedSaleTickets.isEmpty) {
-        <h2>売れたチケット</h2>
-        @for(t <- purchasedSaleTickets) {
-            <p><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細</a></p>
-            <p><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット</a></p>
-        }
-    }
-    @if(!purchasedBuyTickets.isEmpty) {
-        <h2>買ったチケット</h2>
-        @for(t <- purchasedBuyTickets) {
-            <p><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細</a></p>
-            <p><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット</a></p>
-        }
-    }
+        <div class="ticket-container__sidebar" id="sidebar">
+            <div class="ticket-container__ticket-info">
+                <p class="ticket-container__ticket-info__ticket-price">@ticket.price 円</p>
+                @if(!purchasedSaleTickets.isEmpty) {
+                    <p class="ticket-container__ticket-info__ticket-num">@purchasedSaleTickets.size() 枚購入されています！</p>
+                }
+                <button class="basic-form__submit btn-effect"><a href="@routes.TicketController.purchase(ticket.getTicketId)">購入手続きに進む<span></span></a></button>
+            </div>
+            <div class="ticket-container__user-info">
+                <div class="ticket-container__user-info__user-thumbnail">
+                    <p class="ticket-container__user-info__user-thumbnail-img" style="background-image: url('@ticket.user.thumbnailPath')"></p>
+                </div>
+                <p class="ticket-container__user-info__user-nickname">@ticket.user.nickName</p>
+                @if(ticket.user.introduction != null) {
+                    <p class="ticket-container__user-info__user-intro">@ticket.user.introduction</p>
+                }
+            </div>
+            @if(!purchasedSaleTickets.isEmpty || !purchasedBuyTickets.isEmpty) {
+                <div class="ticket-container__pticket-info">
+                    @if(!purchasedSaleTickets.isEmpty) {
+                        @for(t <- purchasedSaleTickets) {
+                            <div class="ticket-container__pticket-info__pticket-li">
+                                <p class="ticket-container__pticket-info__pticket-date">@ticket.date</p>
+                                <p class="ticket-container__pticket-info__pticket-time">@ticket.startAt ~ @ticket.endAt</p>
+                                <button class="basic-form__submit ticket-container__pticket-info__submit btn-effect"><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細<span></span></a></button>
+                                <button class="basic-form__submit ticket-container__pticket-info__submit btn-effect"><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット<span></span></a></button>
+                            </div>
+                        }
+                    }
+                    @if(!purchasedBuyTickets.isEmpty) {
+                        @for(t <- purchasedBuyTickets) {
+                            <div class="ticket-container__pticket-info__pticket-li">
+                                <p class="ticket-container__pticket-info__pticket-date">@ticket.date</p>
+                                <p class="ticket-container__pticket-info__pticket-time">@ticket.startAt ~ @ticket.endAt</p>
+                                <button class="basic-form__submit ticket-container__pticket-info__submit btn-effect"><a href="@routes.PurchasedTicketController.index(t.getPurchasedTicketId)">購入情報詳細<span></span></a></button>
+                                <button class="basic-form__submit ticket-container__pticket-info__submit btn-effect"><a href="@routes.ChatController.chatRoute(t.getChatRoom.getChatRoomId)">チャット<span></span></a></button>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
 }

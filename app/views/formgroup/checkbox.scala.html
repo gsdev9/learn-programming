@@ -6,10 +6,11 @@
 )
 
 <div class="checkbox @if(form(name).hasErrors) {has-error}">
-    <label>
-        <input type="checkbox" name="@name" @if(form(name).getValue.orElse(null)=="true"){checked="checked"} value="true"> @label
+    <label class="basic-form__checkbox-label">
+        <input type="checkbox" name="@name" @if(form(name).getValue.orElse(null)=="true"){checked="checked"} value="true" class="basic-form__checkbox-input">
+        <span class="basic-form__checkbox-icon">@label</span>
+        @for(error <- form(name).errors()) {
+            <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
+        }
     </label>
-    @for(error <- form(name).errors()) {
-        <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
-    }
 </div>

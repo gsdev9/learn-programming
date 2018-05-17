@@ -1,9 +1,9 @@
-@import "./mixins.scss";
+@import "mixins", "var";
 
 .header {
   width: 100%;
   height: 80px;
-  background-color: #0a0a0a;
+  background-color: $baseBlack;
   &__inner {
     padding: 15px 10px;
     &__logo {
@@ -38,7 +38,6 @@
       outline: none;
       position: relative;
       padding: 0 10px;
-      font-size: 1.6em;
       color: #313131;
       @include mq(container) {
         width: 200px;
@@ -64,7 +63,7 @@
       border-radius: 50%;
       background-position: 50%;
       background-size: contain;
-      border: 3px solid #ffffff;
+      border: 3px solid $baseWhite;
       cursor: pointer;
     }
     &__sub-menu {
@@ -93,20 +92,19 @@
         color: #eeeeee;
       }
     }
-    &__ticket-create {
+    &__li {
       display: inline-block;
       vertical-align: middle;
     }
-    &__ticket-create-btn {
+    &__li-btn {
       display: block;
       position: relative;
       width: 240px;
       height: 50px;
       line-height: 50px;
-      background-color: #39c0d4;
       text-align: center;
       font-size: 1.8em;
-      color: #fff;
+      color: $baseWhite;
       cursor: pointer;
       overflow: hidden;
       z-index: 1;
@@ -125,7 +123,7 @@
         @include size(0);
         display: block;
         border-radius: 50%;
-        background-color: #d43e00;
+        background-color: $logoRed;
         transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
         transform: translate(-50%, -50%);
         z-index: -1;
@@ -136,6 +134,15 @@
           @include size(225%, $btn-width*2.25);
         }
       }
+    }
+    &__ticket-create-btn {
+      background-color: #39c0d4;
+    }
+    &__signup-btn {
+      background-color: #2cd43f;
+    }
+    &__login-btn {
+      background-color: #39c0d4;
     }
   }
 }

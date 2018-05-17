@@ -1,0 +1,723 @@
+@import "mixins", "var";
+
+.catch {
+  width: 100%;
+  height: 60vh;
+  background-image: url("../images/catch.jpg");
+  background-size: cover;
+  display: table;
+  table-layout: fixed;
+  &__description {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 3.0em;
+    font-weight: bold;
+    color: $baseWhite;
+    letter-spacing: 2px;
+  }
+  &__block {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: $baseBlackOpacity;
+  }
+}
+
+.signup {
+  width: 100%;
+  height: 60vh;
+  position: relative;
+  &__box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    line-height: 30vh;
+    margin: 0 auto;
+    padding: 20px 0;
+    background-color: $baseBlackOpacity;
+    transform: translate(-50%, -50%);
+  }
+  &__sns {
+    text-align: center;
+    position: relative;
+    &::before {
+      position: relative;
+      content: url("../images/twitter_icon.png");
+      margin-right: 10px;
+    }
+    a {
+      font-size: 1.6em;
+      color: #fff;
+      transition: .3s ease-in color;
+      &:hover {
+        color: #39c0d4;
+      }
+    }
+  }
+}
+
+.signout {
+  width: 60%;
+  margin: 40px auto;
+  padding: 40px;
+  background-color: $baseBlackOpacity;
+  &__title {
+    font-size: 2.4em;
+    font-weight: bold;
+    color: $baseWhite;
+    text-align: center;
+  }
+  &__text {
+    margin-top: 40px;
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+  &__submit {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    font-size: 1.6em;
+    line-height: 50px;
+    background-color: #39c0d4;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    z-index: 1;
+    $btn-width: 100%;
+    a {
+      color: $baseWhite;
+      span {
+        position: absolute;
+        @include size(0);
+        display: block;
+        border-radius: 50%;
+        background-color: $logoRed;
+        transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+    }
+    &:hover {
+      a {
+        span {
+          @include size(225%, $btn-width*2.25);
+        }
+      }
+    }
+  }
+  &__back {
+    width: 100%;
+    height: 50px;
+    margin-top: 40px;
+    padding: 0;
+    font-size: 1.6em;
+    color: #313131;
+    line-height: 50px;
+    background-color: #eeeeee;
+    cursor: pointer;
+    outline: none;
+    transition: .1s ease-in all;
+    &:hover {
+      background-color: #313131;
+    }
+    a {
+      display: block;
+      color: #313131;
+      transition: .1s ease-in all;
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+}
+
+.basic-form {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 50px 0;
+  &__form {
+    width: 60%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: $baseBlackOpacity;
+  }
+  &__input-text, &__input-num, &__input-date, &__input-time, &__input-file, &__textarea {
+    margin-bottom: 20px;
+    dt {
+      margin-bottom: 10px;
+      label {
+        font-size: 1.6em;
+        color: $baseWhite;
+        strong {
+          color: $logoRed;
+        }
+      }
+    }
+    dd {
+      input {
+        width: 100%;
+        height: 40px;
+        font-size: 1.4em;
+        padding: 0 10px;
+      }
+      textarea {
+        width: 100%;
+        height: 160px;
+        font-size: 1.4em;
+        padding: 10px;
+      }
+    }
+  }
+  &__checkbox-label {
+  }
+  &__checkbox-input {
+    display: none;
+    &:checked + .basic-form__checkbox-icon {
+      color: $baseWhite;
+      background-color: #00561f;
+    }
+  }
+  &__checkbox-icon {
+    padding: 8px;
+    font-size: 1.4em;
+    color: #313131;
+    background-color: #eeeeee;
+    cursor: pointer;
+    transition: .1s ease-in all;
+    &:hover {
+      color: $baseWhite;
+      background-color: #313131;
+    }
+  }
+  &__par {
+    font-size: 1.6em;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  &__submit {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin-top: 40px;
+    font-size: 1.6em;
+    color: $baseWhite;
+    line-height: 50px;
+    background-color: #39c0d4;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    z-index: 1;
+    $btn-width: 100%;
+    span {
+      position: absolute;
+      @include size(0);
+      display: block;
+      border-radius: 50%;
+      background-color: $logoRed;
+      transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+    &:hover {
+      span {
+        @include size(225%, $btn-width*2.25);
+      }
+    }
+    a {
+      color: $baseWhite;
+    }
+  }
+  &__back {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    padding: 0;
+    font-size: 1.6em;
+    color: #313131;
+    line-height: 50px;
+    background-color: #eeeeee;
+    cursor: pointer;
+    outline: none;
+    transition: .1s ease-in all;
+    &:hover {
+      background-color: #313131;
+    }
+    a {
+      display: block;
+      color: #313131;
+      transition: .1s ease-in all;
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+}
+
+.checkbox {
+  display: inline-block;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 5px 5px 5px 0;
+  clear: both;
+  overflow: hidden;
+}
+
+.signup-form {
+  &__submit {
+    background-color: #2cd43f;
+  }
+}
+
+.sec {
+  width: 80%;
+  margin: 40px auto 0;
+  &__title {
+    display: inline-block;
+    font-size: 2.2em;
+    color: $baseWhite;
+    padding: 10px 20px;
+    background-color: #2cd43f;
+  }
+}
+
+.container {
+  height: auto;
+  min-height: 720px;
+  @include mq(tablet) {
+    min-height: auto;
+  }
+  &__sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20%;
+    height: auto;
+    @include mq(tablet) {
+      // test
+      display: none;
+      position: static;
+      width: 100%;
+    }
+    &__nav {
+      &__category {
+        &__list {
+          padding: 0 20px;
+          height: 40px;
+          line-height: 40px;
+          background-color: #313131;
+          border-bottom: 1px solid #eeeeee;
+          transition: .3s ease-in background-color;
+          cursor: pointer;
+          &:hover {
+            background-color: #39c0d4;
+          }
+          & p {
+            font-size: 1.8em;
+            color: $baseWhite;
+          }
+        }
+      }
+    }
+  }
+  .fixed {
+    position: fixed;  
+  }
+  
+  &__content {
+    padding-left: 17%;
+    width: 100%;
+    @include mq(container) {
+      padding-left: 18%;
+    }
+    @include mq(tablet) {
+      padding-left: 0;
+    }
+    &__ticket-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      padding-top: 40px;
+      width: 100%;
+    }
+    &__ticket {
+      width: 30%;
+      margin-bottom: 3.3333333%;
+      margin-left: 3.3333333%;
+      padding: 20px;
+      background-color: $baseWhite;
+      box-shadow: 10px 10px #d1513e;
+      transition: .3s ease-in all;
+      &:hover {
+        background-color: #d1513e;
+        box-shadow: 10px 10px $baseWhite;
+      }
+      @include mq(container) {
+        width: 46.666666%;
+      }
+      @include mq(tablet) {
+        margin-left: 6.6666666%;
+        margin-bottom: 6.6666666%;
+        &:nth-child(odd) {
+          margin-left: 0;
+        }
+      }
+      @include mq(sp) {
+        margin-left: 0;
+        width: 100%;
+        box-shadow: 0 10px #d1513e;
+      }
+      & a {
+        display: block;
+      }
+    }
+    &__ticket-thumbnail-area {
+      width: 100%;
+      // TODO サムネ投稿機能ができてからautoに変える
+      //height: auto;
+      height: 145px;
+      max-height: 195px;
+      background-color: #39c0d4;
+    }
+    &__ticket-thumbnail {
+      width: 100%;
+      height: auto;
+    }
+    &__ticket-top {
+      margin-top: 12px;
+      overflow: hidden;
+    }
+    &__ticket-left {
+      float: left;
+      width: 70%;
+      @include mq(tablet) {
+        float: none;
+        width: 100%;
+      }
+    }
+    &__ticket-avatar-img {
+      display: inline-block;
+      vertical-align: middle;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background-position: 50%;
+      background-size: contain;
+      cursor: pointer;
+    }
+    &__ticket-nick-name {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 1.4em;
+      color: #313131;
+    }
+    &__ticket-right {
+      float: right;
+      width: 30%;
+      @include mq(tablet) {
+        float: none;
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+    &__ticket-price {
+      display: inline-block;
+      float: right;
+      padding: 8px;
+      font-size: 1.4em;
+      color: $baseWhite;
+      text-align: center;
+      background-color: $logoBlue;
+      @include mq(tablet) {
+        float: none;
+      }
+    }
+    &__ticket-middle {
+      margin-top: 10px;
+    }
+    &__ticket-title {
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #313131;
+    }
+    &__ticket-date {
+      margin-top: 10px;
+      font-size: 1.4em;
+      color: #313131;
+    }
+    &__ticket-label {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 6px;
+      font-size: 1.2em;
+      color: $baseWhite;
+      background-color: #00561f;
+    }
+  }
+}
+.profile-container {
+  &__content-ticket-list {
+
+  }
+  &__content-ticket {
+    &:nth-child(3n+1) {
+      margin-left: 0;
+   }
+  }
+  &__btn {
+    margin-top: 20px;
+    transition: .3s ease-in background-color;
+    background-color: #eeeeee;
+    &:hover {
+      background-color: #39c0d4;
+    }
+    a {
+      padding: 8px;
+      font-weight: bold;
+      color: #313131;
+      transition: .3s ease-in color;
+      &:hover {
+        color: $baseWhite;
+      }
+    }
+  }
+  &__btn-update {
+    float: left;
+  }
+  &__btn-delete {
+    float: right;
+  }
+}
+
+.profile {
+  margin-top: 40px;
+  &__username {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.8em;
+  }
+  &__thumbnail {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__intro {
+    margin-top: 20px;
+    padding: 20px;
+    font-size: 1.4em;
+    background-color: $baseBlackOpacity;
+  }
+}
+
+.ticket-container {
+  margin: 40px auto;
+  overflow: hidden;
+  &__content {
+    float: left;
+    width: 60%;
+  }
+  &__catch {
+    position: relative;
+  }
+  &__ticket-thumbnail {
+    width: 100%;
+    height: 400px;
+    background-color: #39c0d4;
+  }
+  &__ticket-title {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2.4em;
+    color: $baseWhite;
+  }
+  &__user-thumbnail {
+    position: absolute;
+    left: 20px;
+    bottom: 80px;
+    margin-right: 20px;
+  }
+  &__user-thumbnail-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-position: 50%;
+    background-size: contain;
+    border: 3px solid $baseWhite;
+    cursor: pointer;
+  }
+  &__user-nickname {
+    position: absolute;
+    left: 80px;
+    bottom: 95px;
+    font-size: 2.0em;
+  }
+  &__ticket-price {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #2cd43f;
+    font-size: 2.6em;
+    color: $baseWhite;
+    text-align: center;
+    line-height: 70px;
+  }
+  &__main {
+    margin-top: 40px;
+    padding: 40px;
+    background-color: $baseWhite;
+  }
+  &__ticket-date {
+    margin-bottom: 10px;
+    color: $baseBlack;
+  }
+  &__ticket-time {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid $logoRed;
+    color: $baseBlack;
+  }
+  &__ticket-body {
+    line-height: 2;
+    color: $baseBlack;
+  }
+  &__sidebar {
+    float: right;
+    width: 30%;
+  }
+  &__ticket-info {
+    background-color: $baseBlackOpacity;
+    margin-bottom: 40px;
+    padding: 20px;
+    &__ticket-price {
+      margin-top: 20px;
+      font-size: 2.0em;
+      text-align: center;
+    }
+    &__ticket-num {
+      margin-top: 20px;
+      font-size: 2.0em;
+      text-align: center;
+    }
+  }
+  &__user-info {
+    position: relative;
+    background-color: $baseBlackOpacity;
+    margin-bottom: 40px;
+    padding: 20px;
+    &__user-thumbnail {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 20px;
+    }
+    &__user-thumbnail-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-position: 50%;
+      background-size: contain;
+      border: 3px solid $baseWhite;
+      cursor: pointer;
+    }
+    &__user-nickname {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 2.0em;
+    }
+    &__user-intro {
+      margin-top: 20px;
+    }
+  }
+  &__pticket-info {
+    background-color: $baseBlackOpacity;
+    margin-bottom: 40px;
+    padding: 40px;
+    &__pticket-li {
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: #cccccc;
+    }
+    &__pticket-date {
+      margin-bottom: 10px;
+      color: #313131;
+    }
+    &__pticket-time {
+      color: #313131;
+    }
+    &__submit {
+      margin-top: 20px;
+    }
+  }
+}
+
+.pticket-container {
+  width: 60%;
+  margin: 40px auto;
+  padding: 40px;
+  background-color: $baseWhite;
+  &__ticket-title {
+    margin-bottom: 20px;
+    font-size: 2.6em;
+    font-weight: bold;
+    color: $baseBlack;
+  }
+  &__user-thumbnail {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__user-thumbnail-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-position: 50%;
+    background-size: contain;
+    border: 3px solid $baseWhite;
+    cursor: pointer;
+  }
+  &__user-nickname {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 2.0em;
+    color: $baseBlack;
+  }
+  &__ticket-date {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: $baseBlack;
+  }
+  &__ticket-time {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    color: $baseBlack;
+    border-bottom: 2px solid $logoRed;
+  }
+  &__ticket-body {
+    margin-bottom: 40px;
+    color: $baseBlack;
+  }
+  &__message-title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 2.2em;
+    color: $baseBlack;
+  }
+  &__input-text {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 1.6em;
+    color: $baseBlack;
+    line-height: 40px;
+  }
+  &__chat {
+    margin-top: 20px;
+    font-size: 1.6em;
+    color: $baseBlack;
+    div {
+      margin-bottom: 10px;
+    }
+  }
+}

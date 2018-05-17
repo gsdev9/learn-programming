@@ -2,55 +2,184 @@
 
 @(user: play.data.Form[models.User], myTickets: java.util.List[Ticket], purchasedTickets: java.util.List[PurchasedTicket])
 
-    @main("user detail") {
-        @if(flash().containsKey("result")) {
-            <p>@flash.get("result")</p>
-        }
-
-        @form(action = routes.AccountController.UserUpdate()) {
-
-            @inputText(user("userName"), 'label -> "", 'id -> "name", 'size -> 20)
-            @inputText(user("nickName"))
-            @inputText(user("password"))
-            @inputText(user("email"))
-            @inputText(user("introduction"))
-            @inputText(user("cardNo"))
-            @inputText(user("cardMaxAgeMonth"))
-            @inputText(user("cardMaxAgeYear"))
-            @inputText(user("cardName"))
-            @inputText(user("cardCVC"))
-            @inputFile(field = user("thumbnailPath"), args = 'size -> 10)
+@main("user detail") {
+    <div class="profile-form basic-form">
+        @form(action = routes.AccountController.UserUpdate(), 'class -> "profile-form__form basic-form__form") {
+            @if(flash().containsKey("result")) {
+                <p>@flash.get("result")</p>
+            }
+            @inputText(
+                user("userName"),
+                '_label -> "ユーザーID",
+                'size -> 20,
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("nickName"),
+                '_label -> "ニックネーム",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("password"),
+                '_label -> "パスワード",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("email"),
+                '_label -> "メールアドレス",
+                '_class -> "basic-form__input-text"
+            )
+            @textarea(
+                user("introduction"),
+                '_label -> "自己紹介",
+                '_class -> "basic-form__textarea"
+            )
+            @inputText(
+                user("cardNo"),
+                '_label -> "カードNo.",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("cardMaxAgeMonth"),
+                '_label -> "有効月",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("cardMaxAgeYear"),
+                '_label -> "有効年",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("cardName"),
+                '_label -> "カード名義",
+                '_class -> "basic-form__input-text"
+            )
+            @inputText(
+                user("cardCVC"),
+                '_label -> "セキュリティコード",
+                '_class -> "basic-form__input-text"
+            )
+            @inputFile(
+                field = user("thumbnailPath"),
+                args = 'size -> 10,
+                '_label -> "プロフィール画像",
+                '_class -> "basic-form__input-file"
+            )
             @CSRF.formField
-            <input type="submit"/>
-
+            <button type="submit" class="profile-form__submit basic-form__submit btn-effect">ユーザー情報を更新する<span></span></button>
         }
+    </div>
 
-        <h2>自分がオーナーのチケット一覧</h2>
-        <ul>
+    <section class="sec">
+        <h2 class="sec__title">作成したチケット一覧</h2>
+        <div class="profile-container__content-ticket">
+            <ul class="container__content__ticket-list profile-container__content-ticket-list" id="ticket-list">
             @for(t <- myTickets) {
-            <li id="@t.getTicketId">
-                <p><a href="@routes.TicketController.edit(t.getTicketId.toLong)">編集する</a></p>
-                <p><a href="@routes.TicketController.delete(t.getTicketId.toLong)">削除する</a></p>
-                <a href="@routes.TicketController.single(t.getTicketId.toLong)">
-                    <img src="@t.getUser.getThumbnailPath">
-                    <h3>@t.getTitle</h3>
-                    <p>@t.getBody</p>
-                    <p>@t.getDate</p>
-                    <p>@t.getPrice 円</p>
-                </a>
-            </li>
+                <li class="container__content__ticket profile-container__content-ticket" id="@t.getTicketId">
+                    <a href="@routes.TicketController.single(t.getTicketId.toLong)">
+                        <div class="container__content__ticket-thumbnail-area">
+                            <img class="container__content__ticket-thumbnail" src="">
+                        </div>
+                        <div class="container__content__ticket-top">
+                            <div class="container__content__ticket-left">
+                                <p class="container__content__ticket-avatar-img" style="background-image: url('@t.user.thumbnailPath')">
+                            <p class="container__content__ticket-nick-name">@t.user.nickName</p>
+                            </div>
+                            <div class="container__content__ticket-right">
+                                <div class="container__content__ticket-price">¥@t.price</div>
+                            </div>
+                        </div>
+                        <div class="container__content__ticket-middle">
+                            <h3 class="container__content__ticket-title">@t.getTitle</h3>
+                            <p class="container__content__ticket-date">
+                                @t.getDate @t.getStartAt~@t.getEndAt
+                            </p>
+                        </div>
+                        <div class="container__content__ticket-bottom">
+                            <ul class="container__content__ticket-label-list">
+                                @if(t.getTicketLabel.c == true) {<li class="container__content__ticket-label">C</li>}
+                                @if(t.getTicketLabel.cPlusPlus == true) {<li class="container__content__ticket-label">C++</li>}
+                                @if(t.getTicketLabel.cSharp == true) {<li class="container__content__ticket-label">C#</li>}
+                                @if(t.getTicketLabel.java == true) {<li class="container__content__ticket-label">Java</li>}
+                                @if(t.getTicketLabel.javaScript == true) {<li class="container__content__ticket-label">JavaScript</li>}
+                                @if(t.getTicketLabel.php == true) {<li class="container__content__ticket-label">PHP</li>}
+                                @if(t.getTicketLabel.ruby == true) {<li class="container__content__ticket-label">Ruby</li>}
+                                @if(t.getTicketLabel.python == true) {<li class="container__content__ticket-label">Python</li>}
+                                @if(t.getTicketLabel.perl == true) {<li class="container__content__ticket-label">Perl</li>}
+                                @if(t.getTicketLabel.r == true) {<li class="container__content__ticket-label">R</li>}
+                                @if(t.getTicketLabel.go == true) {<li class="container__content__ticket-label">Go</li>}
+                                @if(t.getTicketLabel.scala == true) {<li class="container__content__ticket-label">Scala</li>}
+                                @if(t.getTicketLabel.objectiveC == true) {<li class="container__content__ticket-label">Objective-C</li>}
+                                @if(t.getTicketLabel.swift == true) {<li class="container__content__ticket-label">Swift</li>}
+                                @if(t.getTicketLabel.kotlin == true) {<li class="container__content__ticket-label">Kotlin</li>}
+                                @if(t.getTicketLabel.scratch == true) {<li class="container__content__ticket-label">Scratch</li>}
+                                @if(t.getTicketLabel.blockly == true) {<li class="container__content__ticket-label">Blockly</li>}
+                                @if(t.getTicketLabel.sqlLang == true) {<li class="container__content__ticket-label">SQL</li>}
+                            </ul>
+                        </div>
+                    </a>
+                    <button class="profile-container__btn profile-container__btn-update"><a href="@routes.TicketController.edit(t.getTicketId.toLong)">編集する</a></button>
+                    <button class="profile-container__btn profile-container__btn-delete"><a href="@routes.TicketController.delete(t.getTicketId.toLong)">削除する</a></button>
+                </li>
             }
-        </ul>
+            </ul>
+        </div>
+    </section>
 
-        <h2>成立したチケット一覧</h2>
-        <ul>
+    <section class="sec">
+        <h2 class="sec__title">成立したチケット一覧</h2>
+        <div class="profile-container__content-ticket">
+            <ul class="container__content__ticket-list profile-container__content-ticket-list" id="ticket-list">
             @for(p <- purchasedTickets) {
-            <li id="@p.getPurchasedTicketId">
-                <a href="@routes.PurchasedTicketController.index(p.getPurchasedTicketId.toLong)">
-                    <p>@p.ticket.title</p>
-                </a>
-            </li>
+                <li class="container__content__ticket profile-container__content-ticket" id="@p.getPurchasedTicketId">
+                    <a href="@routes.PurchasedTicketController.index(p.getPurchasedTicketId)">
+                        <div class="container__content__ticket-thumbnail-area">
+                            <img class="container__content__ticket-thumbnail" src="">
+                        </div>
+                        <div class="container__content__ticket-top">
+                            <div class="container__content__ticket-left">
+                                <p class="container__content__ticket-avatar-img" style="background-image: url('@p.getTicket.user.thumbnailPath')">
+                            <p class="container__content__ticket-nick-name">@p.getTicket.user.nickName</p>
+                            </div>
+                            <div class="container__content__ticket-right">
+                                <div class="container__content__ticket-price">¥@p.getTicket.price</div>
+                            </div>
+                        </div>
+                        <div class="container__content__ticket-middle">
+                            <h3 class="container__content__ticket-title">@p.getTicket.getTitle</h3>
+                            <p class="container__content__ticket-date">
+                                @p.getTicket.getDate @p.getTicket.getStartAt~@p.getTicket.getEndAt
+                            </p>
+                        </div>
+                        <div class="container__content__ticket-bottom">
+                            <ul class="container__content__ticket-label-list">
+                                @if(p.getTicket.getTicketLabel.c == true) {<li class="container__content__ticket-label">C</li>}
+                                @if(p.getTicket.getTicketLabel.cPlusPlus == true) {<li class="container__content__ticket-label">C++</li>}
+                                @if(p.getTicket.getTicketLabel.cSharp == true) {<li class="container__content__ticket-label">C#</li>}
+                                @if(p.getTicket.getTicketLabel.java == true) {<li class="container__content__ticket-label">Java</li>}
+                                @if(p.getTicket.getTicketLabel.javaScript == true) {<li class="container__content__ticket-label">JavaScript</li>}
+                                @if(p.getTicket.getTicketLabel.php == true) {<li class="container__content__ticket-label">PHP</li>}
+                                @if(p.getTicket.getTicketLabel.ruby == true) {<li class="container__content__ticket-label">Ruby</li>}
+                                @if(p.getTicket.getTicketLabel.python == true) {<li class="container__content__ticket-label">Python</li>}
+                                @if(p.getTicket.getTicketLabel.perl == true) {<li class="container__content__ticket-label">Perl</li>}
+                                @if(p.getTicket.getTicketLabel.r == true) {<li class="container__content__ticket-label">R</li>}
+                                @if(p.getTicket.getTicketLabel.go == true) {<li class="container__content__ticket-label">Go</li>}
+                                @if(p.getTicket.getTicketLabel.scala == true) {<li class="container__content__ticket-label">Scala</li>}
+                                @if(p.getTicket.getTicketLabel.objectiveC == true) {<li class="container__content__ticket-label">Objective-C</li>}
+                                @if(p.getTicket.getTicketLabel.swift == true) {<li class="container__content__ticket-label">Swift</li>}
+                                @if(p.getTicket.getTicketLabel.kotlin == true) {<li class="container__content__ticket-label">Kotlin</li>}
+                                @if(p.getTicket.getTicketLabel.scratch == true) {<li class="container__content__ticket-label">Scratch</li>}
+                                @if(p.getTicket.getTicketLabel.blockly == true) {<li class="container__content__ticket-label">Blockly</li>}
+                                @if(p.getTicket.getTicketLabel.sqlLang == true) {<li class="container__content__ticket-label">SQL</li>}
+                            </ul>
+                        </div>
+                    </a>
+                    <button class="profile-container__btn profile-container__btn-update"><a href="@routes.TicketController.edit(p.getTicket.getTicketId.toLong)">編集する</a></button>
+                    <button class="profile-container__btn profile-container__btn-delete"><a href="@routes.TicketController.delete(p.getTicket.getTicketId.toLong)">削除する</a></button>
+                </li>
             }
-        </ul>
+            </ul>
+        </div>
+    </section>
 
-    }
+}

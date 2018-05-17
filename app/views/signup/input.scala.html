@@ -1,19 +1,44 @@
 @(form: Form[models.User])
 
 @main("Sign Up Page") {
-    @if(flash.containsKey("unique_error")) {
-        <p style="color: #ff0000;">@flash.get("unique_error")</p>
-    }
-
-    @helper.form(action = routes.SignUpController.input()) {
-        @helper.CSRF.formField
-        @helper.inputText(form("userName"))
-        @helper.inputText(form("nickName"))
-        @helper.inputText(form("email"))
-        @helper.inputText(form("password"))
-        @helper.inputText(form("introduction"))
-        @helper.inputText(form("thumbnailPath"))
-        <input type="submit" value="送信">
-    }
+    <div class="signup-form basic-form">
+        @helper.form(action = routes.SignUpController.input(), 'class -> "signup-form__form basic-form__form") {
+            @if(flash.containsKey("unique_error")) {
+                <p style="color: #ff0000;">@flash.get("unique_error")</p>
+            }
+            @helper.CSRF.formField
+            @helper.inputText(
+                form("userName"),
+                '_label -> "ユーザーID",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("nickName"),
+                '_label -> "ニックネーム",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("email"),
+                '_label -> "メールアドレス",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("password"),
+                '_label -> "パスワード",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("introduction"),
+                '_label -> "自己紹介",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("thumbnailPath"),
+                '_label -> "プロフィール画像",
+                '_class -> "basic-form__input-text"
+            )
+            <button type="submit" class="signup-form__submit basic-form__submit btn-effect">登録する<span></span></button>
+        }
+    </div>
 
 }

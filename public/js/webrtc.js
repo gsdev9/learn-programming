@@ -72,7 +72,9 @@ $('#end-call').click(function () {
 
 //切断処理
 function endcall() {
-    existingCall.close();
+    if (existingCall != null) {
+        existingCall.close();
+    }
 };
 
 //着信処理

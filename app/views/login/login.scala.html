@@ -1,15 +1,23 @@
 @(form: play.data.Form[models.User])
 
 @main("Login Page") {
-    @if(flash.containsKey("error")) {
-        <p style="color: #ff0000;">@flash.get("error")</p>
-    }
-
-    @helper.form(action = routes.LoginController.login) {
-        @helper.CSRF.formField
-        @helper.inputText(form("userName"))
-        @helper.inputText(form("password"))
-        <input type="submit" value="ログイン">
-    }
-
+    <div class="login-form basic-form">
+        @helper.form(action = routes.LoginController.login, 'class -> "login-form__form basic-form__form") {
+            @if(flash.containsKey("error")) {
+                <p style="color: #ff0000;">@flash.get("error")</p>
+            }
+            @helper.CSRF.formField
+            @helper.inputText(
+                form("userName"),
+                '_label -> "ユーザーID",
+                '_class -> "basic-form__input-text"
+            )
+            @helper.inputText(
+                form("password"),
+                '_label -> "パスワード",
+                '_class -> "basic-form__input-text"
+            )
+            <button type="submit" class="login-form__submit basic-form__submit btn-effect">ログイン<span></span></button>
+        }
+    </div>
 }

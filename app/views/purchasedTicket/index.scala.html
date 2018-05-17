@@ -1,18 +1,28 @@
 @(ticket: Ticket, purchasedTicket: PurchasedTicket)
 
 @main("PurchasedTicket Page") {
-    <p>@ticket.date</p>
-    <p>@ticket.startAt</p>
-    <p>@ticket.endAt</p>
-    <p><a href="@routes.ChatController.chatRoute(purchasedTicket.getChatRoom.getChatRoomId)">チャット</a></p>
-    <input type="hidden" value="@purchasedTicket.getPurchasedTicketId" name="purchasedTicketId" id="purchasedTicketId">
-    <input type="text" data-name="message" size="100" />
-    <div data-name="chat">
+    <div class="pticket-container container">
+        <article id="@ticket.getTicketId">
+            <h1 class="pticket-container__ticket-title">@ticket.title</h1>
+            <div class="pticket-container__user-thumbnail">
+                <p class="pticket-container__user-thumbnail-img" style="background-image: url('@ticket.user.thumbnailPath')"></p>
+            </div>
+            <p class="pticket-container__user-nickname">@ticket.user.nickName</p>
+            <p class="pticket-container__ticket-date">@ticket.date</p>
+            <p class="pticket-container__ticket-time">@ticket.startAt ~ @ticket.endAt</p>
+            <p class="pticket-container__ticket-body">@ticket.body</p>
+            <button class="basic-form__submit pticket-container__submit btn-effect"><a href="@routes.ChatController.chatRoute(purchasedTicket.getChatRoom.getChatRoomId)">チャット<span></span></a></button>
+            <input type="hidden" value="@purchasedTicket.getPurchasedTicketId" name="purchasedTicketId" id="purchasedTicketId">
+            <h2 class="pticket-container__message-title">メッセージ</h2>
+            <input type="text" data-name="message" size="100" class="pticket-container__input-text"/>
+            <div data-name="chat" class="pticket-container__chat">
+            </div>
+            @helper.javascriptRouter("jsRoutes")(
+                routes.javascript.PurchasedTicketController.sendMessage,
+                routes.javascript.PurchasedTicketController.getMessage
+            )
+        </article>
     </div>
-    @helper.javascriptRouter("jsRoutes")(
-        routes.javascript.PurchasedTicketController.sendMessage,
-        routes.javascript.PurchasedTicketController.getMessage
-    )
 }
 
     <script src="@routes.Assets.at("js/message.js")"></script>

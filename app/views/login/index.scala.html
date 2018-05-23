@@ -1,9 +1,9 @@
 @main("Top Page") {
     @if(flash.containsKey("failed")) {
-        <p style="color: #ff0000;">@flash.get("failed")</p>
+        <div class="flash" style="color: #ff0000;">@flash.get("failed")</div>
     }
     @if(flash.containsKey("userDeleted")) {
-        <p>@flash.get("userDeleted")</p>
+        <div class="flash">@flash.get("userDeleted")</div>
     }
     <div class="catch">
         <h1 class="catch__description">

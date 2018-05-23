@@ -6,7 +6,7 @@
     <div class="profile-form basic-form">
         @form(action = routes.AccountController.UserUpdate(), 'class -> "profile-form__form basic-form__form") {
             @if(flash().containsKey("result")) {
-                <p>@flash.get("result")</p>
+                <div class="flash">@flash.get("result")</div>
             }
             @inputText(
                 user("userName"),

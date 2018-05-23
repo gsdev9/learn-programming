@@ -227,7 +227,7 @@ function chat(message) {
         chats = chats.last().remove();
     }
     // メッセージ表示
-    var msgtag = $("<div>").text(message);
+    var msgtag = $("<p class='vido-chat__txt'>").text(message);
     $("[data-name='chat']").prepend(msgtag);
 }
 

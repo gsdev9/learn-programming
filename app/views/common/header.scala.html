@@ -32,29 +32,29 @@
                 </div>
             </div>
 
-            <div class="header__global-menu__ticket-create">
-                <a href="@routes.TicketController.create()" class="header__global-menu__ticket-create-btn" id="ticket-create">チケットの作成<span></span></a>
+            <div class="header__global-menu__li header__global-menu__ticket-create">
+                <a href="@routes.TicketController.create()" class="header__global-menu__li-btn header__global-menu__ticket-create-btn btn-effect" id="ticket-create">チケットの作成<span></span></a>
             </div>
             } else {
-            <div class="header__global-menu__signup">
-                <a href="@routes.SignUpController.index()" class="header__global-menu__signup-btn">新規会員登録</a>
+            <div class="header__global-menu__li header__global-menu__signup">
+                <a href="@routes.SignUpController.index()" class="header__global-menu__li-btn header__global-menu__signup-btn btn-effect">新規会員登録<span></span></a>
             </div>
-            <div class="header__global-menu__login">
-                <a href="@routes.LoginController.loginForm()" class="header__global-menu__login-btn">ログイン</a>
+            <div class="header__global-menu__li header__global-menu__login">
+                <a href="@routes.LoginController.loginForm()" class="header__global-menu__li-btn header__global-menu__login-btn btn-effect">ログイン<span></span></a>
             </div>
             }
         </nav>
         <nav class="header__global-menu sp">
             @if(CommonHelper.isNotBlank(session().get("userID"))) {
-            <div class="header__global-menu__ticket-create">
-                <a href="@routes.TicketController.create()" class="header__global-menu__ticket-create-btn" id="ticket-create">チケットの作成<span></span></a>
+            <div class="header__global-menu__li header__global-menu__ticket-create">
+                <a href="@routes.TicketController.create()" class="header__global-menu__li-btn header__global-menu__ticket-create-btn btn-effect" id="ticket-create">チケットの作成<span></span></a>
             </div>
             } else {
-            <div class="header__global-menu__signup">
-                <a href="@routes.SignUpController.index()" class="header__global-menu__signup-btn">新規会員登録</a>
+            <div class="header__global-menu__li header__global-menu__signup">
+                <a href="@routes.SignUpController.index()" class="header__global-menu__li-btn header__global-menu__signup-btn btn-effect">新規会員登録<span></span></a>
             </div>
-            <div class="header__global-menu__login">
-                <a href="@routes.LoginController.loginForm()" class="header__global-menu__login-btn">ログイン</a>
+            <div class="header__global-menu__li header__global-menu__login">
+                <a href="@routes.LoginController.loginForm()" class="header__global-menu__li-btn header__global-menu__login-btn btn-effect">ログイン<span></span></a>
             </div>
             }
         </nav>

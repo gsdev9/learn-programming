@@ -8,9 +8,13 @@
 )
 
 <div class="form-group @if(form(name).hasErrors) {has-error}">
-    <label class="control-label">@label @if(required == true) {<strong>*</strong>}</label>
-    <input type="number" name="@name" class="form-control num" value="@form(name).getValue.orElse(null)" @if(required == true) {required} @if(disabled == true) {disabled} @toHtmlArgs(htmlArgs)>
-    @for(error <- form(name).errors) {
-        <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
-    }
+    <dl class="basic-form__input-num">
+        <dt><label class="control-label">@label @if(required == true) {<strong>*</strong>}</label></dt>
+        <dd>
+            <input type="number" name="@name" class="form-control num" value="@form(name).getValue.orElse(null)" @if(required == true) {required} @if(disabled == true) {disabled} @toHtmlArgs(htmlArgs)>
+            @for(error <- form(name).errors) {
+                <p class="help-block">@Messages(error.messages, error.arguments.toArray: _*)</p>
+            }
+        </dd>
+    </dl>
 </div>

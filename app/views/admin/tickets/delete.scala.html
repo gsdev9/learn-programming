@@ -3,7 +3,7 @@
 
 @main("Ticket Delete Confirm") {
 
-    <form action="@routes.TicketController.destroy(id)" method="post">
+    <form action="@routes.AdminController.destroyTicket(id)" method="post">
 
         @helper.CSRF.formField
         <p>日付：@form("date").getValue.get() <input type="hidden" name="date" value="@form("date").getValue.get()"></p>

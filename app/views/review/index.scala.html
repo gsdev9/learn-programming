@@ -4,17 +4,17 @@
 @routes.ReviewController.reviewCreate()
 }
 
-@main("Ticket Create") {
-
-    <form action="@action" method="post">
-
-        <div id="evaluation"></div>
-        @helper.CSRF.formField
-        @views.html.formgroup.text(form, "comment", "レビュー内容", true)
-        <input type="hidden" value="@form("purchasedTicketId").getValue.get()" name="purchasedTicketId">
-        <input type="submit" value="送信">
-    </form>
-
+@main("review") {
+    <div class="review-form basic-form">
+        <h1 class="review-form__title">レビュー</h1>
+        <form action="@action" method="post" class="review-form__form basic-form__form">
+            <div id="evaluation"></div>
+            @helper.CSRF.formField
+            @views.html.formgroup.text(form, "comment", "レビュー内容", true)
+            <input type="hidden" value="@form("purchasedTicketId").getValue.get()" name="purchasedTicketId">
+            <input type="submit" value="送信">
+        </form>
+    </div>
 }
 
 <script src="@routes.Assets.at("js/jquery.raty.js")"></script>

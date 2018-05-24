@@ -1,23 +1,14 @@
 package controllers;
 
 import controllers.constants.AccountConstants;
-import models.PurchasedTicket;
-import models.Ticket;
-import models.User;
-import models.UserReview;
+import models.*;
 import play.Logger;
 import play.api.i18n.Lang;
-import play.data.Form;
-import play.data.FormFactory;
+import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Results;
-import services.PurchasedTicketService;
-import services.ReviewService;
-import services.TicketService;
-import services.UserService;
+import play.mvc.*;
+import services.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -76,7 +67,7 @@ public class AccountController extends Controller {
         newUser.setUserId(Long.parseLong(userID));
         userService.updateUser(newUser);
         Controller.flash("result", accountConstants.UPDATE_SUCCESS);
-        return Results.redirect("/index");
+        return Results.redirect("/top");
     }
 
     /**

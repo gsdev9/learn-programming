@@ -4,15 +4,33 @@
   width: 100%;
   height: 80px;
   background-color: $baseBlack;
+  position: relative;
+  z-index: 1;
+  @include mq(tablet) {
+    height: 60px;
+  }
   &__inner {
+    width: 1280px;
+    margin: 0 auto;
     padding: 15px 10px;
+    @include mq(container) {
+      width: 95%;
+    }
+    @include mq(tablet) {
+      width: 100%;
+      padding: 10px 0;
+    }
     &__logo {
       float: left;
       margin-top: 10px;
+      margin-left: 20px;
       width: 172px;
       height: auto;
+      @include mq(tablet) {
+        margin-top: 10px;
+        width: 120px;
+      }
       @include mq(sp) {
-        margin-top: 17px;
         width: 100px;
       }
       img {
@@ -23,10 +41,14 @@
   &__global-menu {
     position: relative;
     float: right;
+    display: block;
     &__search {
       display: inline-block;
       vertical-align: middle;
       margin-right: 35px;
+      @include mq(container) {
+        margin-right: 20px;
+      }
     }
     &__search-input {
       position: relative;
@@ -56,6 +78,9 @@
       display: inline-block;
       vertical-align: middle;
       margin-right: 35px;
+      @include mq(container) {
+        margin-right: 20px;
+      }
     }
     &__avatar-img {
       width: 50px;
@@ -143,6 +168,93 @@
     }
     &__login-btn {
       background-color: #39c0d4;
+    }
+    &__pc {
+      @include mq(tablet) {
+        display: none;
+      }
+    }
+    &__tablet {
+      display: none;
+      margin-top: 50px;
+      &__li {
+        display: block;
+        background-color: #eeeeee;
+        transition: .3s ease-in background-color;
+        border-bottom: 1px solid #313131;
+        &:hover {
+          background-color: #313131;
+        }
+      }
+      &__li-btn {
+        display: block;
+        padding: 10px;
+        font-size: 1.4em;
+        color: #313131;
+        text-align: center;
+        transition: .3s ease-in color;
+        &:hover {
+          color: #eeeeee;
+        }
+      }
+    }
+  }
+  &__nav-toggle {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    width: 34px;
+    height: 36px;
+    cursor: pointer;
+    z-index: 101;
+    @include mq(tablet) {
+      display: block;
+    }
+    div {
+      position: relative;
+      span {
+        display: block;
+        position: absolute;
+        height: 3px;
+        width: 100%;
+        left: 0;
+        transition: .35s ease-in-out;
+        &:nth-child(1) {
+          top: 0;
+          background-color: $logoRed;
+        }
+        &:nth-child(2) {
+          top: 11px;
+          background-color: $logoBlue;
+        }
+        &:nth-child(3) {
+          top: 22px;
+          background-color: $logoRed;
+        }
+      }
+    }
+  }
+  &__nav-toggle-open {
+    div {
+      span {
+        &:nth-child(1) {
+          top: 11px;
+          -webkit-transform: rotate(135deg);
+          -moz-transform: rotate(135deg);
+          transform: rotate(135deg);
+        }
+        &:nth-child(2) {
+          width: 0;
+          left: 50%;
+        }
+        &:nth-child(3) {
+          top: 11px;
+          -webkit-transform: rotate(-135deg);
+          -moz-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+        }
+      }
     }
   }
 }

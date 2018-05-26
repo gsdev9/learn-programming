@@ -8,8 +8,13 @@
     <div class="catch">
         <h1 class="catch__description">
             <div class="catch__block">
-                ラープロは、プロからプログラミングを学べるオンライン学習サイトです。<br>
-                みんな、プログラミングしようぜ！
+                <p class="catch__block-msg">ラープロは、プロからプログラミングを学べるオンライン学習サイトです。<br>みんな、プログラミングしようぜ！</p>
+                <div class="catch__signup catch__btn-wrap">
+                    <a href="@routes.SignUpController.index()" class="catch__signup-btn catch__btn btn-effect">新規会員登録<span></span></a>
+                </div>
+                <div class="catch__login catch__btn-wrap">
+                    <a href="@routes.LoginController.loginForm()" class="catch__login-btn catch__btn btn-effect">ログイン<span></span></a>
+                </div>
             </div>
         </h1>
     </div>

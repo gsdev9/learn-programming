@@ -43,14 +43,14 @@ input[type=submit], button {
 .pc {
   display: block !important;
   @include mq(tablet) {
-    display: none !important;;
+    display: none !important;
   }
 }
 
 .sp {
-  display: block !important;;
+  display: block !important;
   @include mq(pc) {
-    display: none !important;;
+    display: none !important;
   }
 }
 

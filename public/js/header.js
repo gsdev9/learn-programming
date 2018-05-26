@@ -1,4 +1,6 @@
 $(function () {
+    globalMenuMotion();
+
     // サブメニューの開閉
     $('#header-avatar').on('click', function() {
         $('#sub-menu').toggle();
@@ -18,4 +20,16 @@ $(function () {
                 relY = e.pageY - parentOffset.top;
             $(this).find('span').css({top:relY, left:relX})
         });
+
+    /**
+     * ハンバーガーメニュー
+     */
+    function globalMenuMotion() {
+        const nav = $('.header__global-menu__tablet'),
+              toggle = $('#nav-toggle');
+        toggle.on('click', () => {
+            nav.fadeToggle();
+            toggle.toggleClass('header__nav-toggle-open');
+        });
+    }
 });

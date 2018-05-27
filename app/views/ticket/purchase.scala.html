@@ -3,36 +3,38 @@
 
 @action = {@routes.TicketController.appoint(ticket.getTicketId)}
 
-@main("Purchase Ticket") {
-    <form action="@action" method="post" class="ticket-delete-form__form basic-form__form">
-        @helper.CSRF.formField
-        <p class="basic-form__par">日付：@ticket.getDate</p>
-        <p class="basic-form__par">授業開始時間：@ticket.getStartAt</p>
-        <p class="basic-form__par">授業終了時間：@ticket.getEndAt</p>
-        <p class="basic-form__par">料金：@ticket.getPrice 円</p>
-        <p class="basic-form__par">タイトル：@ticket.getTitle</p>
-        <p class="basic-form__par">チケット内容：@ticket.getBody</p>
-        <p class="basic-form__par">受講可能言語：<br>
-            @if(ticket.getTicketLabel.c) {C} @if(ticket.getTicketLabel.c) {<br>}
-            @if(ticket.getTicketLabel.cPlusPlus) {C++} @if(ticket.getTicketLabel.cPlusPlus) {<br>}
-            @if(ticket.getTicketLabel.cSharp) {C#} @if(ticket.getTicketLabel.cSharp) {<br>}
-            @if(ticket.getTicketLabel.java) {Java} @if(ticket.getTicketLabel.java) {<br>}
-            @if(ticket.getTicketLabel.javaScript) {JavaScript} @if(ticket.getTicketLabel.javaScript) {<br>}
-            @if(ticket.getTicketLabel.php) {PHP} @if(ticket.getTicketLabel.php) {<br>}
-            @if(ticket.getTicketLabel.ruby) {Ruby} @if(ticket.getTicketLabel.ruby) {<br>}
-            @if(ticket.getTicketLabel.python) {Python} @if(ticket.getTicketLabel.python) {<br>}
-            @if(ticket.getTicketLabel.perl) {Perl} @if(ticket.getTicketLabel.perl) {<br>}
-            @if(ticket.getTicketLabel.r) {R} @if(ticket.getTicketLabel.r) {<br>}
-            @if(ticket.getTicketLabel.go) {Go} @if(ticket.getTicketLabel.go) {<br>}
-            @if(ticket.getTicketLabel.scala) {Scala} @if(ticket.getTicketLabel.scala) {<br>}
-            @if(ticket.getTicketLabel.objectiveC) {Objective-C} @if(ticket.getTicketLabel.objectiveC) {<br>}
-            @if(ticket.getTicketLabel.swift) {Swift} @if(ticket.getTicketLabel.swift) {<br>}
-            @if(ticket.getTicketLabel.kotlin) {Kotlin} @if(ticket.getTicketLabel.kotlin) {<br>}
-            @if(ticket.getTicketLabel.scratch) {Scratch} @if(ticket.getTicketLabel.scratch) {<br>}
-            @if(ticket.getTicketLabel.blockly) {Blockly} @if(ticket.getTicketLabel.blockly) {<br>}
-            @if(ticket.getTicketLabel.sqlLang) {SQL} @if(ticket.getTicketLabel.sqlLang) {<br>}
-            @formgroup.textarea(form, "message", "メッセージ", true)
-            <button type="submit" class="basic-form__submit btn-effect">支払い方法の選択へ進む<span></span></button>
-        </p>
-    </form>
+@main("チケット購入") {
+    <div class="ticket-purchase-form basic-form">
+        <form action="@action" method="post" class="ticket-delete-form__form basic-form__form">
+            @helper.CSRF.formField
+            <p class="basic-form__par">日付：@ticket.getDate</p>
+            <p class="basic-form__par">授業開始時間：@ticket.getStartAt</p>
+            <p class="basic-form__par">授業終了時間：@ticket.getEndAt</p>
+            <p class="basic-form__par">料金：@ticket.getPrice 円</p>
+            <p class="basic-form__par">タイトル：@ticket.getTitle</p>
+            <p class="basic-form__par">チケット内容：@ticket.getBody</p>
+            <p class="basic-form__par">受講可能言語：<br>
+                @if(ticket.getTicketLabel.c) {C} @if(ticket.getTicketLabel.c) {<br>}
+                @if(ticket.getTicketLabel.cPlusPlus) {C++} @if(ticket.getTicketLabel.cPlusPlus) {<br>}
+                @if(ticket.getTicketLabel.cSharp) {C#} @if(ticket.getTicketLabel.cSharp) {<br>}
+                @if(ticket.getTicketLabel.java) {Java} @if(ticket.getTicketLabel.java) {<br>}
+                @if(ticket.getTicketLabel.javaScript) {JavaScript} @if(ticket.getTicketLabel.javaScript) {<br>}
+                @if(ticket.getTicketLabel.php) {PHP} @if(ticket.getTicketLabel.php) {<br>}
+                @if(ticket.getTicketLabel.ruby) {Ruby} @if(ticket.getTicketLabel.ruby) {<br>}
+                @if(ticket.getTicketLabel.python) {Python} @if(ticket.getTicketLabel.python) {<br>}
+                @if(ticket.getTicketLabel.perl) {Perl} @if(ticket.getTicketLabel.perl) {<br>}
+                @if(ticket.getTicketLabel.r) {R} @if(ticket.getTicketLabel.r) {<br>}
+                @if(ticket.getTicketLabel.go) {Go} @if(ticket.getTicketLabel.go) {<br>}
+                @if(ticket.getTicketLabel.scala) {Scala} @if(ticket.getTicketLabel.scala) {<br>}
+                @if(ticket.getTicketLabel.objectiveC) {Objective-C} @if(ticket.getTicketLabel.objectiveC) {<br>}
+                @if(ticket.getTicketLabel.swift) {Swift} @if(ticket.getTicketLabel.swift) {<br>}
+                @if(ticket.getTicketLabel.kotlin) {Kotlin} @if(ticket.getTicketLabel.kotlin) {<br>}
+                @if(ticket.getTicketLabel.scratch) {Scratch} @if(ticket.getTicketLabel.scratch) {<br>}
+                @if(ticket.getTicketLabel.blockly) {Blockly} @if(ticket.getTicketLabel.blockly) {<br>}
+                @if(ticket.getTicketLabel.sqlLang) {SQL} @if(ticket.getTicketLabel.sqlLang) {<br>}
+                @formgroup.textarea(form, "message", "メッセージ", true)
+                <button type="submit" class="basic-form__submit btn-effect">支払い方法の選択へ進む<span></span></button>
+            </p>
+        </form>
+    </div>d
 }

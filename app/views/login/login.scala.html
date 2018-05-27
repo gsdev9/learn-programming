@@ -1,6 +1,6 @@
 @(form: play.data.Form[models.User])
 
-@main("Login Page") {
+@main("ログイン") {
     <div class="login-form basic-form">
         @helper.form(action = routes.LoginController.login, 'class -> "login-form__form basic-form__form") {
             @if(flash.containsKey("error")) {

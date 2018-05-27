@@ -1,6 +1,6 @@
 @(ticket: Ticket, purchasedTicket: PurchasedTicket)
 
-@main("PurchasedTicket Page") {
+@main("成立済 - " + ticket.title) {
     <div class="pticket-container container">
         <article id="@ticket.getTicketId" class="pticket-container__article">
             <h1 class="pticket-container__ticket-title">@ticket.title</h1>

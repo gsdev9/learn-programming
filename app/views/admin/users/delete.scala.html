@@ -1,6 +1,6 @@
 @(form: play.data.Form[User])
 
-@main("Admin Delet User") {
+@main("ユーザー削除 | 管理者ページ") {
 
     <form action="@routes.AdminController.destroyUser(form.get().userId)" method="post">
 

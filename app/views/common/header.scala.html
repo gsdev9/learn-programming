@@ -1,11 +1,11 @@
 @import org.pac4j.core.util.CommonHelper
 
 <header class="header">
-    <div class="header__inner container">
+    <div class="header__inner">
         <h1 class="header__inner__logo">
-            <a href="@routes.TicketController.index()"><img src="@routes.Assets.at("images/logo.png")"></a>
+            <a href="@if(CommonHelper.isNotBlank(session().get("userID"))) { @routes.TicketController.index() } else { @routes.LoginController.index() }"><img src="@routes.Assets.at("images/logo.png")"></a>
         </h1>
-        <nav class="header__global-menu pc">
+        <nav class="header__global-menu header__global-menu__pc">
             @if(CommonHelper.isNotBlank(session().get("userID"))) {
             <div class="header__global-menu__search">
                 <p class="header__global-menu__search-input">
@@ -44,17 +44,33 @@
             </div>
             }
         </nav>
-        <nav class="header__global-menu sp">
+        <div id="nav-toggle" class="header__nav-toggle">
+            <div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <nav class="header__global-menu__tablet">
             @if(CommonHelper.isNotBlank(session().get("userID"))) {
-            <div class="header__global-menu__li header__global-menu__ticket-create">
-                <a href="@routes.TicketController.create()" class="header__global-menu__li-btn header__global-menu__ticket-create-btn btn-effect" id="ticket-create">チケットの作成<span></span></a>
+            <div class="header__global-menu__tablet__li">
+                <a href="@routes.TicketController.create()" class="header__global-menu__tablet__li-btn" id="ticket-create">チケットの作成</a>
+            </div>
+                <div class="header__global-menu__tablet__li">
+                <a href="@routes.AccountController.UserDetail()" class="header__global-menu__tablet__li-btn">会員情報</a>
+            </div>
+                <div class="header__global-menu__tablet__li">
+                <a href="@routes.LogoutController.logout()" class="header__global-menu__tablet__li-btn">ログアウト</a>
+            </div>
+                <div class="header__global-menu__tablet__li">
+                <a href="@routes.SignOutController.index()" class="header__global-menu__tablet__li-btn">退会する</a>
             </div>
             } else {
-            <div class="header__global-menu__li header__global-menu__signup">
-                <a href="@routes.SignUpController.index()" class="header__global-menu__li-btn header__global-menu__signup-btn btn-effect">新規会員登録<span></span></a>
+            <div class="header__global-menu__tablet__li">
+                <a href="@routes.SignUpController.index()" class="header__global-menu__tablet__li-btn">新規会員登録</a>
             </div>
-            <div class="header__global-menu__li header__global-menu__login">
-                <a href="@routes.LoginController.loginForm()" class="header__global-menu__li-btn header__global-menu__login-btn btn-effect">ログイン<span></span></a>
+            <div class="header__global-menu__tablet__li">
+                <a href="@routes.LoginController.loginForm()" class="header__global-menu__tablet__li-btn">ログイン</a>
             </div>
             }
         </nav>

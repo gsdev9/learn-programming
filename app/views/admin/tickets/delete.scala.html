@@ -1,7 +1,7 @@
 @import forms.TicketForm
 @(form: play.data.Form[TicketForm], id: Long)
 
-@main("Ticket Delete Confirm") {
+@main("チケット削除 | 管理者ページ") {
 
     <form action="@routes.AdminController.destroyTicket(id)" method="post">
 

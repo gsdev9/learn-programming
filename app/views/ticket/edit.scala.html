@@ -3,7 +3,7 @@
 
 @action = {@routes.TicketController.editConfirm(id)}
 
-@main("Ticket Edit") {
+@main("チケット編集") {
     <div class="ticket-edit-confirm-form basic-form">
         <form action="@action" method="post" class="ticket-edit-form__form basic-form__form">
             @helper.CSRF.formField

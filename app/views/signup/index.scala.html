@@ -1,6 +1,6 @@
-@main("Sign Up Page") {
+@main("新規会員登録") {
     @if(flash.containsKey("userDeleted")) {
-        <p>@flash().get("userDeleted")</p>
+        <div class="flash">@flash().get("userDeleted")</div>
     }
     <div class="signup">
         <div class="signup__box">

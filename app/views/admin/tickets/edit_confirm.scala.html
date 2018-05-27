@@ -1,7 +1,7 @@
 @import forms.TicketForm
 @(form: play.data.Form[TicketForm], id: Long)
 
-@main("Ticket Create Confirm") {
+@main("チケット編集確認 | 管理者ページ") {
 
     <form action="@routes.AdminController.updateTicket(id)" method="post">
 

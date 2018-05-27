@@ -1,6 +1,6 @@
 @(user: models.User, tickets: java.util.List[Ticket], userReviews: java.util.List[UserReview])
 
-@main("user detail") {
+@main(user.getNickName) {
     @if(flash().containsKey("result")) {
         <div class="flash">@flash.get("result")</div>
     }

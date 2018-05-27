@@ -1,6 +1,6 @@
 @(ticket: Ticket, userReviews: java.util.List[UserReview], purchasedSaleTickets: java.util.List[PurchasedTicket], purchasedBuyTickets: java.util.List[PurchasedTicket])
 
-@main("Ticket's Single Page") {
+@main(ticket.title) {
     <div class="ticket-container container">
         <div class="ticket-container__content">
             <article id="@ticket.getTicketId">

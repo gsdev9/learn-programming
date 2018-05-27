@@ -1,6 +1,6 @@
 @(form: play.data.Form[models.User])
 
-@main("Sign Up Page") {
+@main("新規会員登録 - フォーム入力") {
     <div class="signup-form basic-form">
         @helper.form(action = routes.SignUpController.input(), 'class -> "signup-form__form basic-form__form") {
             @if(flash.containsKey("unique_error")) {

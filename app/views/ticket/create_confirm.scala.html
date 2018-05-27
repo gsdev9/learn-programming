@@ -1,7 +1,7 @@
 @import forms.TicketForm
 @(form: play.data.Form[TicketForm])
 
-@main("Ticket Create Confirm") {
+@main("チケット作成 - 確認") {
     <div class="ticket-create-confirm-form basic-form">
         <form action="@routes.TicketController.regist()" method="post" class="ticket-create-confirm-form__form basic-form__form">
             @helper.CSRF.formField

@@ -3,7 +3,7 @@
 
 @action = {@routes.TicketController.appoint(ticket.getTicketId)}
 
-@main("Purchase Ticket") {
+@main("チケット購入") {
     <form action="@action" method="post" class="ticket-delete-form__form basic-form__form">
         @helper.CSRF.formField
         <p class="basic-form__par">日付：@ticket.getDate</p>

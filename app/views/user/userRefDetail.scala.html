@@ -2,7 +2,7 @@
 
 @main("user detail") {
     @if(flash().containsKey("result")) {
-        <p>@flash.get("result")</p>
+        <div class="flash">@flash.get("result")</div>
     }
 
     <section class="sec">

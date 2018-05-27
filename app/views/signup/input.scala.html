@@ -1,10 +1,10 @@
-@(form: Form[models.User])
+@(form: play.data.Form[models.User])
 
 @main("Sign Up Page") {
     <div class="signup-form basic-form">
         @helper.form(action = routes.SignUpController.input(), 'class -> "signup-form__form basic-form__form") {
             @if(flash.containsKey("unique_error")) {
-                <p style="color: #ff0000;">@flash.get("unique_error")</p>
+                <div class="flash" style="color: #ff0000;">@flash.get("unique_error")</div>
             }
             @helper.CSRF.formField
             @helper.inputText(

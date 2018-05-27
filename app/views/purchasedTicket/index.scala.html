@@ -2,7 +2,7 @@
 
 @main("PurchasedTicket Page") {
     <div class="pticket-container container">
-        <article id="@ticket.getTicketId">
+        <article id="@ticket.getTicketId" class="pticket-container__article">
             <h1 class="pticket-container__ticket-title">@ticket.title</h1>
             <div class="pticket-container__user-thumbnail">
                 <p class="pticket-container__user-thumbnail-img" style="background-image: url('@ticket.user.thumbnailPath')"></p>

@@ -1,6 +1,6 @@
 @main("Sign Up Page") {
     @if(flash.containsKey("userDeleted")) {
-        <p>@flash().get("userDeleted")</p>
+        <div class="flash">@flash().get("userDeleted")</div>
     }
     <div class="signup">
         <div class="signup__box">

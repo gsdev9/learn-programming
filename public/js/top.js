@@ -3,8 +3,6 @@ $(function() {
 
    fixSidebar();
 
-   flashMotion();
-
     /**
      * トップページのサイドバースクロール時固定
      */
@@ -32,16 +30,5 @@ $(function() {
        };
 
        w.on('scroll', adjust);
-   }
-
-    /**
-     * フラッシュの動作
-     */
-   function flashMotion() {
-       const flash =  $('.flash'),
-             showItem = {top: "-58px"},
-             hideItem = {top: "-158px"};
-       flash.animate(showItem, 500);
-       flash.delay(2000).animate(hideItem, 500);
    }
 });

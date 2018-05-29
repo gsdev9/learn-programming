@@ -54,7 +54,7 @@ public class ReviewController extends Controller {
             if (reviewService.findByPurchasedId(purchasedTicketId).isEmpty()) {
                 String userId = Controller.session().get("userID");
                 PurchasedTicket purchasedTicket = purchasedTicketService.findById(purchasedTicketId);
-                Logger.info("sessin:{} , DB:{}", userId, purchasedTicket.getBuyer().getUserId());
+                Logger.info("session:{} , DB:{}", userId, purchasedTicket.getBuyer().getUserId());
                 //チケット購入者のUserIdと突合
                 if (Long.valueOf(userId).equals(purchasedTicket.getBuyer().getUserId())) {
                     ReviewForm reviewForm = new ReviewForm();

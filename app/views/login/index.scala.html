@@ -5,6 +5,9 @@
     @if(flash.containsKey("userDeleted")) {
         <div class="flash">@flash.get("userDeleted")</div>
     }
+    @if(flash.containsKey("logout")) {
+        <div class="flash">@flash.get("logout")</div>
+    }
     <div class="catch">
         <h1 class="catch__description">
             <div class="catch__block">

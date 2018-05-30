@@ -1,7 +1,7 @@
 @import forms.TicketForm
 @(form: play.data.Form[TicketForm], id: Long)
 
-@main("Ticket Delete Confirm") {
+@main("チケット削除") {
     <div class="ticket-delete-confirm-form basic-form">
         <form action="@routes.TicketController.destroy(id)" method="post" class="ticket-delete-form__form basic-form__form">
             @helper.CSRF.formField

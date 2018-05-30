@@ -11,15 +11,45 @@
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+  }
+  &__block {
+    display: inline-block;
+    padding: 20px;
+    background-color: $baseBlackOpacity;
+    @include mq(container) {
+      width: 80%;
+    }
+  }
+  &__block-msg {
     font-size: 3.0em;
     font-weight: bold;
     color: $baseWhite;
     letter-spacing: 2px;
+    @include mq(tablet) {
+      font-size: 1.6em;
+      line-height: 1.6;
+    }
   }
-  &__block {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: $baseBlackOpacity;
+  &__btn-wrap {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    line-height: 50px;
+    @include mq(pc) {
+      display: none;
+    }
+  }
+  &__signup {
+    background-color: #2cd43f;
+  }
+  &__login {
+    background-color: #39c0d4;
+  }
+  &__btn {
+    display: block;
+    font-size: 1.2em;
+    color: $baseWhite;
   }
 }
 
@@ -137,12 +167,15 @@
   width: 100%;
   height: 100%;
   position: relative;
-  margin: 50px 0;
+  padding: 50px 0;
   &__form {
     width: 60%;
     margin: 0 auto;
     padding: 30px;
     background-color: $baseBlackOpacity;
+    @include mq(tablet) {
+      width: 90%;
+    }
   }
   &__input-text, &__input-num, &__input-date, &__input-time, &__input-file, &__textarea {
     margin-bottom: 20px;
@@ -227,6 +260,7 @@
       }
     }
     a {
+      display: block;
       color: $baseWhite;
     }
   }
@@ -512,11 +546,15 @@
 }
 
 .ticket-container {
-  margin: 40px auto;
+  padding: 40px 0;
   overflow: hidden;
   &__content {
     float: left;
     width: 60%;
+    @include mq(tablet) {
+      float: none;
+      width: 100%;
+    }
   }
   &__catch {
     position: relative;
@@ -587,11 +625,19 @@
   &__sidebar {
     float: right;
     width: 30%;
+    @include mq(tablet) {
+      float: none;
+      width: 100%;
+    }
   }
   &__ticket-info {
     background-color: $baseBlackOpacity;
     margin-bottom: 40px;
     padding: 20px;
+    @include mq(tablet) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
     &__ticket-price {
       margin-top: 20px;
       font-size: 2.0em;
@@ -608,6 +654,9 @@
     background-color: $baseBlackOpacity;
     margin-bottom: 40px;
     padding: 20px;
+    @include mq(tablet) {
+      margin-bottom: 20px;
+    }
     &__user-thumbnail {
       display: inline-block;
       vertical-align: middle;
@@ -635,6 +684,9 @@
     background-color: $baseBlackOpacity;
     margin-bottom: 40px;
     padding: 40px;
+    @include mq(tablet) {
+      margin-bottom: 0;
+    }
     &__pticket-li {
       margin-bottom: 40px;
       padding: 20px;
@@ -655,9 +707,14 @@
 
 .pticket-container {
   width: 60%;
-  margin: 40px auto;
-  padding: 40px;
-  background-color: $baseWhite;
+  padding: 40px 0;
+  @include mq(tablet) {
+    width: 90%;
+  }
+  &__article {
+    padding: 40px;
+    background-color: $baseWhite;
+  }
   &__ticket-title {
     margin-bottom: 20px;
     font-size: 2.6em;
@@ -711,6 +768,7 @@
     font-size: 1.6em;
     color: $baseBlack;
     line-height: 40px;
+    border: 1px solid #0a0a0a;
   }
   &__chat {
     margin-top: 20px;
@@ -719,5 +777,148 @@
     div {
       margin-bottom: 10px;
     }
+  }
+}
+
+.video-chat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: $baseBlack;
+  z-index: 999;
+  &__other-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    @include mq(tablet) {
+      width: auto;
+      height: 100vh;
+    }
+  }
+  &__own-video {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 200px;
+    height: 150px;
+    @include mq(sp) {
+      display: none;
+    }
+  }
+  &__share-display-btn {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 100px;
+    height: 40px;
+    background-color: #39c0d4;
+    color: $baseWhite;
+    line-height: 40px;
+    cursor: pointer;
+    outline: none;
+    z-index: 1000;
+    @include mq(sp) {
+      display: block;
+      margin-right: 0;
+    }
+  }
+  &__begin-call-form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-right: 20px;
+    @include mq(sp) {
+      display: block;
+      margin-right: 0;
+      margin-left: 20px;
+    }
+  }
+  &__begin-call-btn {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    background-color: #39c0d4;
+    color: $baseWhite;
+    line-height: 40px;
+    cursor: pointer;
+    outline: none;
+    z-index: 1000;
+  }
+  &__end-call-form {
+    display: inline-block;
+    vertical-align: middle;
+    @include mq(sp) {
+      display: block;
+      margin-right: 0;
+      margin-left: 20px;
+    }
+  }
+  &__end-call-btn {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    background-color: #39c0d4;
+    color: $baseWhite;
+    line-height: 40px;
+    cursor: pointer;
+    outline: none;
+    z-index: 1000;
+  }
+  &__message-area {
+    position: absolute;
+    bottom: 20px;
+    left: 10%;
+    width: 80%;
+    margin: 0 auto;
+    @include mq(sp) {
+      left: 5%;
+      width: 90%;
+    }
+  }
+  &__message {
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 100%;
+    height: 200px;
+    background-color: $baseBlackOpacity;
+    overflow: scroll;
+  }
+  &__txt {
+    padding-bottom: 10px;
+    font-size: 1.4em;
+    color: $baseWhite;
+  }
+  &__input-message {
+    padding: 0 10px;
+    width: 100%;
+    height: 40px;
+    font-size: 1.4em;
+  }
+}
+
+.flash {
+  position: absolute;
+  top: -158px;
+  left: 50%;
+  padding: 10px 20px;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2cd43f;
+  transform: translateX(-50%);
+  z-index: 10;
+  @include mq(sp) {
+    width: 200px;
+    text-align: center;
+  }
+  &__active {
+    top: -58px;
   }
 }

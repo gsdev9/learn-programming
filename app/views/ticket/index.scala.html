@@ -1,32 +1,32 @@
 @(lists: java.util.List[Ticket])
 
-@main("Top Page with Login") {
+@main("トップ") {
     @if(flash.containsKey("signup")) {
-        <p>@flash.get("signup")</p>
+        <div class="flash">@flash.get("signup")</div>
     }
     @if(flash.containsKey("created")) {
-        <p>@flash.get("created")</p>
+        <div class="flash">@flash.get("created")</div>
     }
     @if(flash.containsKey("updated")) {
-        <p>@flash.get("updated")</p>
+        <div class="flash">@flash.get("updated")</div>
     }
     @if(flash.containsKey("deleted")) {
-        <p>@flash.get("deleted")</p>
+        <div class="flash">@flash.get("deleted")</div>
     }
     @if(flash.containsKey("signin")) {
-        <p>@flash.get("signin")</p>
+        <div class="flash">@flash.get("signin")</div>
     }
     @if(flash.containsKey("result")) {
-        <p>@flash.get("result")</p>
+        <div class="flash">@flash.get("result")</div>
     }
     @if(flash.containsKey("notFound")) {
-        <p>@flash.get("notFound")</p>
+        <div class="flash">@flash.get("notFound")</div>
     }
     @if(flash.containsKey("badRequest")) {
-        <p>@flash.get("badRequest")</p>
+        <div class="flash">@flash.get("badRequest")</div>
     }
     @if(flash.containsKey("appointed")) {
-        <p>@flash.get("appointed")</p>
+        <div class="flash">@flash.get("appointed")</div>
     }
 
     <div class="container">

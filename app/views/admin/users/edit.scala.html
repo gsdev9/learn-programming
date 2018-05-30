@@ -1,6 +1,6 @@
 @(form: play.data.Form[User])
 
-@main("User Edit") {
+@main("ユーザー編集 | 管理者ページ") {
 
     <h1>ユーザー編集画面っす</h1>
     <form action="@routes.AdminController.updateUser(form.get().userId)" method="post">

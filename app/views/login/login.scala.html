@@ -1,10 +1,10 @@
 @(form: play.data.Form[models.User])
 
-@main("Login Page") {
+@main("ログイン") {
     <div class="login-form basic-form">
         @helper.form(action = routes.LoginController.login, 'class -> "login-form__form basic-form__form") {
             @if(flash.containsKey("error")) {
-                <p style="color: #ff0000;">@flash.get("error")</p>
+                <div class="flash" style="color: #ff0000;">@flash.get("error")</div>
             }
             @helper.CSRF.formField
             @helper.inputText(

@@ -1,36 +1,37 @@
-@import helper._
 @(roomId: Long)
-@main("user detail") {
-
-    <div class="pure-g">
-        <button id="tab">画面共有</button>
-        <a href="@routes.ReviewController.reviewRoute(roomId)">レビュー</a>
-
-            <!-- Video area -->
-        <div class="pure-u-2-3" id="video-container">
-            <video id="their-video" autoplay></video>
-            <video id="my-video" muted="true" autoplay height="200px" width="auto"></video>
+@import helper._
+@main("チャット") {
+    <div class="video-chat">
+        <div class="pure-g">
+            <div class="pure-u-2-3" id="video-container">
+                <video id="their-video" class="video-chat__other-video" autoplay></video>
+                <video id="my-video" class="video-chat__own-video" muted="true" autoplay height="200px" width="auto"></video>
+            </div>
+            <button id="tab" class="video-chat__share-display-btn">画面共有</button>
+            <form id="make-call" class="pure-form video-chat__begin-call-form">
+                <input type="hidden" placeholder="Call user id..." id="callto-id">
+                <button href="#" class="pure-button pure-button-success video-chat__begin-call-btn" type="submit">
+                    チャット開始</button>
+                @CSRF.formField
+            </form>
+            <form id="end-call" class="pure-form video-chat__end-call-form">
+                <button href="#" class="pure-button pure-button-success video-chat__end-call-btn" type="submit">チャット終了</button>
+                @CSRF.formField
+            </form>
+            <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload">
+                @CSRF.formField
+                <input type="file" name="picture">
+                <p>
+                    <input type="submit">
+                </p>
+            </form>
+            <div class="video-chat__message-area">
+                <div class="video-chat__message" data-name="chat"></div>
+                <input type="text" class="video-chat__input-message" data-name="message" size="100" />
+            </div>
         </div>
-        <form id="make-call" class="pure-form">
-            <input type="hidden" placeholder="Call user id..." id="callto-id">
-            <button href="#" class="pure-button pure-button-success" type="submit">Call</button>
-            @CSRF.formField
-        </form>
-        <form id="end-call" class="pure-form">
-            <button href="#" class="pure-button pure-button-success" type="submit">End Call</button>
-            @CSRF.formField
-        </form>
-        <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload">
-            @CSRF.formField
-            <input type="file" name="picture">
-            <p>
-                <input type="submit">
-            </p>
-        </form>
-        <input type="text" data-name="message" size="100" />
-        <div data-name="chat"></div>
+        <input type="hidden" value="@roomId" name="roomId" id="roomId">
     </div>
-    <input type="hidden" value="@roomId" name="roomId" id="roomId">
     @helper.javascriptRouter("jsRoutes")(
         routes.javascript.ChatController.peerIdSend,
         routes.javascript.ChatController.peerIdGet

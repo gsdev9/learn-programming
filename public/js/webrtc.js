@@ -29,6 +29,7 @@ navigator.mediaDevices.getUserMedia({video: true, audio: true})
     return;
 });
 
+
 //peerオブジェクトの作成
 peer = new Peer({
     key: '4efdbe41-8ba0-437c-98e3-7452ea318301',
@@ -183,21 +184,32 @@ $('#stop-screen').click(function () {
 //***Chat***
 // 発信側
 function chatstart() {
-    if ($('#callto-id').val() || dataConnection == null) {
+    if ($('#callto-id').val()) {
         dataConnection = peer.connect($('#callto-id').val());
-        dataConnection.on('data', function (data) {
-            chat(data);
-        });
+
+        if (dataConnection != null) {
+            dataConnection.on('data', function (data) {
+                chat(data);
+            });
+        }
     }
 }
 
 // 着信側
 peer.on('connection', connection => {
     dataConnection = connection;
+
+    //データ受信時
     dataConnection.on('data', function (data) {
         chat(data);
     });
+
+    //データコネクションクローズ時
+    dataConnection.on('close', function () {
+        dataConnection = null;
+    });
 });
+
 
 // キー押下時
 function press(event) {
@@ -205,6 +217,7 @@ function press(event) {
     if (event && event.which == 13) {
         // メッセージ取得
         //TODO:ユーザー名を動的にする。
+        // var message = "userName > " + $("[data-name='message']").val();
         var message = "userName > " + $("[data-name='message']").val();
         // 存在チェック
         if (message) {
@@ -227,7 +240,20 @@ function chat(message) {
         chats = chats.last().remove();
     }
     // メッセージ表示
-    var msgtag = $("<p class='vido-chat__txt'>").text(message);
+    var msgtag = null;
+    //URL判定
+    if (urlJudge(message)) {
+        msgtag = document.createElement('a');
+        msgtag.setAttribute('href', message);
+        msgtag.appendChild(document.createTextNode(message))
+        //ファイル判定
+        if (message.match(".+/(.+?)$")[1] && domeinMe(message)) {
+            $("[data-name='chat']").prepend(msgtag);
+            msgtag = ($("<div>").text("ファイルがアップロードされました。"));
+        }
+    } else {
+        msgtag = $("<div>").text(message);
+    }
     $("[data-name='chat']").prepend(msgtag);
 }
 
@@ -242,11 +268,64 @@ function polling() {
 //相手のpeerId取得
 function getPeerId() {
     $.ajax(jsRoutes.controllers.ChatController.peerIdGet($("#roomId").val())).done(function (data) {
-        if (data.peerId != $("#callto-id").val()) {
-            $("#callto-id").val(data.peerId);
-            endcall();
+        if (dataConnection != null) {
+            if (data.peerId != $("#callto-id").val()) {
+                $("#callto-id").val(data.peerId);
+                dataConnection.close();
+                chatstart();
+            }
+        } else {
+            $('#callto-id').val(data.peerId);
             chatstart();
         }
     }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
     })
 }
+
+//uploadfile
+$('#fileupload').on('submit', function (e) {
+    e.preventDefault();
+    var formData = new FormData($(this).get(0));
+    $.ajax($(this).attr('action'), {
+        type: 'post',
+        processData: false,
+        contentType: false,
+        data: formData,
+    }).done(function (response) {
+        console.log(response.toString());
+        let url = "http://localhost:9000/api/filedownload?fileName=" + response;
+        let tag = document.createElement('a');
+        tag.setAttribute('href', url);
+        tag.appendChild(document.createTextNode(decodeURI(response)));
+        $("[data-name='chat']").prepend(tag);
+        dataConnection.send(url);
+    }).fail(function () {
+        console.log('error!'); // エラーが発生したとき
+    });
+});
+
+//文字列のURL判定
+function urlJudge(str) {
+    if (str.match(/^(https?|ftp)(:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+)$/)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+//内部URL判定
+function domeinMe(url) {
+    var reg = new RegExp("^(https?:)?\/\/" + document.domain);
+    if (url.match(reg) || url.charAt(0) === "/") {
+        return true
+    } else {
+        return false
+    }
+}
+
+//ブラウザ切断時のアラート
+window.addEventListener('beforeunload', function (e) {
+    e.returnValue = 'hogehoge';
+    console.log(event);
+}, false);
+

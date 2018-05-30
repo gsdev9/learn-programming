@@ -49,6 +49,7 @@ POST        /admin/tikcets/:id/destroy            controllers.AdminController.de
 ## Chat
 GET         /chat/:roomId                         controllers.ChatController.chatRoute(roomId: Long)
 POST        /chat/fileupload                      controllers.ChatController.fileUpload
+GET         /api/filedownload                     controllers.ChatController.fileDownload(fileName)
 GET         /api/peerid/send/:roomId              controllers.ChatController.peerIdSend(peerId,roomId: Long)
 GET         /api/peerid/get/:roomId               controllers.ChatController.peerIdGet(roomId: Long)
 GET         /api/messege/post/:purchasedId        controllers.PurchasedTicketController.sendMessage(purchasedId: Long,message)

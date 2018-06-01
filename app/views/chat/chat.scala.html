@@ -10,12 +10,20 @@
             <button id="tab" class="video-chat__share-display-btn">画面共有</button>
             <form id="make-call" class="pure-form video-chat__begin-call-form">
                 <input type="hidden" placeholder="Call user id..." id="callto-id">
-                <button href="#" class="pure-button pure-button-success video-chat__begin-call-btn" type="submit">チャット開始</button>
+                <button href="#" class="pure-button pure-button-success video-chat__begin-call-btn" type="submit">
+                    チャット開始</button>
                 @CSRF.formField
             </form>
             <form id="end-call" class="pure-form video-chat__end-call-form">
                 <button href="#" class="pure-button pure-button-success video-chat__end-call-btn" type="submit">チャット終了</button>
                 @CSRF.formField
+            </form>
+            <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload">
+                @CSRF.formField
+                <input type="file" name="picture">
+                <p>
+                    <input type="submit">
+                </p>
             </form>
             <div class="video-chat__message-area">
                 <div class="video-chat__message" data-name="chat"></div>

@@ -5,11 +5,15 @@ import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.*;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class ChatController extends Controller {
@@ -84,5 +88,47 @@ public class ChatController extends Controller {
             }
         }
         return Results.ok();
+    }
+
+    /**
+     * ファイルアップロード.
+     *
+     * @return
+     */
+    public Result fileUpload() {
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = body.getFile("picture");
+        if (picture != null) {
+            String fileName = picture.getFilename();
+            File tmpFile = picture.getFile();
+            //TODO:チャットルームごとに保存領域分ける
+            File file = new File(System.getProperty("user.dir") + "/public/uploadfiles/" + fileName);
+            tmpFile.renameTo(file);
+            try {
+                String encodeFileName = URLEncoder.encode(fileName, "UTF-8");
+                return Results.ok(encodeFileName);
+            } catch (UnsupportedEncodingException e) {
+                Logger.error("URLデコードに失敗しました。");
+                return Results.badRequest();
+            }
+        } else {
+            Controller.flash("error", "Missing file");
+            return Results.badRequest();
+        }
+    }
+
+    /**
+     * ファイルダウンロード.
+     *
+     * @param fileName
+     * @return
+     */
+    public Result fileDownload(String fileName) {
+
+        File file = new File(System.getProperty("user.dir") + "/public/uploadfiles/" + fileName);
+        if (file.exists()) {
+            return Results.ok().sendFile(file, false);
+        }
+        return Results.badRequest();
     }
 }

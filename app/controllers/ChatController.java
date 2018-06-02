@@ -20,6 +20,16 @@ import java.util.List;
 
 public class ChatController extends Controller {
 
+    /**
+     * エラー時画面出力
+     */
+    private static final String FILENOTFOUND = "フラッシュはユーザー向けなので「ファイルを認識できませんでした。もう一度お試しください";
+
+    /**
+     * エラー時画面出力
+     */
+    private static final String FAILDEODE = "URLデコードに失敗しました。";
+
     @Inject
     private ChatInfoService chatInfoService;
 
@@ -105,11 +115,11 @@ public class ChatController extends Controller {
                 String encodeFileName = URLEncoder.encode(fileName, "UTF-8");
                 return Results.ok(encodeFileName);
             } catch (UnsupportedEncodingException e) {
-                Logger.error("URLデコードに失敗しました。");
+                Controller.flash("error", ChatController.FAILDEODE);
                 return Results.badRequest();
             }
         } else {
-            Controller.flash("error", "Missing file");
+            Controller.flash("error", ChatController.FILENOTFOUND);
             return Results.badRequest();
         }
     }
@@ -123,9 +133,10 @@ public class ChatController extends Controller {
     public Result fileDownload(String fileName) {
 
         File file = new File(System.getProperty("user.dir") + "/public/uploadfiles/" + fileName);
-        if (file.exists()) {
-            return Results.ok().sendFile(file, false);
+        if (!file.exists()) {
+            return Results.badRequest();
         }
-        return Results.badRequest();
+        return Results.ok().sendFile(file, false);
+
     }
 }

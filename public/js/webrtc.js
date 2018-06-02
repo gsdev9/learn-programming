@@ -299,8 +299,10 @@ $('#fileupload').on('submit', function (e) {
         tag.appendChild(document.createTextNode(decodeURI(response)));
         $("[data-name='chat']").prepend(tag);
         dataConnection.send(url);
-    }).fail(function () {
-        console.log('error!'); // エラーが発生したとき
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        $("#XMLHttpRequest").html("XMLHttpRequest : " + jqXHR.status);
+        $("#textStatus").html("textStatus : " + textStatus);
+        $("#errorThrown").html("errorThrown : " + errorThrown);
     });
 });
 
@@ -325,7 +327,6 @@ function domeinMe(url) {
 
 //ブラウザ切断時のアラート
 window.addEventListener('beforeunload', function (e) {
-    e.returnValue = 'hogehoge';
-    console.log(event);
+    e.returnValue = '現在のページを離れてしまいます。';
 }, false);
 

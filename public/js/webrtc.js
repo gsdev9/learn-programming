@@ -245,7 +245,8 @@ function chat(message) {
     if (urlJudge(message)) {
         msgtag = document.createElement('a');
         msgtag.setAttribute('href', message);
-        msgtag.appendChild(document.createTextNode(message))
+        msgtag.setAttribute('target', '_blank');
+        msgtag.appendChild(document.createTextNode(message));
         //ファイル判定
         if (message.match(".+/(.+?)$")[1] && domeinMe(message)) {
             $("[data-name='chat']").prepend(msgtag);
@@ -283,7 +284,7 @@ function getPeerId() {
 }
 
 //uploadfile
-$('#fileupload').on('submit', function (e) {
+$('#fileupload').on('change', function (e) {
     e.preventDefault();
     var formData = new FormData($(this).get(0));
     $.ajax($(this).attr('action'), {
@@ -296,11 +297,14 @@ $('#fileupload').on('submit', function (e) {
         let url = "http://localhost:9000/api/filedownload?fileName=" + response;
         let tag = document.createElement('a');
         tag.setAttribute('href', url);
+        tag.setAttribute('target', '_blank');
         tag.appendChild(document.createTextNode(decodeURI(response)));
         $("[data-name='chat']").prepend(tag);
         dataConnection.send(url);
-    }).fail(function () {
-        console.log('error!'); // エラーが発生したとき
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        $("#XMLHttpRequest").html("XMLHttpRequest : " + jqXHR.status);
+        $("#textStatus").html("textStatus : " + textStatus);
+        $("#errorThrown").html("errorThrown : " + errorThrown);
     });
 });
 
@@ -325,7 +329,6 @@ function domeinMe(url) {
 
 //ブラウザ切断時のアラート
 window.addEventListener('beforeunload', function (e) {
-    e.returnValue = 'hogehoge';
-    console.log(event);
+    e.returnValue = '現在のページを離れてしまいます。';
 }, false);
 

@@ -888,6 +888,7 @@
     padding: 20px;
     width: 100%;
     height: 200px;
+    color: #cccccc;
     background-color: $baseBlackOpacity;
     overflow: scroll;
   }
@@ -901,6 +902,16 @@
     width: 100%;
     height: 40px;
     font-size: 1.4em;
+  }
+  &__file-upload-form {
+    position: relative;
+    z-index: 1000;
+  }
+  &__file-upload-button {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: $baseWhite;
   }
 }
 

@@ -97,8 +97,12 @@ public class AccountController extends Controller {
             return Results.badRequest();
         }
         //TODO:URIからパス表示に変更修正を入れる
-        //httpsに直さないといけない。
-        String thumbnailUri = "http://" + Controller.request().host() + "/thumbnailview?fileName=" + encodeFileName;
+        String thumbnailUriHeader = "http://";
+        //SSL判定
+        if (Controller.request().secure()) {
+            thumbnailUriHeader = "https://";
+        }
+        String thumbnailUri = thumbnailUriHeader + Controller.request().host() + "/thumbnailview?fileName=" + encodeFileName;
         //form処理
         //TODO sessionの中にcookie(userID)が存在するかの判定がいる
         Form<User> result = form.bindFromRequest();

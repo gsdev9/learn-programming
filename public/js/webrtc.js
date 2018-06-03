@@ -293,8 +293,12 @@ $('#fileupload').on('change', function (e) {
         contentType: false,
         data: formData,
     }).done(function (response) {
-        console.log(response.toString());
-        let url = "http://localhost:9000/api/filedownload?fileName=" + response;
+        let url = null;
+        if (document.location.protocol == "http:") {
+            url = "http://localhost:9000/api/filedownload?fileName=" + response;
+        } else {
+            url = "https://localhost:9000/api/filedownload?fileName=" + response;
+        }
         let tag = document.createElement('a');
         tag.setAttribute('href', url);
         tag.setAttribute('target', '_blank');

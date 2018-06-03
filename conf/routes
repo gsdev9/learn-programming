@@ -25,21 +25,21 @@ POST        /ticket/:id/edit/update               controllers.TicketController.u
 GET         /ticket/:id/purchase                  controllers.TicketController.purchase(id: Long)
 POST        /ticket/:id/purchase/appoint          controllers.TicketController.appoint(id: Long)
 GET         /ticket/:id/delete                    controllers.TicketController.delete(id: Long)
-POST        /ticket/:id/delete/destroy        controllers.TicketController.destroy(id: Long)
+POST        /ticket/:id/delete/destroy            controllers.TicketController.destroy(id: Long)
 ## PurchasedTicket
-GET         /purchasedTicket/:ticketId        controllers.PurchasedTicketController.index(ticketId: Long)
+GET         /purchasedTicket/:ticketId            controllers.PurchasedTicketController.index(ticketId: Long)
 ## Account
-GET         /profile                          controllers.AccountController.UserDetail
-GET         /profile/:id                      controllers.AccountController.UserRefDetail(id: Long)
-POST        /profile/edit                     controllers.AccountController.UserUpdate
-GET         /thumbnailview                    controllers.FileViewController.fileView(fileName)
+GET         /profile                              controllers.AccountController.UserDetail
+GET         /profile/:id                          controllers.AccountController.UserRefDetail(id: Long)
+POST        /profile/edit                         controllers.AccountController.UserUpdate
+GET         /thumbnailview                        controllers.FileViewController.fileView(fileName)
 ## Admin
-GET         /admin                            controllers.AdminController.index
-POST        /admin/login                      controllers.AdminController.login
-GET         /admin/users                      controllers.AdminController.showUsers
-GET         /admin/users/:id/edit             controllers.AdminController.editUser(id: Long)
-POST        /admin/users/:id/update           controllers.AdminController.updateUser(id: Long)
-GET         /admin/users/:id/delete           controllers.AdminController.deleteUser(id: Long)
+GET         /admin                                controllers.AdminController.index
+POST        /admin/login                          controllers.AdminController.login
+GET         /admin/users                          controllers.AdminController.showUsers
+GET         /admin/users/:id/edit                 controllers.AdminController.editUser(id: Long)
+POST        /admin/users/:id/update               controllers.AdminController.updateUser(id: Long)
+GET         /admin/users/:id/delete               controllers.AdminController.deleteUser(id: Long)
 POST        /admin/users/:id/destroy              controllers.AdminController.destroyUser(id: Long)
 GET         /admin/tickets                        controllers.AdminController.showTickets
 GET         /admin/tickets/:id/edit               controllers.AdminController.editTicket(id: Long)

@@ -22,6 +22,5 @@ public class FileViewController {
             return Results.badRequest();
         }
         return Results.ok().sendFile(file, true);
-
     }
 }

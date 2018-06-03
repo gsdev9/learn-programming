@@ -61,7 +61,7 @@
                 <li class="container__content__ticket" id="@l.getTicketId">
                     <a href="@routes.TicketController.single(l.getTicketId.toLong)">
                         <div class="container__content__ticket-thumbnail-area">
-                            <img class="container__content__ticket-thumbnail" src="">
+                            <img class="container__content__ticket-thumbnail" src=@routes.Assets.at(l.getThumbNailPath)>
                         </div>
                         <div class="container__content__ticket-top">
                             <div class="container__content__ticket-left">

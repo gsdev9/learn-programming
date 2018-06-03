@@ -5,7 +5,7 @@
 
 @main("チケット編集") {
     <div class="ticket-edit-confirm-form basic-form">
-        <form action="@action" method="post" class="ticket-edit-form__form basic-form__form">
+        <form action="@action" method="post" class="ticket-edit-form__form basic-form__form" enctype="multipart/form-data">
             @helper.CSRF.formField
             @views.html.formgroup.date(form, "date", "日付", true)
             @views.html.formgroup.time(form, "startAt", "授業開始時間", true)
@@ -31,6 +31,12 @@
             @views.html.formgroup.checkbox(form, "scratch", "Scratch")
             @views.html.formgroup.checkbox(form, "blockly", "Blockly")
             @views.html.formgroup.checkbox(form, "sqlLang", "SQL")
+            @helper.inputFile(
+                field = form("thumbnailPath"),
+                args = 'size -> 10,
+                '_label -> "画像アップロード",
+                '_class -> "basic-form__input-file"
+            )
             <button type="submit" class="basic-form__submit btn-effect">変更内容の確認<span></span></button>
         </form>
     </div>

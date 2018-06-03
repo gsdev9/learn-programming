@@ -35,6 +35,11 @@ public class TicketForm {
     @Constraints.Required(message = "金額が入力されていません。")
     public String price;
 
+    /**
+     * サムネイル画像パス
+     */
+    public String thumbnailPath;
+
     /** C */
     public Boolean c;
 
@@ -279,5 +284,13 @@ public class TicketForm {
 
     public void setSqlLang(Boolean sqlLang) {
         this.sqlLang = sqlLang;
+    }
+
+    public String getThumbnailPath() {
+        return thumbnailPath;
+    }
+
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
     }
 }

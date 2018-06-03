@@ -31,22 +31,23 @@ public class Ticket {
     @ManyToOne(optional = false)
     public User user;
     /**
+     * サムネイル画像パス
+     */
+    public String ThumbNailPath;
+    /**
      * チケットID
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
-
     /** レビュー情報 */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
     @JsonIgnore
     private List<UserReview> userReviews;
-
     /** チケット情報 */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ticket")
     @JsonIgnore
     private List<PurchasedTicket> purchasedTickets;
-
     /** チケットラベル */
     @OneToOne(cascade = CascadeType.ALL)
     private TicketLabel ticketLabel;
@@ -137,5 +138,14 @@ public class Ticket {
 
     public void setTicketLabel(TicketLabel ticketLabel) {
         this.ticketLabel = ticketLabel;
+    }
+
+
+    public String getThumbNailPath() {
+        return ThumbNailPath;
+    }
+
+    public void setThumbNailPath(String thumbNailPath) {
+        ThumbNailPath = thumbNailPath;
     }
 }

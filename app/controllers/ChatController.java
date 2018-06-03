@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.constants.FileUploadConstant;
 import models.ChatInfo;
 import play.Logger;
 import play.db.jpa.Transactional;
@@ -19,16 +20,6 @@ import java.net.URLEncoder;
 import java.util.List;
 
 public class ChatController extends Controller {
-
-    /**
-     * エラー時画面出力
-     */
-    private static final String FILENOTFOUND = "フラッシュはユーザー向けなので「ファイルを認識できませんでした。もう一度お試しください";
-
-    /**
-     * エラー時画面出力
-     */
-    private static final String FAILDEODE = "URLデコードに失敗しました。";
 
     @Inject
     private ChatInfoService chatInfoService;
@@ -115,11 +106,11 @@ public class ChatController extends Controller {
                 String encodeFileName = URLEncoder.encode(fileName, "UTF-8");
                 return Results.ok(encodeFileName);
             } catch (UnsupportedEncodingException e) {
-                Controller.flash("error", ChatController.FAILDEODE);
+                Controller.flash("error", FileUploadConstant.FAILDEODE);
                 return Results.badRequest();
             }
         } else {
-            Controller.flash("error", ChatController.FILENOTFOUND);
+            Controller.flash("error", FileUploadConstant.FILENOTFOUND);
             return Results.badRequest();
         }
     }

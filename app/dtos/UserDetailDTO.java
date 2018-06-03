@@ -12,7 +12,7 @@ public class UserDetailDTO {
         newuser.setUUID(olduser.getUUID());
         //画像のファイル別途処理必要(js?)
         if (!newuser.getThumbnailPath().equals(olduser.getThumbnailPath())) {
-            newuser.setThumbnailPath("考える必要あり");
+            newuser.setThumbnailPath(newuser.getThumbnailPath());
         }
         return newuser;
     }

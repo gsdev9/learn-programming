@@ -4,7 +4,7 @@
 
 @main("プロフィール") {
     <div class="profile-form basic-form">
-        @form(action = routes.AccountController.UserUpdate(), 'class -> "profile-form__form basic-form__form") {
+    @form(action = routes.AccountController.UserUpdate(), 'class -> "profile-form__form basic-form__form", 'enctype -> "multipart/form-data") {
             @if(flash().containsKey("result")) {
                 <div class="flash">@flash.get("result")</div>
             }

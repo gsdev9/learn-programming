@@ -284,7 +284,7 @@ function getPeerId() {
 }
 
 //uploadfile
-$('#fileupload').on('submit', function (e) {
+$('#fileupload').on('change', function (e) {
     e.preventDefault();
     var formData = new FormData($(this).get(0));
     $.ajax($(this).attr('action'), {

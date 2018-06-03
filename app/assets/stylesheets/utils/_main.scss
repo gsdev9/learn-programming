@@ -906,6 +906,12 @@
     position: relative;
     z-index: 1000;
   }
+  &__file-upload-button {
+    position: relative;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: $baseWhite;
+  }
 }
 
 .flash {

@@ -28,13 +28,14 @@
             </form>
             <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload" class="pure-form video-chat__file-upload-form">
                 @CSRF.formField
-                <input type="file" name="picture">
-                <p>
-                    <input type="submit">
-                </p>
+                <label>
+                    <img src=@routes.Assets.at("images/upload-button.png") width="32" height="26" alt="ファイルアップアイコン" class="video-chat__file-upload-button">
+                    <input type="file" name="picture" id="file-upload-input" style="display: none">
+                </label>
             </form>
             <div class="video-chat__message-area">
                 <div class="video-chat__message" data-name="chat"></div>
+
                 <input type="text" class="video-chat__input-message" data-name="message" size="100" />
             </div>
         </div>

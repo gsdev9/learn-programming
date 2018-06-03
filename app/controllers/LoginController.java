@@ -64,15 +64,13 @@ public class LoginController extends Controller {
 
         if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
             flash("error", messagesApi.get(Lang.forCode("ja"), "login.errors.400.nullorempty"));
-            return Results.badRequest(views.html.login.login.render(f));
+            return Results.redirect("/login");
         }
 
         User user = userService.findByUserNameAndPassword(userName, password);
-        System.out.println(user);
-
         if (user == null) {
             flash("error", messagesApi.get(Lang.forCode("ja"),"login.errors.400.nouser"));
-            return Results.badRequest(views.html.login.login.render(f));
+            return Results.redirect("/login");
         }
 
         session("userID", String.valueOf(user.userId));

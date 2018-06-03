@@ -1,16 +1,14 @@
 package controllers;
 
-import models.*;
+import models.User;
 import play.Logger;
 import play.api.i18n.Lang;
-import play.data.*;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.mvc.*;
-import services.*;
+import services.UserService;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * 会員退会機能
@@ -19,19 +17,13 @@ import java.util.List;
  */
 public class SignOutController extends Controller {
 
-    private final DynamicForm dynamicForm;
-
     private final MessagesApi messagesApi;
-
-    @Inject
-    TicketService ticketService;
 
     @Inject
     private UserService userService;
 
     @Inject
-    public SignOutController(FormFactory formFactory, MessagesApi messagesApi) {
-        this.dynamicForm = formFactory.form();
+    public SignOutController(MessagesApi messagesApi) {
         this.messagesApi = messagesApi;
     }
 
@@ -51,8 +43,6 @@ public class SignOutController extends Controller {
      */
     @Transactional
     public Result deleteUser() {
-        DynamicForm requestData = dynamicForm.bindFromRequest();
-
         // TODO nullチェック必要 しかしのちにアノテーションでページアクセス制御して対応
         Long id = Long.valueOf(session().get("userID"));
         User user = userService.findById(id);
@@ -61,8 +51,7 @@ public class SignOutController extends Controller {
 
         if (user == null) {
             Logger.warn(messagesApi.get(Lang.apply(Lang.defaultLang().code()), "client.errors.400"));
-            List<Ticket> tickets = ticketService.findAll();
-            return Results.badRequest(views.html.ticket.index.render(tickets));
+            return Results.notFound(views.html.notfound.index.render());
         }
 
         userService.deleteUser(user);

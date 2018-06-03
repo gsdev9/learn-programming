@@ -6,6 +6,7 @@ import play.db.jpa.JPAApi;
 import play.libs.Json;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -89,10 +90,14 @@ public class PurchasedTicketRepository {
      * @return
      */
     public PurchasedTicket findByTicketIdAndUserId(Long purchasedTicketId, Long userId) {
-        return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE p.purchasedTicketId = :purchasedTicketId AND p.buyer.userId = :userId OR p.ticket.user.userId = :userId", PurchasedTicket.class)
-            .setParameter("purchasedTicketId", purchasedTicketId)
-            .setParameter("userId", userId)
-            .getSingleResult();
+        try {
+            return jpa.em().createQuery("SELECT p FROM PurchasedTicket p WHERE (p.purchasedTicketId = :purchasedTicketId AND p.buyer.userId = :userId) OR (p.purchasedTicketId = :purchasedTicketId AND p.ticket.user.userId = :userId)", PurchasedTicket.class)
+                .setParameter("purchasedTicketId", purchasedTicketId)
+                .setParameter("userId", userId)
+                .getSingleResult();
+        } catch (NoResultException ne) {
+            return null;
+        }
     }
 
     /**

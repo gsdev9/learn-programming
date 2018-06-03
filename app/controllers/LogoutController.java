@@ -2,6 +2,7 @@ package controllers;
 
 import play.mvc.*;
 
+import static play.mvc.Controller.flash;
 import static play.mvc.Controller.session;
 import static play.mvc.Results.redirect;
 
@@ -20,6 +21,7 @@ public class LogoutController {
     public Result logout() {
         session().remove("userID");
         session().remove("thumbnailPath");
+        flash("logout", "ログアウトしました");
         return redirect("/");
     }
 

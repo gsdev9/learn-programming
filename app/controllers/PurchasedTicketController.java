@@ -1,24 +1,15 @@
 package controllers;
 
-import models.Message;
-import models.PurchasedTicket;
-import models.Ticket;
+import models.*;
+import play.Logger;
 import play.data.FormFactory;
 import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Results;
-import services.MessageService;
-import services.PurchasedTicketService;
-import services.TicketService;
-import services.UserService;
+import play.mvc.*;
+import services.*;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static play.mvc.Controller.session;
 import static play.mvc.Results.badRequest;
@@ -57,10 +48,20 @@ public class PurchasedTicketController {
      */
     @Transactional
     public Result index(Long purchasedTicketId) {
-        System.out.println(purchasedTicketId);
         Long userId = Long.valueOf(session("userID"));
+
         PurchasedTicket purchasedTicket = purchasedTicketService.findByTicketIdAndUserId(purchasedTicketId, userId);
+        if(purchasedTicket == null) {
+            Logger.warn("id={}'s purchasedTicket is not founded.", purchasedTicketId);
+            return Results.notFound(views.html.notfound.index.render());
+        }
+
         Ticket ticket = ticketService.findById(purchasedTicket.ticket.getTicketId());
+        if(ticket == null) {
+            Logger.warn("id={}'s ticket is not founded.", purchasedTicket.ticket.getTicketId());
+            return Results.notFound(views.html.notfound.index.render());
+        }
+
         return Results.ok(views.html.purchasedTicket.index.render(ticket, purchasedTicket));
     }
 

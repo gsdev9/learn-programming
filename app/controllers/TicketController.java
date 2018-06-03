@@ -95,7 +95,7 @@ public class TicketController extends Controller {
         if(tickets.isEmpty()) {
             Controller.flash("notFound", "チケットが見つかりませんでした。");
             Logger.warn("Nothing Tickets.");
-            Results.notFound(views.html.ticket.index.render(tickets));
+            return Results.notFound(views.html.ticket.index.render(tickets));
         }
         return Results.ok(views.html.ticket.index.render(tickets));
     }
@@ -167,8 +167,7 @@ public class TicketController extends Controller {
         List<UserReview> userReviews = reviewService.findByTicketId(id);
         if(ticket == null) {
             Logger.warn("id={}'s ticket is not founded.", id);
-            List<Ticket> tickets = ticketService.findAll();
-            Results.notFound(views.html.ticket.index.render(tickets));
+            return Results.notFound(views.html.notfound.index.render());
         }
         //売れたチケット
         List<PurchasedTicket> saledTickets = purchasedTicketService.findByTicketId(id);
@@ -177,7 +176,7 @@ public class TicketController extends Controller {
         List<PurchasedTicket> buyTickets = new ArrayList<>();
         if (!purchasedTickets.isEmpty()) {
             for (PurchasedTicket purchasedTicket : purchasedTickets) {
-                if (purchasedTicket.getStatus() == false) {
+                if (!purchasedTicket.getStatus()) {
                     buyTickets.add(purchasedTicket);
                 }
             }
@@ -450,7 +449,7 @@ public class TicketController extends Controller {
         // メッセージの登録
         messageService.create(f.get().getMessage(), userId, purchasedTicket);
 
-        Controller.flash("appointed", "授業が成立しました！");
+        Controller.flash("appointed", "チケットを購入しました");
         return Results.redirect("/top");
 
     }

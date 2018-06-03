@@ -1,15 +1,13 @@
 package controllers;
 
-import models.ChatInfo;
+import models.*;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
-import services.ChatInfoService;
-import services.PurchasedTicketService;
-import services.UserService;
+import services.*;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -17,14 +15,13 @@ import java.util.List;
 public class ChatController extends Controller {
 
     @Inject
+    private ChatRoomService chatRoomService;
+
+    @Inject
     private ChatInfoService chatInfoService;
 
     @Inject
     private UserService userService;
-
-    @Inject
-    private PurchasedTicketService purchasedTicketService;
-
 
     /**
      * チャット画面
@@ -32,7 +29,13 @@ public class ChatController extends Controller {
      * @param roomId
      * @return
      */
+    @Transactional(readOnly = true)
     public Result chatRoute(Long roomId) {
+        ChatRoom chatRoom = chatRoomService.findByRoomId(roomId);
+        if (chatRoom == null) {
+            Logger.warn("id={}'s chatRoom is not founded.", roomId);
+            return Results.notFound(views.html.notfound.index.render());
+        }
         //TODO::ユーザーID整合性確認
         return Results.ok(views.html.chat.chat.render(roomId));
     }

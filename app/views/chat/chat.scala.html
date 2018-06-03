@@ -26,16 +26,15 @@
                 <button href="#" class="pure-button pure-button-success video-chat__end-call-btn" type="submit">チャット終了</button>
                 @CSRF.formField
             </form>
-            <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload" class="pure-form video-chat__file-upload-form">
-                @CSRF.formField
-                <label>
-                    <img src=@routes.Assets.at("images/upload-button.png") width="32" height="26" alt="ファイルアップアイコン" class="video-chat__file-upload-button">
-                    <input type="file" name="picture" id="file-upload-input" style="display: none">
-                </label>
-            </form>
             <div class="video-chat__message-area">
                 <div class="video-chat__message" data-name="chat"></div>
-
+                <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload" class="pure-form video-chat__file-upload-form">
+                    @CSRF.formField
+                    <label>
+                        <img src=@routes.Assets.at("images/upload-button.png") width="32" height="26" alt="ファイルアップアイコン" class="video-chat__file-upload-button">
+                        <input type="file" name="picture" id="file-upload-input" style="display: none">
+                    </label>
+                </form>
                 <input type="text" class="video-chat__input-message" data-name="message" size="100" />
             </div>
         </div>

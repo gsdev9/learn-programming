@@ -122,12 +122,11 @@ public class AccountController extends Controller {
      */
     @Transactional
     public Result UserRefDetail(Long userId) {
-        if (userId == null) {
-            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
-            Controller.flash("badRequest", "不正なアクセスです");
-            return Results.redirect("/top");
-        }
         User user = userService.findById(userId);
+        if (user == null) {
+            Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400", "userId: " + userId));
+            return Results.notFound(views.html.notfound.index.render());
+        }
         List<Ticket> myTickets = ticketService.findByUser(user);
         List<UserReview> UserReviews = reviewService.findByUserId(userId);
         return Results.ok(views.html.user.userRefDetail.render(user, myTickets, UserReviews));

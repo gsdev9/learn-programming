@@ -70,9 +70,11 @@
         </div>
     </section>
 
-    <h2>レビュー一覧</h2>
-    @for(u <- userReviews) {
-        <p>@u.evaluation</p>
-        <p>@u.comment</p>
-    }
+    <section class="sec">
+        <h2 class="sec__title">レビュー一覧</h2>
+        @for(u <- userReviews) {
+            <p>@u.evaluation</p>
+            <p>@u.comment</p>
+        }
+    </section>
 }

@@ -31,6 +31,8 @@
                 @if(form("blockly").getValue.isPresent) {Blockly} <input type="hidden" name="blockly" value="@form("blockly").getValue.orElse("false")">@if(form("blockly").getValue.isPresent) {<br>}
                 @if(form("sqlLang").getValue.isPresent) {SQL} <input type="hidden" name="sqlLang" value="@form("sqlLang").getValue.orElse("false")">@if(form("sqlLang").getValue.isPresent) {<br>}
             </p>
+            <p class="basic-form__par">
+                アップロード画像：@form("thumbnailPath").getValue.get() <input type="hidden" name="thumbnailPath" value="@form("thumbnailPath").getValue.get()"></p>
             <button type="submit" class="basic-form__submit btn-effect">チケット内容を更新する<span></span></button>
             <button class="basic-form__back btn-effect"><a href="@routes.TicketController.edit(id)">入力画面に戻る</a></button>
         </form>

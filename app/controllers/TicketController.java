@@ -17,11 +17,13 @@ import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
 import services.*;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,9 @@ import java.util.Map;
  * @author arapiku
  */
 public class TicketController extends Controller {
+
+    private static final String TICKET_THUMBNAIL_DEFAULT_PATH = "uploadfiles/ticket/";
+
 
     private final FormFactory formFactory;
 
@@ -58,6 +63,8 @@ public class TicketController extends Controller {
     @Inject
     private ReviewService reviewService;
 
+    @Inject
+    private TicketDTO ticketDTO;
 
     @Inject
     public TicketController(FormFactory formFactory, MessagesApi messagesApi, JPAApi jpa) {
@@ -196,6 +203,7 @@ public class TicketController extends Controller {
 
         Form<TicketForm> ticketForm = formFactory.form(TicketForm.class);
 
+
         return Results.ok(views.html.ticket.create.render(ticketForm));
 
     }
@@ -207,7 +215,22 @@ public class TicketController extends Controller {
      */
     public Result createConfirm() {
 
+
+        //fromバインド
         Form<TicketForm> ticketForm = formFactory.form(TicketForm.class).bindFromRequest();
+
+        //thumbnailFile処理
+        String thumbnailRoutePath;
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> thumbnailFile = body.getFile("thumbnailPath");
+        if (thumbnailFile != null) {
+            String fileName = thumbnailFile.getFilename();
+            File tmpFile = thumbnailFile.getFile();
+            thumbnailRoutePath = TicketController.TICKET_THUMBNAIL_DEFAULT_PATH + fileName;
+            File file = new File(System.getProperty("user.dir") + "/public/" + thumbnailRoutePath);
+            tmpFile.renameTo(file);
+            ticketForm.get().thumbnailPath = thumbnailRoutePath;
+        }
 
         if(ticketForm.hasErrors()) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), ticketForm.errorsAsJson());
@@ -259,7 +282,7 @@ public class TicketController extends Controller {
 
         // チケットを作成
         Ticket ticket = new Ticket();
-        Ticket newTicket = TicketDTO.convertToEntity(ticket, ticketFormGet, ticketLabel);
+        Ticket newTicket = ticketDTO.convertToEntity(ticket, ticketFormGet, ticketLabel);
 
         Long userId = Long.valueOf(Controller.session("userID"));
 
@@ -320,7 +343,21 @@ public class TicketController extends Controller {
      */
     public Result editConfirm(Long id) {
 
+        //formの処理
         Form<TicketForm> f = formFactory.form(TicketForm.class).bindFromRequest();
+
+        //thumbnailFile処理
+        String thumbnailRoutePath;
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> thumbnailFile = body.getFile("thumbnailPath");
+        if (thumbnailFile != null) {
+            String fileName = thumbnailFile.getFilename();
+            File tmpFile = thumbnailFile.getFile();
+            thumbnailRoutePath = TicketController.TICKET_THUMBNAIL_DEFAULT_PATH + fileName;
+            File file = new File(System.getProperty("user.dir") + "/public/" + thumbnailRoutePath);
+            tmpFile.renameTo(file);
+            f.get().thumbnailPath = thumbnailRoutePath;
+        }
 
         if(f.hasErrors()) {
             Logger.warn(messagesApi.get(Lang.defaultLang(), "client.errors.400"), f.errorsAsJson());
@@ -349,12 +386,12 @@ public class TicketController extends Controller {
         Ticket ticket = ticketService.findById(id);
         Long userId = Long.valueOf(Controller.session("userID"));
 
-        if(checkUser(ticket, userId)) {
+        if (checkUser(ticket, userId)) {
             List<Ticket> tickets = ticketService.findAll();
             return Results.badRequest(views.html.ticket.index.render(tickets));
         }
 
-        Ticket updateTicket = TicketDTO.ticketLabelToEntityForUpdate(ticket, f.get());
+        Ticket updateTicket = ticketDTO.ticketLabelToEntityForUpdate(ticket, f.get());
         ticketService.updateTicket(updateTicket);
 
         Controller.flash("updated", "チケットを更新しました");
@@ -399,7 +436,7 @@ public class TicketController extends Controller {
         Ticket ticket = ticketService.findById(id);
         Long userId = Long.valueOf(Controller.session("userID"));
 
-        if(checkUser(ticket, userId)) {
+        if (checkUser(ticket, userId)) {
             List<Ticket> tickets = ticketService.findAll();
             return Results.badRequest(views.html.ticket.index.render(tickets));
         }
@@ -453,5 +490,4 @@ public class TicketController extends Controller {
         return Results.redirect("/top");
 
     }
-
 }

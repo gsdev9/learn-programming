@@ -5,7 +5,7 @@
 
 @main("チケット作成") {
     <div class="ticket-create-form basic-form">
-        <form action="@action" method="post" class="ticket-create-form__form basic-form__form">
+        <form action="@action" method="post" class="ticket-create-form__form basic-form__form" enctype="multipart/form-data">
             @helper.CSRF.formField
             @views.html.formgroup.date(ticketForm, "date", "日付", true)
             @views.html.formgroup.time(ticketForm, "startAt", "授業開始時間", true)
@@ -31,6 +31,12 @@
             @views.html.formgroup.checkbox(ticketForm, "scratch", "Scratch")
             @views.html.formgroup.checkbox(ticketForm, "blockly", "Blockly")
             @views.html.formgroup.checkbox(ticketForm, "sqlLang", "SQL")
+            @helper.inputFile(
+                field = ticketForm("thumbnailPath"),
+                args = 'size -> 10,
+                '_label -> "画像アップロード",
+                '_class -> "basic-form__input-file"
+            )
             <button type="submit" class="basic-form__submit btn-effect">チケット内容を確認<span></span></button>
         </form>
     </div>

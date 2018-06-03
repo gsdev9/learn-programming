@@ -1,21 +1,25 @@
 package controllers;
 
-import models.*;
+import controllers.constants.FileUploadConstant;
+import models.ChatInfo;
 import play.Logger;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
-import services.*;
+import services.ChatInfoService;
+import services.PurchasedTicketService;
+import services.UserService;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class ChatController extends Controller {
-
-    @Inject
-    private ChatRoomService chatRoomService;
 
     @Inject
     private ChatInfoService chatInfoService;
@@ -23,19 +27,17 @@ public class ChatController extends Controller {
     @Inject
     private UserService userService;
 
+    @Inject
+    private PurchasedTicketService purchasedTicketService;
+
+
     /**
      * チャット画面
      *
      * @param roomId
      * @return
      */
-    @Transactional(readOnly = true)
     public Result chatRoute(Long roomId) {
-        ChatRoom chatRoom = chatRoomService.findByRoomId(roomId);
-        if (chatRoom == null) {
-            Logger.warn("id={}'s chatRoom is not founded.", roomId);
-            return Results.notFound(views.html.notfound.index.render());
-        }
         //TODO::ユーザーID整合性確認
         return Results.ok(views.html.chat.chat.render(roomId));
     }
@@ -84,5 +86,48 @@ public class ChatController extends Controller {
             }
         }
         return Results.ok();
+    }
+
+    /**
+     * ファイルアップロード.
+     *
+     * @return
+     */
+    public Result fileUpload() {
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> picture = body.getFile("picture");
+        if (picture != null) {
+            String fileName = picture.getFilename();
+            File tmpFile = picture.getFile();
+            //TODO:チャットルームごとに保存領域分ける
+            File file = new File(System.getProperty("user.dir") + "/public/uploadfiles/" + fileName);
+            tmpFile.renameTo(file);
+            try {
+                String encodeFileName = URLEncoder.encode(fileName, "UTF-8");
+                return Results.ok(encodeFileName);
+            } catch (UnsupportedEncodingException e) {
+                Controller.flash("error", FileUploadConstant.FAILDEODE);
+                return Results.badRequest();
+            }
+        } else {
+            Controller.flash("error", FileUploadConstant.FILENOTFOUND);
+            return Results.badRequest();
+        }
+    }
+
+    /**
+     * ファイルダウンロード.
+     *
+     * @param fileName
+     * @return
+     */
+    public Result fileDownload(String fileName) {
+
+        File file = new File(System.getProperty("user.dir") + "/public/uploadfiles/" + fileName);
+        if (!file.exists()) {
+            return Results.badRequest();
+        }
+        return Results.ok().sendFile(file, false);
+
     }
 }

@@ -1,6 +1,14 @@
 @(roomId: Long)
 @import helper._
 @main("チャット") {
+    @if(flash.containsKey("error")) {
+        <div class="flash" style="color: #ff0000;">@flash.get("error")</div>
+    }
+    <div class="ajax-error">
+        <p id="XMLHttpRequest"></p>
+        <p id="textStatus" ></p>
+        <p id="errorThrown" ></p>
+    </div>
     <div class="video-chat">
         <div class="pure-g">
             <div class="pure-u-2-3" id="video-container">
@@ -10,7 +18,8 @@
             <button id="tab" class="video-chat__share-display-btn">画面共有</button>
             <form id="make-call" class="pure-form video-chat__begin-call-form">
                 <input type="hidden" placeholder="Call user id..." id="callto-id">
-                <button href="#" class="pure-button pure-button-success video-chat__begin-call-btn" type="submit">チャット開始</button>
+                <button href="#" class="pure-button pure-button-success video-chat__begin-call-btn" type="submit">
+                    チャット開始</button>
                 @CSRF.formField
             </form>
             <form id="end-call" class="pure-form video-chat__end-call-form">
@@ -19,6 +28,13 @@
             </form>
             <div class="video-chat__message-area">
                 <div class="video-chat__message" data-name="chat"></div>
+                <form action="/chat/fileupload" method="post" enctype="multipart/form-data" id="fileupload" class="pure-form video-chat__file-upload-form">
+                    @CSRF.formField
+                    <label>
+                        <img src=@routes.Assets.at("images/upload-button.png") width="32" height="26" alt="ファイルアップアイコン" class="video-chat__file-upload-button">
+                        <input type="file" name="picture" id="file-upload-input" style="display: none">
+                    </label>
+                </form>
                 <input type="text" class="video-chat__input-message" data-name="message" size="100" />
             </div>
         </div>

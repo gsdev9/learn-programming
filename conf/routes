@@ -32,6 +32,7 @@ GET         /purchasedTicket/:ticketId            controllers.PurchasedTicketCon
 GET         /profile                              controllers.AccountController.UserDetail
 GET         /profile/:id                          controllers.AccountController.UserRefDetail(id: Long)
 POST        /profile/edit                         controllers.AccountController.UserUpdate
+GET         /thumbnailview                        controllers.FileViewController.fileView(fileName)
 ## Admin
 GET         /admin                                controllers.AdminController.index
 POST        /admin/login                          controllers.AdminController.login
@@ -48,6 +49,8 @@ GET         /admin/tickets/:id/delete             controllers.AdminController.de
 POST        /admin/tikcets/:id/destroy            controllers.AdminController.destroyTicket(id: Long)
 ## Chat
 GET         /chat/:roomId                         controllers.ChatController.chatRoute(roomId: Long)
+POST        /chat/fileupload                      controllers.ChatController.fileUpload
+GET         /api/filedownload                     controllers.ChatController.fileDownload(fileName)
 GET         /api/peerid/send/:roomId              controllers.ChatController.peerIdSend(peerId,roomId: Long)
 GET         /api/peerid/get/:roomId               controllers.ChatController.peerIdGet(roomId: Long)
 GET         /api/messege/post/:purchasedId        controllers.PurchasedTicketController.sendMessage(purchasedId: Long,message)

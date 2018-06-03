@@ -2,7 +2,8 @@ package dtos;
 
 import dtos.utils.DateUtils;
 import forms.TicketForm;
-import models.*;
+import models.Ticket;
+import models.TicketLabel;
 
 public class TicketDTO {
 
@@ -22,6 +23,7 @@ public class TicketDTO {
         ticket.setPrice(Integer.valueOf(ticketForm.price));
         ticket.setTitle(ticketForm.title);
         ticket.setBody(ticketForm.body);
+        ticket.setThumbNailPath(ticketForm.thumbnailPath);
 //        ticket.setTicketLabel(TicketLabelToEntity(ticketForm));
         ticket.setTicketLabel(ticketLabel);
         return ticket;
@@ -88,6 +90,7 @@ public class TicketDTO {
         ticket.getTicketLabel().scratch = ticketForm.scratch;
         ticket.getTicketLabel().blockly = ticketForm.blockly;
         ticket.getTicketLabel().sqlLang = ticketForm.sqlLang;
+        ticket.setThumbNailPath(ticketForm.thumbnailPath);
         return ticket;
     }
 

@@ -1,20 +1,35 @@
 package controllers;
 
-import controllers.constants.AccountConstants;
-import models.*;
+import controllers.constants.AccountConstant;
+import controllers.constants.FileUploadConstant;
+import models.PurchasedTicket;
+import models.Ticket;
+import models.User;
+import models.UserReview;
 import play.Logger;
 import play.api.i18n.Lang;
-import play.data.*;
+import play.data.Form;
+import play.data.FormFactory;
 import play.db.jpa.Transactional;
 import play.i18n.MessagesApi;
-import play.mvc.*;
-import services.*;
+import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.mvc.Results;
+import services.PurchasedTicketService;
+import services.ReviewService;
+import services.TicketService;
+import services.UserService;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class AccountController extends Controller {
 
+    private static final String THUMBNAIL_DEFAULT_PATH = "uploadfiles/thumbnail/";
     private final MessagesApi messagesApi;
     private Form<User> form;
     @Inject
@@ -26,7 +41,7 @@ public class AccountController extends Controller {
     @Inject
     private ReviewService reviewService;
     @Inject
-    private AccountConstants accountConstants;
+    private AccountConstant accountConstant;
 
     @Inject
     public AccountController(FormFactory formFactory, MessagesApi messagesApi) {
@@ -60,13 +75,43 @@ public class AccountController extends Controller {
      */
     @Transactional
     public Result UserUpdate() {
+        //thumbnailFile処理
+        String thumbnailRoutePath;
+        String encodeFileName;
+        Http.MultipartFormData<File> body = Controller.request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<File> thumbnailFile = body.getFile("thumbnailPath");
+        if (thumbnailFile != null) {
+            String fileName = thumbnailFile.getFilename();
+            File tmpFile = thumbnailFile.getFile();
+            thumbnailRoutePath = AccountController.THUMBNAIL_DEFAULT_PATH + fileName;
+            File file = new File(System.getProperty("user.dir") + "/public/" + thumbnailRoutePath);
+            tmpFile.renameTo(file);
+            try {
+                encodeFileName = URLEncoder.encode(fileName, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                Controller.flash("error", FileUploadConstant.FAILDEODE);
+                return Results.badRequest();
+            }
+        } else {
+            Controller.flash("error", FileUploadConstant.FILENOTFOUND);
+            return Results.badRequest();
+        }
+        //TODO:URIからパス表示に変更修正を入れる
+        String thumbnailUriHeader = "http://";
+        //SSL判定
+        if (Controller.request().secure()) {
+            thumbnailUriHeader = "https://";
+        }
+        String thumbnailUri = thumbnailUriHeader + Controller.request().host() + "/thumbnailview?fileName=" + encodeFileName;
+        //form処理
         //TODO sessionの中にcookie(userID)が存在するかの判定がいる
         Form<User> result = form.bindFromRequest();
         User newUser = result.get();
         String userID = Controller.session().get("userID");
         newUser.setUserId(Long.parseLong(userID));
+        newUser.setThumbnailPath(thumbnailUri);
         userService.updateUser(newUser);
-        Controller.flash("result", accountConstants.UPDATE_SUCCESS);
+        Controller.flash("result", accountConstant.UPDATE_SUCCESS);
         return Results.redirect("/top");
     }
 

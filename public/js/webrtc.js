@@ -245,7 +245,8 @@ function chat(message) {
     if (urlJudge(message)) {
         msgtag = document.createElement('a');
         msgtag.setAttribute('href', message);
-        msgtag.appendChild(document.createTextNode(message))
+        msgtag.setAttribute('target', '_blank');
+        msgtag.appendChild(document.createTextNode(message));
         //ファイル判定
         if (message.match(".+/(.+?)$")[1] && domeinMe(message)) {
             $("[data-name='chat']").prepend(msgtag);
@@ -296,6 +297,7 @@ $('#fileupload').on('submit', function (e) {
         let url = "http://localhost:9000/api/filedownload?fileName=" + response;
         let tag = document.createElement('a');
         tag.setAttribute('href', url);
+        tag.setAttribute('target', '_blank');
         tag.appendChild(document.createTextNode(decodeURI(response)));
         $("[data-name='chat']").prepend(tag);
         dataConnection.send(url);
